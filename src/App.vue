@@ -4,7 +4,8 @@
       <div>
         <router-link to="/">🏠</router-link>
       </div>
-      <div>
+      <div class="flex gap-x-4">
+        <router-link to="/settings">⚙</router-link>
         <router-link to="/about">?</router-link>
       </div>
     </nav>
