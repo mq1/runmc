@@ -1,4 +1,4 @@
-import { readDir, Dir, createDir } from 'tauri/api/fs'
+import { readDir, Dir, createDir, removeDir } from 'tauri/api/fs'
 import { promisified } from 'tauri/api/tauri'
 
 export interface Version {
@@ -30,4 +30,9 @@ export const installVersion = async (version: Version): Promise<void> => {
 
   const url : string = j.downloads.client.url
   await promisified({ cmd: 'downloadFile', url: url, path: `${versionDir}/client.jar` })
+}
+
+export const removeVersion = async (version: Version): Promise<void> => {
+  const versionDir = `.runmc/versions/${version.id}`
+  await removeDir(versionDir, { dir: Dir.Home, recursive: true })
 }
