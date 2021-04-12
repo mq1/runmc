@@ -20,7 +20,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-2 gap-x-16">
+  <div class="grid grid-cols-2 gap-x-8">
     <div v-show="installedVersions.length">
       <h1 class="text-3xl text-center mb-8">Installed Versions</h1>
       <div class="border-2 rounded-3xl p-2 overflow-y-auto h-64 flex flex-col divide-y">
