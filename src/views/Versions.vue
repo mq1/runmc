@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Dir, createDir, writeBinaryFile } from 'tauri/api/fs'
-import http from 'tauri/api/http'
-import type { HttpOptions } from 'tauri/api/http'
+import { Dir, createDir } from 'tauri/api/fs'
+import { promisified } from 'tauri/api/tauri'
 
 interface Version {
   id: string,
@@ -24,16 +23,8 @@ const installVersion = (version: Version) => {
   fetch(version.url)
     .then(r => r.json())
     .then(j => {
-      console.log(`downloading ${j.downloads.client.url}`)
-
-      // extremely slow, TODO optimize
-      http.get(j.downloads.client.url as string, { responseType: http.ResponseType.Binary } as HttpOptions)
-        .then(r => {
-          console.log('writing client.jar')
-          const bytes: Uint8Array = JSON.parse(r as string)
-          writeBinaryFile({ path: `${versionDir}/client.jar`, contents: bytes }, { dir: Dir.Home })
-          console.log('client.jar written')
-        })
+      const url : string = j.downloads.client.url
+      promisified({ cmd: 'downloadFile', url: url, path: `${versionDir}/client.jar` })
     })
 }
 
