@@ -1,39 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Dir, createDir, readDir } from 'tauri/api/fs'
-import { promisified } from 'tauri/api/tauri'
-
-interface Version {
-  id: string,
-  type?: string,
-  url: string
-}
+import { getAvailableVersions, getInstalledVersions, installVersion } from '@/api'
+import type { Version } from '@/api'
 
 const installedVersions = ref<Version[]>([])
 const updateInstalledVersions = () => {
-  readDir('.runmc/versions', { dir: Dir.Home })
-    .then(versions => versions.forEach(version => {
-      installedVersions.value.push({ id: version.name || '?', url: '' })
-    }))
+  getInstalledVersions().then(versions => { installedVersions.value = versions })
 }
 
 const availableVersions = ref<Version[]>([])
 const updateAvailableVersions = () => {
-  fetch('https://launchermeta.mojang.com/mc/game/version_manifest.json')
-    .then(r => r.json())
-    .then(j => { availableVersions.value = j.versions })
-}
-
-const installVersion = (version: Version) => {
-  const versionDir = `.runmc/versions/${version.id}`
-
-  createDir(versionDir, { recursive: true, dir: Dir.Home })
-  fetch(version.url)
-    .then(r => r.json())
-    .then(j => {
-      const url : string = j.downloads.client.url
-      promisified({ cmd: 'downloadFile', url: url, path: `${versionDir}/client.jar` })
-    })
+  getAvailableVersions().then(versions => { availableVersions.value = versions })
 }
 
 onMounted(() => {
