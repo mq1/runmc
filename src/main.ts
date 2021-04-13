@@ -1,6 +1,10 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import 'windi.css'
+import App from './App.svelte';
 
-createApp(App).use(router).mount('#app')
+const app = new App({
+	target: document.body,
+	props: {
+		name: 'world'
+	}
+});
+
+export default app;

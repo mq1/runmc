@@ -1,6 +1,5 @@
 import { readDir, Dir, createDir, removeDir } from 'tauri/api/fs'
 import { promisified } from 'tauri/api/tauri'
-import { execute } from 'tauri/api/process'
 
 export interface Version {
   id: string,
