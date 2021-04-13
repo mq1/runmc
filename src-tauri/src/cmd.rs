@@ -8,4 +8,5 @@ pub enum Cmd {
   // note that rename_all = "camelCase": you need to use "myCustomCommand" on JS
   MyCustomCommand { argument: String },
   DownloadFile { url: String, path: String, callback: String, error: String },
+  StartMinecraft { version: String, access_token: String, callback: String, error: String }
 }

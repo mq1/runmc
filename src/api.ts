@@ -1,5 +1,6 @@
 import { readDir, Dir, createDir, removeDir } from 'tauri/api/fs'
 import { promisified } from 'tauri/api/tauri'
+import { execute } from 'tauri/api/process'
 
 export interface Version {
   id: string,
@@ -56,17 +57,19 @@ const downloadLibraries = async (basePath: string, libraries: Library[]) => {
   }
 
   for (const library of libraries) {
+    const fileName = library.downloads.artifact.path.substring(library.downloads.artifact.path.lastIndexOf('/') + 1)
     await promisified({
       cmd: 'downloadFile',
       url: library.downloads.artifact.url,
-      path: `${basePath}/libraries/${library.downloads.artifact.path}`
+      path: `${basePath}/libraries/${fileName}`
     })
 
     if (library.downloads.classifiers) {
+      const fileName = library.downloads.classifiers[platform].path.substring(library.downloads.artifact.path.lastIndexOf('/') + 1)
       await promisified({
         cmd: 'downloadFile',
         url: library.downloads.classifiers[platform].url,
-        path: `${basePath}/libraries/${library.downloads.classifiers[platform].path}`
+        path: `${basePath}/libraries/${fileName}`
       })
     }
   }
@@ -109,7 +112,7 @@ export const installVersion = async (version: Version): Promise<void> => {
   } = await r.json()
 
   await Promise.all([
-    promisified({ cmd: 'downloadFile', url: j.downloads.client.url, path: `${versionDir}/client.jar` }),
+    promisified({ cmd: 'downloadFile', url: j.downloads.client.url, path: `${versionDir}/libraries/client.jar` }),
     downloadLibraries(versionDir, j.libraries),
     downloadAssets(versionDir, j.assetIndex.url)
   ])
@@ -119,4 +122,8 @@ export const removeVersion = async (version: Version): Promise<void> => {
   const versionDir = `.runmc/versions/${version.id}`
   await removeDir(versionDir, { dir: Dir.Home, recursive: true })
   console.log(`deleted version ${version.id}`)
+}
+
+export const executeVersion = async (version: Version, accessToken: string): Promise<void> => {
+  await promisified({ cmd: 'startMinecraft', version: version.id, access_token: accessToken })
 }

@@ -46,6 +46,33 @@ fn main() {
               callback,
               error,
             ),
+            StartMinecraft { version, access_token, callback, error } => tauri::execute_promise(
+              _webview,
+              move || {
+                let base_path = tauri::api::path::home_dir().unwrap();
+                let full_path = base_path.join(".runmc").join("versions").join(&version);
+                println!("instance path: {:?}", full_path);
+
+                std::process::Command::new("java")
+                  .current_dir(full_path)
+                  .arg("-Xmx2G")
+                  .arg("-Xms2G")
+                  .arg("-cp").arg("libraries/*")
+                  .arg("net.minecraft.client.main.Main")
+                  .arg("--gameDir").arg("game-data")
+                  .arg("--assetsDir").arg("assets")
+                  .arg("--accessToken").arg(&access_token)
+                  .arg("--version").arg(&version)
+                  .arg("launcher").arg("runmc")
+                  .stdout(std::process::Stdio::inherit())
+                  .spawn()
+                  .unwrap();
+
+                Ok(())
+              },
+              callback,
+              error,
+            ),
           }
           Ok(())
         }
