@@ -26,11 +26,20 @@ fn main() {
                 let base_path = tauri::api::path::home_dir().unwrap();
                 let full_path = base_path.join(path);
 
-                println!("downloading {} to {:?}", url, full_path);
-                let mut resp = reqwest::blocking::get(url).expect("File download failed");
-                let mut out = std::fs::File::create(full_path).expect("File creation failed");
-                std::io::copy(&mut resp, &mut out).expect("File writing failed");
-                println!("file downloaded");
+                // create parent dirs
+                let parent_dir = full_path.parent().unwrap();
+                std::fs::create_dir_all(parent_dir).unwrap();
+
+                // download only if file doesn't already exist
+                if !full_path.exists() {
+                  println!("downloading {} to {:?}", url, full_path);
+                  let mut resp = reqwest::blocking::get(url).expect("File download failed");
+                  let mut out = std::fs::File::create(full_path).expect("File creation failed");
+                  std::io::copy(&mut resp, &mut out).expect("File writing failed");
+                  println!("file downloaded");
+                } else {
+                  println!("{:?} already present", full_path);
+                }
 
                 Ok(())
               },
