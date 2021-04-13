@@ -55,6 +55,7 @@ fn main() {
 
                 std::process::Command::new("java")
                   .current_dir(full_path)
+                  .arg("-Dminecraft.launcher.brand=runmc")
                   .arg("-Xmx2G")
                   .arg("-Xms2G")
                   .arg("-cp").arg("libraries/*")
@@ -63,7 +64,6 @@ fn main() {
                   .arg("--assetsDir").arg("assets")
                   .arg("--accessToken").arg(&access_token)
                   .arg("--version").arg(&version)
-                  .arg("launcher").arg("runmc")
                   .stdout(std::process::Stdio::inherit())
                   .spawn()
                   .unwrap();
