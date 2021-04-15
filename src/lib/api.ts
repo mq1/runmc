@@ -1,5 +1,4 @@
-import { readDir, Dir, createDir, removeDir } from 'tauri/api/fs'
-import { promisified } from 'tauri/api/tauri'
+import { invoke } from '@tauri-apps/api/tauri'
 
 export interface Version {
   id: string,
@@ -15,8 +14,8 @@ export const getAvailableVersions = async (): Promise<Version[]> => {
 }
 
 export const getInstalledVersions = async (): Promise<Version[]> => {
-  const dirs = await readDir('.runmc/versions', { dir: Dir.Home })
-  const versions = dirs.map(dir => ({ id: dir.name || '?', url: '' }))
+  const dirs: string[] = await invoke("list-versions")
+  const versions: Version[] = dirs.map(dir => ({ id: dir || '?', url: '' }))
 
   return versions
 }
@@ -57,16 +56,14 @@ const downloadLibraries = async (basePath: string, libraries: Library[]) => {
 
   for (const library of libraries) {
     const fileName = library.downloads.artifact.path.substring(library.downloads.artifact.path.lastIndexOf('/') + 1)
-    await promisified({
-      cmd: 'downloadFile',
+    await invoke('download_file', {
       url: library.downloads.artifact.url,
       path: `${basePath}/libraries/${fileName}`
     })
 
     if (library.downloads.classifiers) {
       const fileName = library.downloads.classifiers[platform].path.substring(library.downloads.artifact.path.lastIndexOf('/') + 1)
-      await promisified({
-        cmd: 'downloadFile',
+      await invoke('download_file', {
         url: library.downloads.classifiers[platform].url,
         path: `${basePath}/libraries/${fileName}`
       })
@@ -85,8 +82,7 @@ const downloadAssets = async (basePath: string, assetIndexURL: string) => {
   } = await r2.json()
 
   for (const hash of Object.entries(j2.objects).map(([key, value]) => value.hash)) {
-    await promisified({
-      cmd: 'downloadFile',
+    await invoke('download_file', {
       url: `https://resources.download.minecraft.net/${hash.substring(0, 2)}/${hash}`,
       path: `${basePath}/assets/objects/${hash.substring(0, 2)}/${hash}`
     })
@@ -94,8 +90,7 @@ const downloadAssets = async (basePath: string, assetIndexURL: string) => {
 }
 
 export const installVersion = async (version: Version): Promise<void> => {
-  const versionDir = `.runmc/versions/${version.id}`
-  await createDir(versionDir, { recursive: true, dir: Dir.Home })
+  const versionDir = `versions/${version.id}`
 
   const r = await fetch(version.url)
   const j: {
@@ -111,18 +106,24 @@ export const installVersion = async (version: Version): Promise<void> => {
   } = await r.json()
 
   await Promise.all([
-    promisified({ cmd: 'downloadFile', url: j.downloads.client.url, path: `${versionDir}/libraries/client.jar` }),
+    invoke('download_file', {
+      url: j.downloads.client.url,
+      path: `${versionDir}/libraries/client.jar`
+    }),
     downloadLibraries(versionDir, j.libraries),
     downloadAssets(versionDir, j.assetIndex.url)
   ])
 }
 
 export const removeVersion = async (version: Version): Promise<void> => {
-  const versionDir = `.runmc/versions/${version.id}`
-  await removeDir(versionDir, { dir: Dir.Home, recursive: true })
-  console.log(`deleted version ${version.id}`)
+  invoke('remove_dir', {
+    path: `versions/${version.id}`
+  })
 }
 
 export const executeVersion = async (version: Version, accessToken: string): Promise<void> => {
-  await promisified({ cmd: 'startMinecraft', version: version.id, access_token: accessToken })
+  await invoke('run_minecraft', {
+    version: version.id,
+    access_token: accessToken
+  })
 }
