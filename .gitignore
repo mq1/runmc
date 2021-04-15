@@ -1,3 +1,5 @@
 node_modules
-build
-.svelte
+.DS_Store
+dist
+dist-ssr
+*.local

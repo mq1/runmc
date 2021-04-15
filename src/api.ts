@@ -1,77 +1,81 @@
 import { invoke } from '@tauri-apps/api/tauri'
 
 export interface Version {
-  id: string,
-  type?: string,
+  id: string
+  type?: string
   url: string
 }
 
-export const getAvailableVersions = async (): Promise<Version[]> => {
+export const getAvailableVersions = async(): Promise<Version[]> => {
   const r = await fetch('https://launchermeta.mojang.com/mc/game/version_manifest.json')
   const j = await r.json()
 
   return j.versions
 }
 
-export const getInstalledVersions = async (): Promise<Version[]> => {
-  const dirs: string[] = await invoke("list-versions")
-  const versions: Version[] = dirs.map(dir => ({ id: dir || '?', url: '' }))
+export const getInstalledVersions = async(): Promise<string[]> => {
+  const dirs: string[] = await invoke('list_versions')
 
-  return versions
+  return dirs
 }
 
 interface Library {
   downloads: {
     artifact: {
-      path: string,
+      path: string
       url: string
-    },
+    }
     classifiers?: {
       'natives-linux': {
-        path: string,
+        path: string
         url: string
-      },
+      }
       'natives-macos': {
-        path: string,
+        path: string
         url: string
-      },
+      }
       'natives-windows': {
-        path: string,
+        path: string
         url: string
       }
     }
   }
 }
 
-const downloadLibraries = async (basePath: string, libraries: Library[]) => {
+const downloadLibraries = async(basePath: string, libraries: Library[]) => {
   // find platform (os)
   let platform: 'natives-windows' | 'natives-macos' | 'natives-linux'
-  if (navigator.appVersion.indexOf('Win') !== -1) {
+  if (navigator.appVersion.includes('Win'))
     platform = 'natives-windows'
-  } else if (navigator.appVersion.indexOf('Mac') !== -1) {
+
+  else if (navigator.appVersion.includes('Mac'))
     platform = 'natives-macos'
-  } else {
+
+  else
     platform = 'natives-linux'
-  }
 
   for (const library of libraries) {
-    const fileName = library.downloads.artifact.path.substring(library.downloads.artifact.path.lastIndexOf('/') + 1)
+    const fileName = library.downloads.artifact.path.substring(
+      library.downloads.artifact.path.lastIndexOf('/') + 1,
+    )
     await invoke('download_file', {
       url: library.downloads.artifact.url,
-      path: `${basePath}/libraries/${fileName}`
+      path: `${basePath}/libraries/${fileName}`,
     })
 
     if (library.downloads.classifiers) {
-      const fileName = library.downloads.classifiers[platform].path.substring(library.downloads.artifact.path.lastIndexOf('/') + 1)
+      const fileName = library.downloads.classifiers[platform].path.substring(
+        library.downloads.artifact.path.lastIndexOf('/') + 1,
+      )
       await invoke('download_file', {
         url: library.downloads.classifiers[platform].url,
-        path: `${basePath}/libraries/${fileName}`
+        path: `${basePath}/libraries/${fileName}`,
       })
     }
   }
 }
 
-const downloadAssets = async (basePath: string, assetIndexURL: string) => {
+const downloadAssets = async(basePath: string, assetIndexURL: string) => {
   const r2 = await fetch(assetIndexURL)
   const j2: {
     objects: {
@@ -81,15 +85,16 @@ const downloadAssets = async (basePath: string, assetIndexURL: string) => {
     }
   } = await r2.json()
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (const hash of Object.entries(j2.objects).map(([key, value]) => value.hash)) {
     await invoke('download_file', {
       url: `https://resources.download.minecraft.net/${hash.substring(0, 2)}/${hash}`,
-      path: `${basePath}/assets/objects/${hash.substring(0, 2)}/${hash}`
+      path: `${basePath}/assets/objects/${hash.substring(0, 2)}/${hash}`,
     })
   }
 }
 
-export const installVersion = async (version: Version): Promise<void> => {
+export const installVersion = async(version: Version): Promise<void> => {
   const versionDir = `versions/${version.id}`
 
   const r = await fetch(version.url)
@@ -98,8 +103,8 @@ export const installVersion = async (version: Version): Promise<void> => {
       client: {
         url: string
       }
-    },
-    libraries: Library[],
+    }
+    libraries: Library[]
     assetIndex: {
       url: string
     }
@@ -108,22 +113,22 @@ export const installVersion = async (version: Version): Promise<void> => {
   await Promise.all([
     invoke('download_file', {
       url: j.downloads.client.url,
-      path: `${versionDir}/libraries/client.jar`
+      path: `${versionDir}/libraries/client.jar`,
     }),
     downloadLibraries(versionDir, j.libraries),
-    downloadAssets(versionDir, j.assetIndex.url)
+    downloadAssets(versionDir, j.assetIndex.url),
   ])
 }
 
-export const removeVersion = async (version: Version): Promise<void> => {
+export const removeVersion = async(version: string): Promise<void> => {
   invoke('remove_dir', {
-    path: `versions/${version.id}`
+    path: `versions/${version}`,
   })
 }
 
-export const executeVersion = async (version: Version, accessToken: string): Promise<void> => {
+export const executeVersion = async(version: string, accessToken: string): Promise<void> => {
   await invoke('run_minecraft', {
-    version: version.id,
-    access_token: accessToken
+    version,
+    access_token: accessToken,
   })
 }
