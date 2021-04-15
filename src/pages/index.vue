@@ -39,7 +39,9 @@ onMounted(getVersions)
       <button v-for="version in versions" :key="version" class="p-2 w-full text-center" @click="selectVersion(version)">
         {{ version }}
       </button>
-      <a class="p-2 w-full text-center" href="/versions">+</a>
+      <router-link class="p-2 w-full text-center" to="/versions">
+        +
+      </router-link>
     </div>
     <button
       class="text-white bg-blue-500 border-2 border-blue-500 rounded-r-full py-2 px-4"
