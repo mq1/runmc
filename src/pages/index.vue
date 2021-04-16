@@ -12,7 +12,7 @@ const toggleDropdown = () => {
   isVersionSelectorDropdownOpen.value = !isVersionSelectorDropdownOpen.value
 }
 
-const selectedVersion = ref('Select version ↓')
+const selectedVersion = ref('Select version 🡣')
 const selectVersion = (version: string) => {
   selectedVersion.value = version
   isVersionSelectorDropdownOpen.value = false
