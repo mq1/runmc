@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getInstalledVersions, executeVersion } from '~/api'
+import { invoke } from '@tauri-apps/api/tauri'
+import { executeVersion } from '~/api'
 
 const versions = ref<string[]>([])
 const getVersions = () => {
-  getInstalledVersions().then(v => versions.value = v)
+  invoke('list_versions')
+    .then((v: string[]) => versions.value = v)
+    .catch((e: string) => console.error(e))
 }
 
 const isVersionSelectorDropdownOpen = ref(false)
@@ -12,7 +15,7 @@ const toggleDropdown = () => {
   isVersionSelectorDropdownOpen.value = !isVersionSelectorDropdownOpen.value
 }
 
-const selectedVersion = ref('Select version ↓')
+const selectedVersion = ref('Select version 🡣')
 const selectVersion = (version: string) => {
   selectedVersion.value = version
   isVersionSelectorDropdownOpen.value = false
@@ -47,7 +50,7 @@ onMounted(getVersions)
       class="text-white bg-blue-500 border-2 border-blue-500 rounded-r-full py-2 px-4"
       @click="executeVersion(selectedVersion, accessToken)"
     >
-      ▶
+      ▷
     </button>
   </div>
 

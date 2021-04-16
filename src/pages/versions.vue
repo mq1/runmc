@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { invoke } from '@tauri-apps/api/tauri'
 import {
-  getAvailableVersions,
-  getInstalledVersions,
   installVersion,
   removeVersion,
 } from '~/api'
@@ -10,16 +9,16 @@ import type { Version } from '~/api'
 
 const installedVersions = ref<string[]>([])
 const updateInstalledVersions = () => {
-  getInstalledVersions().then((versions) => {
-    installedVersions.value = versions
-  })
+  invoke('list_versions')
+    .then((v: string[]) => installedVersions.value = v)
+    .catch((e: string) => console.error(e))
 }
 
 const availableVersions = ref<Version[]>([])
 const updateAvailableVersions = () => {
-  getAvailableVersions().then((versions) => {
-    availableVersions.value = versions
-  })
+  invoke('list_available_versions')
+    .then((versions: Version[]) => availableVersions.value = versions)
+    .catch((e: string) => console.error(e))
 }
 
 const install = (version: Version) => {

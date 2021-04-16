@@ -8,6 +8,7 @@ mod cmd;
 fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
+      cmd::list_available_versions,
       cmd::list_versions,
       cmd::download_file,
       cmd::remove_dir,
