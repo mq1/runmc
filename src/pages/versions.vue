@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import {
   installVersion,
-  removeVersion,
 } from '~/api'
 import type { Version } from '~/api'
 
@@ -25,8 +24,10 @@ const install = (version: Version) => {
   installVersion(version).then(updateInstalledVersions)
 }
 
-const remove = (version: string) => {
-  removeVersion(version).then(updateInstalledVersions)
+const removeVersion = (version: string) => {
+  invoke('remove_version')
+    .then(updateInstalledVersions)
+    .catch((e: string) => console.error(e))
 }
 
 onMounted(() => {
@@ -46,7 +47,7 @@ onMounted(() => {
           {{ version }}
           <button
             class="px-2 py-1 bg-red-500 text-white rounded-full"
-            @click="remove(version)"
+            @click="removeVersion(version)"
           >
             Remove 🗑
           </button>

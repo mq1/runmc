@@ -11,7 +11,7 @@ fn main() {
       cmd::list_available_versions,
       cmd::list_versions,
       cmd::download_file,
-      cmd::remove_dir,
+      cmd::remove_version,
       cmd::run_minecraft
     ])
     .run(tauri::generate_context!())

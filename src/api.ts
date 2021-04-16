@@ -107,12 +107,6 @@ export const installVersion = async(version: Version): Promise<void> => {
   ])
 }
 
-export const removeVersion = async(version: string): Promise<void> => {
-  invoke('remove_dir', {
-    path: `versions/${version}`,
-  })
-}
-
 export const executeVersion = (version: string, accessToken: string) => {
   invoke('run_minecraft', {
     version,
