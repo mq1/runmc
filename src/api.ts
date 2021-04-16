@@ -110,12 +110,14 @@ export const installVersion = async(version: Version): Promise<void> => {
     }
   } = await r.json()
 
-  await invoke('download_file', {
-    url: j.downloads.client.url,
-    path: `${versionDir}/libraries/client.jar`,
-  })
-  await downloadLibraries(versionDir, j.libraries)
-  await downloadAssets(versionDir, j.assetIndex.url)
+  await Promise.all([
+    invoke('download_file', {
+      url: j.downloads.client.url,
+      path: `${versionDir}/libraries/client.jar`,
+    }),
+    downloadLibraries(versionDir, j.libraries),
+    downloadAssets(versionDir, j.assetIndex.url),
+  ])
 }
 
 export const removeVersion = async(version: string): Promise<void> => {
