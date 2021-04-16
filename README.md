@@ -4,9 +4,14 @@ A minimal and lightweight Minecraft launcher
 
 ## Roadmap
 
-### 0.0.2
+### 0.0.3
 
 - [ ] account management
+
+### 0.0.2
+
+- [ ] port logic from TypeScript to Rust
+- [ ] use Headless UI
 - [ ] provide smaller binaries (using Lockdown tauri pattern)
 - [ ] provide standalone executables
 
