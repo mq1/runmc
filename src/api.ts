@@ -6,19 +6,6 @@ export interface Version {
   url: string
 }
 
-export const getAvailableVersions = async(): Promise<Version[]> => {
-  const r = await fetch('https://launchermeta.mojang.com/mc/game/version_manifest.json')
-  const j = await r.json()
-
-  return j.versions
-}
-
-export const getInstalledVersions = async(): Promise<string[]> => {
-  const dirs: string[] = await invoke('list_versions')
-
-  return dirs
-}
-
 interface Library {
   downloads: {
     artifact: {

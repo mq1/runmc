@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getInstalledVersions, executeVersion } from '~/api'
+import { invoke } from '@tauri-apps/api/tauri'
+import { executeVersion } from '~/api'
 
 const versions = ref<string[]>([])
 const getVersions = () => {
-  getInstalledVersions().then(v => versions.value = v)
+  invoke('list_versions')
+    .then((v: string[]) => versions.value = v)
+    .catch((e: string) => console.error(e))
 }
 
 const isVersionSelectorDropdownOpen = ref(false)
