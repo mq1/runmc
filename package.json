@@ -6,18 +6,18 @@
     "dev:vite": "vite",
     "dev:tauri": "tauri dev",
     "build": "run-s build:*",
-    "build:vite": "vite build",
+    "build:vite": "vite-ssg build",
     "build:tauri": "tauri build",
     "serve": "vite preview"
   },
   "dependencies": {
-    "@tauri-apps/api": "*",
+    "@tauri-apps/api": "^1.0.0-beta-rc.1",
     "vue": "^3.0.5",
     "vue-router": "^4.0.6"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.6.2",
-    "@tauri-apps/cli": "*",
+    "@tauri-apps/cli": "^1.0.0-beta-rc.1",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@vitejs/plugin-vue": "^1.2.1",
     "@vue/compiler-sfc": "^3.0.11",
@@ -28,6 +28,7 @@
     "vite-plugin-pages": "^0.9.4",
     "vite-plugin-vue-layouts": "^0.2.2",
     "vite-plugin-windicss": "^0.14.2",
+    "vite-ssg": "^0.9.2",
     "vue-tsc": "^0.0.24",
     "windicss": "^2.5.14"
   }

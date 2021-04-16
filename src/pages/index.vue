@@ -5,7 +5,7 @@ import { invoke } from '@tauri-apps/api/tauri'
 const versions = ref<string[]>([])
 const getVersions = () => {
   invoke('list_versions')
-    .then((v: string[]) => versions.value = v)
+    .then(v => versions.value = v as string[])
     .catch((e: string) => console.error(e))
 }
 

@@ -13,7 +13,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "eu.mq1.runmc",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -23,7 +23,7 @@
       ],
       "resources": [],
       "externalBin": [],
-      "copyright": "",
+      "copyright": "2021 Manuel Quarneti",
       "category": "DeveloperTool",
       "shortDescription": "",
       "longDescription": "",

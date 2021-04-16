@@ -11,14 +11,14 @@ interface Version {
 const installedVersions = ref<string[]>([])
 const updateInstalledVersions = () => {
   invoke('list_versions')
-    .then((v: string[]) => installedVersions.value = v)
+    .then(v => installedVersions.value = v as string[])
     .catch((e: string) => console.error(e))
 }
 
 const availableVersions = ref<Version[]>([])
 const updateAvailableVersions = () => {
   invoke('list_available_versions')
-    .then((versions: Version[]) => availableVersions.value = versions)
+    .then(v => availableVersions.value = v as Version[])
     .catch((e: string) => console.error(e))
 }
 
