@@ -1,6 +1,14 @@
 use serde::{Deserialize, Serialize};
-use std::{fs, io, process};
+use std::{fs, io, path::PathBuf, process};
 use tauri::command;
+
+fn get_base_dir() -> Result<PathBuf, String> {
+  let base_path = tauri::api::path::home_dir()
+    .ok_or("Cannot find base home dir")?
+    .join(".runmc");
+
+  Ok(base_path)
+}
 
 #[derive(Serialize, Deserialize)]
 pub struct Version {
@@ -26,10 +34,7 @@ pub async fn list_available_versions() -> Result<Vec<Version>, String> {
 
 #[command]
 pub fn list_versions() -> Result<Vec<String>, String> {
-  let base_path = tauri::api::path::home_dir()
-    .ok_or("Cannot find base home dir")?
-    .join(".runmc");
-  let path = base_path.join("versions");
+  let path = get_base_dir()?.join("versions");
 
   // TODO this can be done with a collect
   // https://doc.rust-lang.org/std/fs/fn.read_dir.html
@@ -48,31 +53,32 @@ pub fn list_versions() -> Result<Vec<String>, String> {
 }
 
 #[command]
-pub async fn download_file(url: String, path: String) {
-  let base_path = tauri::api::path::home_dir().unwrap().join(".runmc");
-  let path = base_path.join(path);
+pub async fn download_file(url: String, path: String) -> Result<(), String> {
+  let path = get_base_dir()?.join(path);
 
   // create parent dirs
-  let parent_dir = path.parent().unwrap();
-  fs::create_dir_all(parent_dir).unwrap();
+  let parent_dir = path.parent().ok_or("cannot retrieve parent dir")?;
+  fs::create_dir_all(parent_dir).map_err(|e| e.to_string())?;
 
   // download only if file doesn't already exist
   if !path.exists() {
     println!("downloading {} to {:?}", url, path);
     let resp = reqwest::get(url)
       .await
-      .expect("File download failed")
+      .map_err(|e| e.to_string())?
       .bytes()
       .await
-      .unwrap();
+      .map_err(|e| e.to_string())?;
     let mut bytes = resp.as_ref();
 
-    let mut out = fs::File::create(path).expect("File creation failed");
-    io::copy(&mut bytes, &mut out).expect("File writing failed");
+    let mut out = fs::File::create(path).map_err(|e| e.to_string())?;
+    io::copy(&mut bytes, &mut out).map_err(|e| e.to_string())?;
     println!("file downloaded");
   } else {
     println!("{:?} already present", path);
   }
+
+  Ok(())
 }
 
 #[command]
@@ -116,5 +122,6 @@ pub fn run_minecraft(version: String, access_token: String) -> Result<(), String
     .stderr(process::Stdio::inherit())
     .spawn()
     .map_err(|e| e.to_string())?;
+
   Ok(())
 }
