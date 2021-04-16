@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
-import {
-  installVersion,
-} from '~/api'
-import type { Version } from '~/api'
+
+interface Version {
+  id: string
+  type: string
+  url: string
+}
 
 const installedVersions = ref<string[]>([])
 const updateInstalledVersions = () => {
@@ -20,12 +22,14 @@ const updateAvailableVersions = () => {
     .catch((e: string) => console.error(e))
 }
 
-const install = (version: Version) => {
-  installVersion(version).then(updateInstalledVersions)
+const installVersion = (version: Version) => {
+  invoke('install_version', { version })
+    .then(updateInstalledVersions)
+    .catch((e: string) => console.log(e))
 }
 
 const removeVersion = (version: string) => {
-  invoke('remove_version')
+  invoke('remove_version', { version })
     .then(updateInstalledVersions)
     .catch((e: string) => console.error(e))
 }
@@ -69,7 +73,7 @@ onMounted(() => {
           {{ version.id }}
           <button
             class="px-2 py-1 bg-green-500 text-white rounded-full"
-            @click="install(version)"
+            @click="installVersion(version)"
           >
             Install ➕
           </button>

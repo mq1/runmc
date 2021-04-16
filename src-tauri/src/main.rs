@@ -10,7 +10,7 @@ fn main() {
     .invoke_handler(tauri::generate_handler![
       cmd::list_available_versions,
       cmd::list_versions,
-      cmd::download_file,
+      cmd::install_version,
       cmd::remove_version,
       cmd::run_minecraft
     ])

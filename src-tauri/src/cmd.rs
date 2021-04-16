@@ -1,5 +1,10 @@
 use serde::{Deserialize, Serialize};
-use std::{fs, io, path::PathBuf, process};
+use std::{
+  collections::HashMap,
+  fs, io,
+  path::{Path, PathBuf},
+  process,
+};
 use tauri::command;
 
 fn get_base_dir() -> Result<PathBuf, String> {
@@ -52,8 +57,7 @@ pub fn list_versions() -> Result<Vec<String>, String> {
   Ok(versions)
 }
 
-#[command]
-pub async fn download_file(url: String, path: String) -> Result<(), String> {
+async fn download_file(url: String, path: PathBuf) -> Result<(), String> {
   let path = get_base_dir()?.join(path);
 
   // create parent dirs
@@ -81,12 +85,133 @@ pub async fn download_file(url: String, path: String) -> Result<(), String> {
   Ok(())
 }
 
+#[derive(Deserialize)]
+struct Artifact {
+  path: String,
+  url: String,
+}
+
+#[derive(Deserialize)]
+struct LibraryDownloads {
+  artifact: Artifact,
+  classifiers: Option<HashMap<String, Artifact>>,
+}
+
+#[derive(Deserialize)]
+struct Library {
+  downloads: LibraryDownloads,
+}
+
+async fn download_libraries(version: String, libraries: Vec<Library>) -> Result<(), String> {
+  let path = Path::new("versions").join(version).join("libraries");
+
+  // find platform (os)
+  let platform = format!("natives-{}", std::env::consts::OS).to_string();
+
+  for library in libraries {
+    let file_path = Path::new(&library.downloads.artifact.path);
+    let file_name = file_path.file_name().ok_or(format!(
+      "failed to get {} file name",
+      library.downloads.artifact.path
+    ))?;
+    download_file(library.downloads.artifact.url, path.join(file_name)).await?;
+
+    if library.downloads.classifiers.is_some() {
+      let classifiers = library.downloads.classifiers.unwrap();
+      if classifiers.contains_key(&platform) {
+        let artifact = &classifiers[&platform];
+        let file_path = Path::new(&artifact.path);
+        let file_name = file_path.file_name().ok_or(format!(
+          "failed to get {} file name",
+          library.downloads.artifact.path
+        ))?;
+
+        download_file(String::from(&artifact.url), path.join(file_name)).await?;
+      }
+    }
+  }
+
+  Ok(())
+}
+
+async fn download_assets(version: String, asset_index_url: String) -> Result<(), String> {
+  let path = Path::new("versions")
+    .join(version)
+    .join("assets")
+    .join("objects");
+
+  #[derive(Deserialize)]
+  struct Object {
+    hash: String,
+  }
+
+  #[derive(Deserialize)]
+  struct Json {
+    objects: HashMap<String, Object>,
+  }
+
+  let res = reqwest::get(asset_index_url)
+    .await
+    .map_err(|e| e.to_string())?;
+  let j: Json = res.json().await.map_err(|e| e.to_string())?;
+
+  for (_id, object) in j.objects {
+    let dir = &object.hash[..2];
+    let url = format!(
+      "https://resources.download.minecraft.net/{}/{}",
+      dir, object.hash
+    );
+    let path = path.join(dir).join(object.hash);
+
+    download_file(url, path).await?;
+  }
+
+  Ok(())
+}
+
+#[command]
+pub async fn install_version(version: Version) -> Result<(), String> {
+  #[derive(Deserialize)]
+  struct ObjectContainingURL {
+    url: String,
+  }
+
+  #[derive(Deserialize)]
+  struct Downloads {
+    client: ObjectContainingURL,
+  }
+
+  #[derive(Deserialize)]
+  struct Json {
+    downloads: Downloads,
+    libraries: Vec<Library>,
+    assetIndex: ObjectContainingURL,
+  }
+
+  let res = reqwest::get(version.url).await.map_err(|e| e.to_string())?;
+  let j: Json = res.json().await.map_err(|e| e.to_string())?;
+  let version_id = String::from(version.id);
+
+  download_file(
+    j.downloads.client.url,
+    Path::new("versions")
+      .join(&version_id)
+      .join("libraries")
+      .join("client.jar"),
+  )
+  .await?;
+  download_libraries(String::from(&version_id), j.libraries).await?;
+  download_assets(String::from(&version_id), j.assetIndex.url).await?;
+
+  println!();
+  println!("version {} installed", &version_id);
+
+  Ok(())
+}
+
 #[command]
 pub fn remove_version(version: String) -> Result<(), String> {
-  let base_path = tauri::api::path::home_dir()
-    .ok_or("Cannot find home dir")?
-    .join(".runmc");
-  let path = base_path.join(&version);
+  let path = get_base_dir()?.join("versions").join(&version);
   fs::remove_dir_all(&path).map_err(|e| e.to_string())?;
   println!("deleted {:?}", &path);
 
@@ -95,10 +220,7 @@ pub fn remove_version(version: String) -> Result<(), String> {
 
 #[command]
 pub fn run_minecraft(version: String, access_token: String) -> Result<(), String> {
-  let base_path = tauri::api::path::home_dir()
-    .ok_or("Cannot find home dir")?
-    .join(".runmc");
-  let path = base_path.join("versions").join(&version);
+  let path = get_base_dir()?.join("versions").join(&version);
 
   println!("launching version {}", &version);
 
