@@ -17,7 +17,7 @@ pub fn list_versions() -> Vec<String> {
 }
 
 #[command]
-pub fn download_file(url: String, path: String) {
+pub async fn download_file(url: String, path: String) {
   let base_path = tauri::api::path::home_dir().unwrap().join(".runmc");
   let path = base_path.join(path);
 
@@ -28,9 +28,11 @@ pub fn download_file(url: String, path: String) {
   // download only if file doesn't already exist
   if !path.exists() {
     println!("downloading {} to {:?}", url, path);
-    let mut resp = reqwest::blocking::get(url).expect("File download failed");
+    let resp = reqwest::get(url).await.expect("File download failed").bytes().await.unwrap();
+    let mut bytes = resp.as_ref();
+
     let mut out = fs::File::create(path).expect("File creation failed");
-    io::copy(&mut resp, &mut out).expect("File writing failed");
+    io::copy(&mut bytes, &mut out).expect("File writing failed");
     println!("file downloaded");
   } else {
     println!("{:?} already present", path);
