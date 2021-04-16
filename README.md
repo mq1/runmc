@@ -12,7 +12,7 @@ A minimal and lightweight Minecraft launcher
 ### 0.0.2
 
 - [x] port logic from TypeScript to Rust
-- [ ] provide smaller binaries (using Lockdown tauri pattern)
+- [x] use Lockdown tauri pattern
 - [ ] provide standalone executables
 
 ### 0.0.1
