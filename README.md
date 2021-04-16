@@ -14,6 +14,7 @@ A minimal and lightweight Minecraft launcher
 - [x] port logic from TypeScript to Rust
 - [x] use Lockdown tauri pattern
 - [x] reduce installer size
+- [ ] fix ssg build
 
 ### 0.0.1
 
