@@ -77,7 +77,9 @@ pub async fn download_file(url: String, path: String) {
 
 #[command]
 pub fn remove_version(version: String) -> Result<(), String> {
-  let base_path = tauri::api::path::home_dir().ok_or("Cannot find home dir")?.join(".runmc");
+  let base_path = tauri::api::path::home_dir()
+    .ok_or("Cannot find home dir")?
+    .join(".runmc");
   let path = base_path.join(&version);
   fs::remove_dir_all(&path).map_err(|e| e.to_string())?;
   println!("deleted {:?}", &path);
@@ -86,8 +88,10 @@ pub fn remove_version(version: String) -> Result<(), String> {
 }
 
 #[command]
-pub fn run_minecraft(version: String, access_token: String) {
-  let base_path = tauri::api::path::home_dir().unwrap().join(".runmc");
+pub fn run_minecraft(version: String, access_token: String) -> Result<(), String> {
+  let base_path = tauri::api::path::home_dir()
+    .ok_or("Cannot find home dir")?
+    .join(".runmc");
   let path = base_path.join("versions").join(&version);
 
   println!("launching version {}", &version);
@@ -111,5 +115,6 @@ pub fn run_minecraft(version: String, access_token: String) {
     .stdout(process::Stdio::inherit())
     .stderr(process::Stdio::inherit())
     .spawn()
-    .expect("error launching minecraft");
+    .map_err(|e| e.to_string())?;
+  Ok(())
 }

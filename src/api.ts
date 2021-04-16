@@ -106,10 +106,3 @@ export const installVersion = async(version: Version): Promise<void> => {
     downloadAssets(versionDir, j.assetIndex.url),
   ])
 }
-
-export const executeVersion = (version: string, accessToken: string) => {
-  invoke('run_minecraft', {
-    version,
-    accessToken,
-  })
-}
