@@ -7,11 +7,11 @@ A minimal and lightweight Minecraft launcher
 ### 0.0.3
 
 - [ ] account management
+- [ ] use Headless UI
 
 ### 0.0.2
 
 - [x] port logic from TypeScript to Rust
-- [ ] use Headless UI
 - [ ] provide smaller binaries (using Lockdown tauri pattern)
 - [ ] provide standalone executables
 
