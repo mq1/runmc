@@ -126,9 +126,9 @@ export const removeVersion = async(version: string): Promise<void> => {
   })
 }
 
-export const executeVersion = async(version: string, accessToken: string): Promise<void> => {
-  await invoke('run_minecraft', {
+export const executeVersion = (version: string, accessToken: string) => {
+  invoke('run_minecraft', {
     version,
-    access_token: accessToken,
+    accessToken,
   })
 }

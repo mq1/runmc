@@ -66,6 +66,7 @@ pub fn run_minecraft(version: String, access_token: String) {
     .arg("--accessToken").arg(&access_token)
     .arg("--version").arg(&version)
     .stdout(process::Stdio::inherit())
+    .stderr(process::Stdio::inherit())
     .spawn()
-    .unwrap();
+    .expect("error launching minecraft");
 }
