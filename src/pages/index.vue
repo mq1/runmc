@@ -45,7 +45,7 @@ onMounted(getVersions)
       class="text-white bg-blue-500 border-2 border-blue-500 rounded-r-full py-2 px-4"
       @click="executeVersion(selectedVersion, accessToken)"
     >
-      ▶
+      ▷
     </button>
   </div>
 
