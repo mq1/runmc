@@ -284,7 +284,6 @@ async fn login(email: String, password: String) -> Result<(), String> {
   }
 
   #[derive(Serialize)]
-  #[serde(rename_all = "camelCase")]
   struct Payload {
     username: String,
     password: String,
