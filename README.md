@@ -7,7 +7,6 @@ A minimal and lightweight Minecraft launcher
 ### 0.0.3
 
 - [ ] account management
-- [ ] use Headless UI
 
 ### 0.0.2
 
