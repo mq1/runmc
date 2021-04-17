@@ -2,6 +2,14 @@
 
 A minimal and lightweight Minecraft launcher
 
+# Installation
+
+**NOTE: installers are broken as of now**
+
+Just grab the installer from releases
+
+Windows users not running Windows 10 April 2021 update may need to install [Webview2](https://go.microsoft.com/fwlink/p/?LinkId=2124703)
+
 ## Roadmap
 
 ### 0.0.2
