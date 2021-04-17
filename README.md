@@ -4,16 +4,13 @@ A minimal and lightweight Minecraft launcher
 
 ## Roadmap
 
-### 0.0.3
-
-- [ ] account management
-
 ### 0.0.2
 
 - [x] port logic from TypeScript to Rust
 - [x] use Lockdown tauri pattern
 - [x] reduce installer size
 - [ ] fix ssg build
+- [ ] account management
 
 ### 0.0.1
 
