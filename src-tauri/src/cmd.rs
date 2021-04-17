@@ -155,13 +155,13 @@ async fn download_assets(version: String, asset_index_url: String) -> Result<(),
     .map_err(|e| e.to_string())?;
   let j: Json = res.json().await.map_err(|e| e.to_string())?;
 
-  for (_id, object) in j.objects {
+  for object in j.objects.values() {
     let dir = &object.hash[..2];
     let url = format!(
       "https://resources.download.minecraft.net/{}/{}",
-      dir, object.hash
+      dir, &object.hash
     );
-    let path = path.join(dir).join(object.hash);
+    let path = path.join(dir).join(&object.hash);
 
     download_file(url, path).await?;
   }
