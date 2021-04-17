@@ -182,10 +182,10 @@ pub async fn install_version(version: Version) -> Result<(), String> {
   }
 
   #[derive(Deserialize)]
+  #[serde(rename_all = "camelCase")]
   struct Json {
     downloads: Downloads,
     libraries: Vec<Library>,
-    #[serde(rename = "assetIndex")]
     asset_index: ObjectContainingURL,
   }
 
@@ -219,8 +219,15 @@ pub fn remove_version(version: String) -> Result<(), String> {
   Ok(())
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct Account {
+  name: String,
+  id: String,
+  access_token: String,
+}
+
 #[command]
-pub fn run_minecraft(version: String, access_token: String) -> Result<(), String> {
+pub fn run_minecraft(version: String, account: Account) -> Result<(), String> {
   let path = get_base_dir()?.join("versions").join(&version);
 
   println!("launching version {}", &version);
@@ -237,8 +244,12 @@ pub fn run_minecraft(version: String, access_token: String) -> Result<(), String
     .arg("game-data")
     .arg("--assetsDir")
     .arg("assets")
+    .arg("--username")
+    .arg(&account.name)
+    .arg("--uuid")
+    .arg(&account.id)
     .arg("--accessToken")
-    .arg(&access_token)
+    .arg(&account.access_token)
     .arg("--version")
     .arg(&version)
     .stdout(process::Stdio::inherit())
@@ -249,42 +260,44 @@ pub fn run_minecraft(version: String, access_token: String) -> Result<(), String
   Ok(())
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct Account {
-  name: String,
-  id: String,
-  access_token: String,
-}
-
 #[command]
 async fn login(email: String, password: String) -> Result<(), String> {
   println!("trying to add account {}", &email);
 
   #[derive(Deserialize)]
-  struct User {
-    username: String,
+  struct Profile {
+    name: String,
     id: String,
   }
 
   #[derive(Deserialize)]
+  #[serde(rename_all = "camelCase")]
   struct Json {
-    #[serde(rename = "accessToken")]
     access_token: String,
-    user: User,
+    selected_profile: Profile,
   }
 
   #[derive(Serialize)]
+  struct Agent {
+    name: String,
+    version: i32,
+  }
+
+  #[derive(Serialize)]
+  #[serde(rename_all = "camelCase")]
   struct Payload {
     username: String,
     password: String,
-    #[serde(rename = "requestUser")]
-    request_user: bool,
+    agent: Agent,
   }
 
   let payload = Payload {
     username: email,
     password: password,
-    request_user: true,
+    agent: Agent {
+      name: String::from("Minecraft"),
+      version: 1,
+    },
   };
 
   let client = reqwest::Client::new();
@@ -297,8 +310,8 @@ async fn login(email: String, password: String) -> Result<(), String> {
   let j: Json = res.json().await.map_err(|e| e.to_string())?;
 
   let account = Account {
-    name: j.user.username,
-    id: j.user.id,
+    name: j.selected_profile.name,
+    id: j.selected_profile.id,
     access_token: j.access_token,
   };
 

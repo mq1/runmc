@@ -2,7 +2,13 @@
 import { onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 
-const availableAccounts = ref<{ name: string; id: string; access_token: string }[]>([])
+type Account = {
+  name: string
+  id: string
+  access_token: string
+}
+
+const availableAccounts = ref<Account[]>([])
 const selectedAccount = ref({ name: '', id: '', access_token: '' })
 
 const updateAvailableAccounts = () => {
@@ -52,7 +58,7 @@ onMounted(updateAvailableAccounts)
     </nav>
 
     <main class="flex flex-col items-center justify-center">
-      <router-view :access-token="selectedAccount.access_token" @accountsUpdate="updateAvailableAccounts" />
+      <router-view :account="selectedAccount" @accountsUpdate="updateAvailableAccounts" />
     </main>
 
     <footer class="mx-auto">

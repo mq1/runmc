@@ -2,12 +2,7 @@
 import { ref, onMounted, defineProps } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 
-const props = defineProps({
-  accessToken: {
-    type: String,
-    required: true,
-  },
-})
+const props = defineProps(['account'])
 
 const versions = ref<string[]>([])
 const getVersions = () => {
@@ -30,7 +25,7 @@ const selectVersion = (version: string) => {
 const executeVersion = () => {
   invoke('run_minecraft', {
     version: selectedVersion.value,
-    accessToken: props.accessToken,
+    account: props.account,
   })
     .catch((e: string) => console.error(e))
 }
