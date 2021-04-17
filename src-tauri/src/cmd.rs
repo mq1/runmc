@@ -106,7 +106,7 @@ async fn download_libraries(version: String, libraries: Vec<Library>) -> Result<
   let path = Path::new("versions").join(version).join("libraries");
 
   // find platform (os)
-  let platform = format!("natives-{}", std::env::consts::OS).to_string();
+  let platform = format!("natives-{}", std::env::consts::OS);
 
   for library in libraries {
     let file_path = Path::new(&library.downloads.artifact.path);
