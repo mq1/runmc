@@ -2,7 +2,7 @@
 
 A minimal and lightweight Minecraft launcher
 
-# Installation
+## Installation
 
 **NOTE: installers are broken as of now**
 
