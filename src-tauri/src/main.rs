@@ -14,7 +14,8 @@ fn main() {
       cmd::remove_version,
       cmd::run_minecraft,
       cmd::login,
-      cmd::accounts
+      cmd::accounts,
+      cmd::remove_account
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

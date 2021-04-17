@@ -316,7 +316,7 @@ async fn login(email: String, password: String) -> Result<(), String> {
   let json_string = serde_json::to_string(&accounts).map_err(|e| e.to_string())?;
   fs::write(&path, json_string).map_err(|e| e.to_string())?;
 
-  println!("added account");
+  println!("account added");
 
   Ok(())
 }
@@ -329,4 +329,22 @@ pub fn accounts() -> Result<Vec<Account>, String> {
   let accounts: Vec<Account> = serde_json::from_str(&text).map_err(|e| e.to_string())?;
 
   Ok(accounts)
+}
+
+#[command]
+pub fn remove_account(name: String) -> Result<(), String> {
+  let path = get_base_dir()?.join("accounts.json");
+
+  // parse accounts
+  let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
+  let mut accounts: Vec<Account> = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+  // remove the account
+  accounts.retain(|a| a.name != name);
+
+  // save accounts
+  let json_string = serde_json::to_string(&accounts).map_err(|e| e.to_string())?;
+  fs::write(&path, json_string).map_err(|e| e.to_string())?;
+
+  Ok(())
 }

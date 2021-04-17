@@ -3,13 +3,13 @@ import { onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 
 const availableAccounts = ref<{ name: string; id: string; access_token: string }[]>([])
-const selectedAccount = ref()
+const selectedAccount = ref({ name: '', id: '', access_token: '' })
 
 const updateAvailableAccounts = () => {
   invoke('accounts')
     .then((a) => {
       availableAccounts.value = a as any[]
-      selectedAccount.value = availableAccounts.value[0]
+      selectedAccount.value = availableAccounts.value[0] || { name: '', id: '', access_token: '' }
     })
     .catch((e: string) => console.error(e))
 }
@@ -52,7 +52,7 @@ onMounted(updateAvailableAccounts)
     </nav>
 
     <main class="flex flex-col items-center justify-center">
-      <router-view :access-token="selectedAccount.access_token" />
+      <router-view :access-token="selectedAccount.access_token" @accountsUpdate="updateAvailableAccounts" />
     </main>
 
     <footer class="mx-auto">
