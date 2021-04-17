@@ -185,7 +185,8 @@ pub async fn install_version(version: Version) -> Result<(), String> {
   struct Json {
     downloads: Downloads,
     libraries: Vec<Library>,
-    assetIndex: ObjectContainingURL,
+    #[serde(rename = "assetIndex")]
+    asset_index: ObjectContainingURL,
   }
 
   let res = reqwest::get(version.url).await.map_err(|e| e.to_string())?;
@@ -201,7 +202,7 @@ pub async fn install_version(version: Version) -> Result<(), String> {
   )
   .await?;
   download_libraries(String::from(&version_id), j.libraries).await?;
-  download_assets(String::from(&version_id), j.assetIndex.url).await?;
+  download_assets(String::from(&version_id), j.asset_index.url).await?;
 
   println!();
   println!("version {} installed", &version_id);
@@ -246,4 +247,86 @@ pub fn run_minecraft(version: String, access_token: String) -> Result<(), String
     .map_err(|e| e.to_string())?;
 
   Ok(())
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Account {
+  name: String,
+  id: String,
+  access_token: String,
+}
+
+#[command]
+async fn login(email: String, password: String) -> Result<(), String> {
+  println!("trying to add account {}", &email);
+
+  #[derive(Deserialize)]
+  struct User {
+    username: String,
+    id: String,
+  }
+
+  #[derive(Deserialize)]
+  struct Json {
+    #[serde(rename = "accessToken")]
+    access_token: String,
+    user: User,
+  }
+
+  #[derive(Serialize)]
+  struct Payload {
+    username: String,
+    password: String,
+    #[serde(rename = "requestUser")]
+    request_user: bool,
+  }
+
+  let payload = Payload {
+    username: email,
+    password: password,
+    request_user: true,
+  };
+
+  let client = reqwest::Client::new();
+  let res = client
+    .post("https://authserver.mojang.com/authenticate")
+    .json(&payload)
+    .send()
+    .await
+    .map_err(|e| e.to_string())?;
+  let j: Json = res.json().await.map_err(|e| e.to_string())?;
+
+  let account = Account {
+    name: j.user.username,
+    id: j.user.id,
+    access_token: j.access_token,
+  };
+
+  let mut accounts = vec![account];
+
+  // save login to file
+  let path = get_base_dir()?.join("accounts.json");
+  if (&path).exists() {
+    let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
+    let mut existing_accounts: Vec<Account> =
+      serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    accounts.append(&mut existing_accounts);
+  }
+
+  let json_string = serde_json::to_string(&accounts).map_err(|e| e.to_string())?;
+  fs::write(&path, json_string).map_err(|e| e.to_string())?;
+
+  println!("added account");
+
+  Ok(())
+}
+
+#[command]
+pub fn accounts() -> Result<Vec<Account>, String> {
+  let path = get_base_dir()?.join("accounts.json");
+
+  let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
+  let accounts: Vec<Account> = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+
+  Ok(accounts)
 }

@@ -12,7 +12,9 @@ fn main() {
       cmd::list_versions,
       cmd::install_version,
       cmd::remove_version,
-      cmd::run_minecraft
+      cmd::run_minecraft,
+      cmd::login,
+      cmd::accounts
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
