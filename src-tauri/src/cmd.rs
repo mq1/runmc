@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use serde_json::value::Value;
 use std::{
   collections::HashMap,
   fs, io,
@@ -100,15 +101,30 @@ struct LibraryDownloads {
 #[derive(Deserialize)]
 struct Library {
   downloads: LibraryDownloads,
+  natives: Option<HashMap<String, String>>,
+  rules: Option<Vec<Value>>,
 }
 
 async fn download_libraries(version: String, libraries: Vec<Library>) -> Result<(), String> {
   let path = Path::new("versions").join(version).join("libraries");
 
   // find platform (os)
-  let platform = format!("natives-{}", std::env::consts::OS);
+  let platform = std::env::consts::OS;
+  let platform = platform.replace("macos", "osx");
 
   for library in libraries {
+    if (&library.rules).is_some() {
+      // TODO FIX this dumpster fire of code
+      let rules = library.rules.unwrap();
+
+      if rules.len() == 1 && platform != "osx" {
+        continue;
+      }
+      if rules.len() == 2 && platform == "osx" {
+        continue;
+      }
+    }
+
     let file_path = Path::new(&library.downloads.artifact.path);
     let file_name = file_path.file_name().ok_or(format!(
       "failed to get {} file name",
@@ -116,12 +132,12 @@ async fn download_libraries(version: String, libraries: Vec<Library>) -> Result<
     ))?;
     download_file(library.downloads.artifact.url, path.join(file_name)).await?;
 
-    if library.downloads.classifiers.is_some() {
-      let classifiers = library.downloads.classifiers.unwrap();
-      if classifiers.contains_key(&platform) {
-        let artifact = &classifiers[&platform];
-        let file_path = Path::new(&artifact.path);
-        let file_name = file_path.file_name().ok_or(format!(
+    if library.natives.is_some() {
+      let natives = library.natives.unwrap();
+      if natives.contains_key(&platform) {
+        let classifiers = library.downloads.classifiers.unwrap();
+        let artifact = &classifiers[&natives[&platform]];
+        let file_name = Path::new(&artifact.path).file_name().ok_or(format!(
           "failed to get {} file name",
           library.downloads.artifact.path
         ))?;
