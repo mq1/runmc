@@ -12,14 +12,16 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 
 ## Roadmap
 
+### 0.0.3
+- [x] use Headless UI
+- [ ] redesign
+
 ### 0.0.2
 
 - [x] port logic from TypeScript to Rust
 - [x] use Lockdown tauri pattern
 - [x] reduce installer size
 - [x] account management
-- [x] use Headless UI
-- [ ] fix ssg build
 
 ### 0.0.1
 
