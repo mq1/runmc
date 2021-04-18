@@ -150,9 +150,15 @@ async fn download_libraries(version: String, libraries: Vec<Library>) -> Result<
   Ok(())
 }
 
-async fn download_assets(version: String, asset_index_url: String) -> Result<(), String> {
+#[derive(Deserialize)]
+struct AssetIndex {
+  id: String,
+  url: String,
+}
+
+async fn download_assets(version: String, asset_index: AssetIndex) -> Result<(), String> {
   let path = Path::new("versions")
-    .join(version)
+    .join(&version)
     .join("assets")
     .join("objects");
 
@@ -166,7 +172,7 @@ async fn download_assets(version: String, asset_index_url: String) -> Result<(),
     objects: HashMap<String, Object>,
   }
 
-  let res = reqwest::get(asset_index_url)
+  let res = reqwest::get(&asset_index.url)
     .await
     .map_err(|e| e.to_string())?;
   let j: Json = res.json().await.map_err(|e| e.to_string())?;
@@ -181,6 +187,14 @@ async fn download_assets(version: String, asset_index_url: String) -> Result<(),
 
     download_file(url, path).await?;
   }
+
+  // save asset index json
+  let path = Path::new("versions")
+    .join(&version)
+    .join("assets")
+    .join("indexes")
+    .join(format!("{}.json", &asset_index.id));
+  download_file(String::from(&asset_index.url), path).await?;
 
   Ok(())
 }
@@ -202,7 +216,7 @@ pub async fn install_version(version: Version) -> Result<(), String> {
   struct Json {
     downloads: Downloads,
     libraries: Vec<Library>,
-    asset_index: ObjectContainingURL,
+    asset_index: AssetIndex,
   }
 
   let res = reqwest::get(version.url).await.map_err(|e| e.to_string())?;
@@ -218,7 +232,7 @@ pub async fn install_version(version: Version) -> Result<(), String> {
   )
   .await?;
   download_libraries(String::from(&version_id), j.libraries).await?;
-  download_assets(String::from(&version_id), j.asset_index.url).await?;
+  download_assets(String::from(&version_id), j.asset_index).await?;
 
   println!();
   println!("version {} installed", &version_id);
@@ -246,6 +260,17 @@ pub struct Account {
 pub fn run_minecraft(version: String, account: Account) -> Result<(), String> {
   let path = get_base_dir()?.join("versions").join(&version);
 
+  // get asset index
+  let entries = fs::read_dir(&path.join("assets").join("indexes"))
+    .map_err(|e| e.to_string())?
+    .map(|res| res.map(|e| e.path()))
+    .collect::<Result<Vec<_>, io::Error>>()
+    .map_err(|e| e.to_string())?;
+  let asset_index = entries[0].file_name().ok_or("asset index not found")?;
+  let asset_index = Path::new(asset_index)
+    .file_stem()
+    .ok_or("error getting asset index file name")?;
+
   println!("launching version {}", &version);
 
   process::Command::new("java")
@@ -260,6 +285,8 @@ pub fn run_minecraft(version: String, account: Account) -> Result<(), String> {
     .arg("game-data")
     .arg("--assetsDir")
     .arg("assets")
+    .arg("--assetIndex")
+    .arg(asset_index)
     .arg("--username")
     .arg(&account.name)
     .arg("--uuid")
