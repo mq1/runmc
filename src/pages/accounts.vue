@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref, defineEmit } from 'vue'
+import { onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
-
-const emit = defineEmit(['accountsUpdate'])
 
 const email = ref('')
 const password = ref('')
@@ -12,7 +10,6 @@ const updateAvailableAccounts = () => {
   invoke('accounts')
     .then((a) => {
       availableAccounts.value = a as any[]
-      emit('accountsUpdate')
     })
     .catch((e: string) => console.error(e))
 }
@@ -58,9 +55,7 @@ onMounted(updateAvailableAccounts)
       <div class="border-2 rounded-3xl p-2 overflow-y-auto h-64 flex flex-col divide-y">
         <div v-for="account in availableAccounts" :key="account.id" class="p-2 flex justify-between">
           {{ account.name }}
-          <button @click="removeAccount(account)">
-            🗑️
-          </button>
+          <RemoveButton @click="removeAccount(account)" />
         </div>
       </div>
     </div>

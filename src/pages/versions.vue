@@ -42,23 +42,22 @@ onMounted(() => {
 
 <template>
   <div class="flex gap-x-8">
-    <div v-show="installedVersions.length" class="flex-1">
+    <div v-show="installedVersions.length" class="flex-1 min-w-72">
       <h1 class="text-3xl text-center mb-8">
         Installed Versions
       </h1>
       <div class="border-2 rounded-3xl p-2 overflow-y-auto h-64 flex flex-col divide-y">
-        <div v-for="version in installedVersions" :key="version" class="p-2 flex justify-between">
+        <div
+          v-for="version in installedVersions"
+          :key="version"
+          class="p-2 flex items-center justify-between"
+        >
           {{ version }}
-          <button
-            class="px-2 py-1 bg-red-500 text-white rounded-full"
-            @click="removeVersion(version)"
-          >
-            Remove 🗑
-          </button>
+          <RemoveButton @click="removeVersion(version)" />
         </div>
       </div>
     </div>
-    <div class="flex-1">
+    <div class="flex-1 min-w-72">
       <h1 class="text-3xl text-center mb-8">
         Available Versions
       </h1>
@@ -66,17 +65,13 @@ onMounted(() => {
         <div
           v-for="version in availableVersions"
           :key="version.id"
-          class="p-2 flex justify-between"
+          class="p-2 flex items-center justify-between"
         >
-          {{ version.type === 'release' ? '✅' : '🔥' }}
+          <heroicons-outline-fire v-if="version.type === 'snapshot'" class="text-red-700" />
+          <heroicons-outline-badge-check v-if="version.type === 'release'" class="text-green-700" />
           {{ version.type }}
-          {{ version.id }}
-          <button
-            class="px-2 py-1 bg-green-500 text-white rounded-full"
-            @click="installVersion(version)"
-          >
-            Install ➕
-          </button>
+          <span class="font-semibold">{{ version.id }}</span>
+          <InstallButton @click="installVersion(version)" />
         </div>
       </div>
     </div>

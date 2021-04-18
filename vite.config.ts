@@ -4,6 +4,8 @@ import Vue from '@vitejs/plugin-vue'
 import WindiCSS from 'vite-plugin-windicss'
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
+import Components from 'vite-plugin-components'
+import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,5 +19,12 @@ export default defineConfig({
     Pages(),
     Layouts(),
     WindiCSS(),
+    Components({
+      customComponentResolvers: ViteIconsResolver({
+        componentPrefix: '',
+        enabledCollections: ['heroicons-outline'],
+      }),
+    }),
+    ViteIcons(),
   ],
 })

@@ -1,71 +1,97 @@
 <script setup lang="ts">
-import { ref, onMounted, defineProps } from 'vue'
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from '@headlessui/vue'
+
+import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 
-const props = defineProps(['account'])
+type Account = {
+  name: string
+  id: string
+  access_token: string
+}
 
-const versions = ref<string[]>([])
-const getVersions = () => {
-  invoke('list_versions')
-    .then(v => versions.value = v as string[])
+const availableAccounts = ref<Account[]>([])
+const selectedAccount = ref<Account>({ name: '', id: '', access_token: '' })
+
+const updateAvailableAccounts = () => {
+  invoke('accounts')
+    .then((a) => {
+      availableAccounts.value = a as any[]
+      selectedAccount.value = availableAccounts.value[0] || { name: 'No users found', id: '', access_token: '' }
+    })
     .catch((e: string) => console.error(e))
 }
 
-const isVersionSelectorDropdownOpen = ref(false)
-const toggleDropdown = () => {
-  isVersionSelectorDropdownOpen.value = !isVersionSelectorDropdownOpen.value
-}
+const versions = ref<string[]>([])
+const selectedVersion = ref('Select version')
 
-const selectedVersion = ref('Select version 🡣')
-const selectVersion = (version: string) => {
-  selectedVersion.value = version
-  isVersionSelectorDropdownOpen.value = false
+const getVersions = () => {
+  invoke('list_versions')
+    .then((v) => {
+      versions.value = v as string[]
+      selectedVersion.value = versions.value[0] || 'No versions installed'
+    })
+    .catch((e: string) => console.error(e))
 }
 
 const executeVersion = () => {
   invoke('run_minecraft', {
     version: selectedVersion.value,
-    account: props.account,
+    account: selectedAccount.value,
   })
     .catch((e: string) => console.error(e))
 }
 
-onMounted(getVersions)
+onMounted(() => {
+  getVersions()
+  updateAvailableAccounts()
+})
 </script>
 
 <template>
-  <h1 class="text-5xl">
-    runmc
-  </h1>
+  <div class="text-3xl text-gray-500">
+    welcome back,
+  </div>
+  <Listbox v-model="selectedAccount">
+    <ListboxButton class="my-4 border-2 px-4 py-2 rounded-3xl flex justify-between text-5xl min-w-72">
+      {{ selectedAccount.name }}
+      <heroicons-outline-selector class="text-gray-400" />
+    </ListboxButton>
+    <ListboxOptions class="absolute mt-36 bg-white border-2 rounded-3xl w-max min-w-72 list-none flex flex-col divide-y">
+      <ListboxOption v-for="account in availableAccounts" v-slot="{ selected }" :key="account.id" :value="account">
+        <div class="p-2">
+          <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><heroicons-outline-check /></span>
+          {{ account.name }}
+        </div>
+      </ListboxOption>
+    </ListboxOptions>
+  </Listbox>
 
-  <div class="my-8 flex">
+  <div class="flex">
+    <Listbox v-model="selectedVersion">
+      <ListboxButton class="border-2 rounded-l-full py-2 px-4 w-40 flex items-center justify-between">
+        {{ selectedVersion }}
+        <heroicons-outline-selector class="text-gray-400" />
+      </ListboxButton>
+      <ListboxOptions class="absolute bg-white mt-12 w-40 flex flex-col divide-y border-2 rounded-3xl list-none">
+        <ListboxOption v-for="version in versions" v-slot="{ selected }" :key="version" :value="version">
+          <div class="p-2">
+            <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><heroicons-outline-check /></span>
+            {{ version }}
+          </div>
+        </ListboxOption>
+      </ListboxOptions>
+    </Listbox>
     <button
-      class="border-2 w-40 rounded-l-full py-2 px-4"
-      @click="toggleDropdown"
-    >
-      {{ selectedVersion }}
-    </button>
-    <div
-      v-show="isVersionSelectorDropdownOpen"
-      class="absolute border-2 rounded-3xl mt-12 w-40 flex flex-col items-center divide-y bg-white"
-    >
-      <button
-        v-for="version in versions"
-        :key="version"
-        class="p-2 w-full text-center"
-        @click="selectVersion(version)"
-      >
-        {{ version }}
-      </button>
-      <router-link class="p-2 w-full text-center" to="/versions">
-        +
-      </router-link>
-    </div>
-    <button
-      class="text-white bg-blue-500 border-2 border-blue-500 rounded-r-full py-2 px-4"
+      class="text-white bg-blue-500 border-2 border-blue-500 rounded-r-full py-2 pr-4 pl-3 flex items-center"
       @click="executeVersion"
     >
-      ▷
+      <heroicons-outline-arrow-right />
     </button>
   </div>
 </template>
