@@ -14,7 +14,8 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 
 ### 0.0.3
 - [x] use Headless UI
-- [ ] redesign
+- [x] redesign
+- [x] dark mode
 
 ### 0.0.2
 

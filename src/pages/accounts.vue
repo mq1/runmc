@@ -42,8 +42,8 @@ onMounted(updateAvailableAccounts)
         Add account
       </h1>
       <div class="flex flex-col gap-4">
-        email: <input v-model="email" type="email" />
-        password: <input v-model="password" type="password" />
+        email: <input v-model="email" type="email" class="rounded-full dark:bg-black" />
+        password: <input v-model="password" type="password" class="rounded-full dark:bg-black" />
         <button class="rounded-full py-2 px-4 bg-blue-500 text-white" @click="addAccount">
           Add
         </button>

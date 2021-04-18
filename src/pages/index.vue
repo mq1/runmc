@@ -57,7 +57,7 @@ onMounted(() => {
       {{ selectedAccount.name }}
       <heroicons-outline-selector class="text-gray-400" />
     </ListboxButton>
-    <ListboxOptions class="absolute mt-36 bg-white border-2 rounded-3xl w-max min-w-72 list-none flex flex-col divide-y">
+    <ListboxOptions class="absolute mt-36 bg-white dark:bg-black border-2 rounded-3xl w-max min-w-72 list-none flex flex-col divide-y">
       <ListboxOption v-for="account in availableAccounts" v-slot="{ selected }" :key="account.id" :value="account">
         <div class="p-2">
           <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><heroicons-outline-check /></span>
@@ -73,7 +73,7 @@ onMounted(() => {
         {{ selectedVersion }}
         <heroicons-outline-selector class="text-gray-400" />
       </ListboxButton>
-      <ListboxOptions class="absolute bg-white mt-12 w-40 flex flex-col divide-y border-2 rounded-3xl list-none">
+      <ListboxOptions class="absolute bg-white dark:bg-black mt-12 w-40 flex flex-col divide-y border-2 rounded-3xl list-none">
         <ListboxOption v-for="version in versions" v-slot="{ selected }" :key="version" :value="version">
           <div class="p-2">
             <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><heroicons-outline-check /></span>

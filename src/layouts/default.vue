@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 flex flex-col justify-between h-screen">
+  <div class="p-4 flex flex-col justify-between h-screen dark:bg-black dark:text-white">
     <nav class="flex justify-between">
       <router-link class="flex items-center gap-x-2 py-1 px-2 border-2 rounded-full" to="/">
         <heroicons-outline-home /> Home
