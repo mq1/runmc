@@ -10,7 +10,7 @@ Just grab the installer from releases
 
 Windows users not running Windows 10 April 2021 update may need to install [Webview2](https://go.microsoft.com/fwlink/p/?LinkId=2124703)
 
-## Roadmap
+## Roadmap and progress tracking
 
 ### 0.0.3
 - [x] use Headless UI
