@@ -8,12 +8,7 @@ import {
 
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
-
-type Account = {
-  name: string
-  id: string
-  access_token: string
-}
+import type { Account } from '~/types'
 
 const availableAccounts = ref<Account[]>([])
 const selectedAccount = ref<Account>({ name: '', id: '', access_token: '' })
@@ -21,7 +16,7 @@ const selectedAccount = ref<Account>({ name: '', id: '', access_token: '' })
 const updateAvailableAccounts = () => {
   invoke('accounts')
     .then((a) => {
-      availableAccounts.value = a as any[]
+      availableAccounts.value = a as Account[]
       selectedAccount.value = availableAccounts.value[0] || { name: 'No users found', id: '', access_token: '' }
     })
     .catch((e: string) => console.error(e))

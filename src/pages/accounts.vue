@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
+import type { Account } from '~/types'
 
 const email = ref('')
 const password = ref('')
 
-const availableAccounts = ref<any[]>([])
+const availableAccounts = ref<Account[]>([])
 const updateAvailableAccounts = () => {
   invoke('accounts')
     .then((a) => {
-      availableAccounts.value = a as any[]
+      availableAccounts.value = a as Account[]
     })
     .catch((e: string) => console.error(e))
 }
@@ -23,7 +24,7 @@ const addAccount = () => {
     .catch((e: string) => console.error(e))
 }
 
-const removeAccount = (account: any) => {
+const removeAccount = (account: Account) => {
   invoke('remove_account', {
     name: account.name,
   })

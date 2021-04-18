@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
-
-interface Version {
-  id: string
-  type: string
-  url: string
-}
+import type { Version } from '~/types'
 
 const installedVersions = ref<string[]>([])
 const updateInstalledVersions = () => {
