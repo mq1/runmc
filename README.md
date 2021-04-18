@@ -18,6 +18,7 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 - [x] use Lockdown tauri pattern
 - [x] reduce installer size
 - [x] account management
+- [ ] use Headless UI
 - [ ] fix ssg build
 
 ### 0.0.1
