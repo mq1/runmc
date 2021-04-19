@@ -18,6 +18,7 @@ fn main() {
       cmd::login,
       cmd::accounts,
       cmd::remove_account,
+      config::get_default_config,
       config::get_config,
       config::save_config
     ])

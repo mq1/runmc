@@ -9,7 +9,8 @@ pub struct Config {
   pub java_memory_mb: i32,
 }
 
-fn get_default_config() -> Config {
+#[command]
+pub fn get_default_config() -> Config {
   Config {
     java_path: String::from("java"),
     java_memory_mb: 2048,

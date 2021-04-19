@@ -14,6 +14,11 @@ const saveConfig = () => {
     .then(getConfig)
     .catch((e: string) => console.error(e))
 }
+const getDefaultConfig = () => {
+  invoke('get_default_config')
+    .then(c => config.value = c as Config)
+    .catch((e: string) => console.error(e))
+}
 
 onMounted(getConfig)
 </script>
@@ -32,8 +37,14 @@ onMounted(getConfig)
       <input v-model.number="config.java_memory_mb" type="number" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
     </label>
   </div>
-  <button class="fixed right-0 bottom-0 m-8 bg-purple-500 text-white rounded-lg shadow-md px-4 py-2 flex items-center gap-x-2 focus:outline-none" @click="saveConfig">
-    <heroicons-outline-save />
-    Save
-  </button>
+  <div class="fixed right-8 bottom-8 flex gap-x-2">
+    <button class="bg-red-500 text-white rounded-lg shadow-md px-4 py-2 flex items-center gap-x-2 focus:outline-none" @click="getDefaultConfig">
+      <heroicons-outline-refresh />
+      Reset to defaults
+    </button>
+    <button class="bg-purple-500 text-white rounded-lg shadow-md px-4 py-2 flex items-center gap-x-2 focus:outline-none" @click="saveConfig">
+      <heroicons-outline-save />
+      Save
+    </button>
+  </div>
 </template>
