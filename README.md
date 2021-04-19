@@ -13,12 +13,12 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 ## Roadmap and progress tracking
 
 ### 0.0.4
+- [ ] redesign
 - [ ] settings pane
 - [ ] info pane
 
 ### 0.0.3
 - [x] use Headless UI
-- [x] redesign
 - [x] dark mode
 
 ### 0.0.2
