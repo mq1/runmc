@@ -4,6 +4,8 @@
 )]
 
 mod cmd;
+mod config;
+mod util;
 
 fn main() {
   tauri::Builder::default()
@@ -15,7 +17,9 @@ fn main() {
       cmd::run_minecraft,
       cmd::login,
       cmd::accounts,
-      cmd::remove_account
+      cmd::remove_account,
+      config::get_config,
+      config::save_config
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

@@ -1,0 +1,39 @@
+<script setup lang="ts">
+import { invoke } from '@tauri-apps/api/tauri'
+import { ref, onMounted } from 'vue'
+import type { Config } from '~/types'
+
+const config = ref<Config>({ java_path: '', java_memory_mb: 0 })
+const getConfig = () => {
+  invoke('get_config')
+    .then(c => config.value = c as Config)
+    .catch((e: string) => console.error(e))
+}
+const saveConfig = () => {
+  invoke('save_config', { config: config.value })
+    .then(getConfig)
+    .catch((e: string) => console.error(e))
+}
+
+onMounted(getConfig)
+</script>
+
+<template>
+  <div class="flex flex-col gap-y-4">
+    <h1 class="text-3xl my-4">
+      Settings
+    </h1>
+    <label class="flex flex-col">
+      <span>Java Path</span>
+      <input v-model="config.java_path" type="text" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
+    </label>
+    <label class="flex flex-col">
+      <span>Java allocated memory (in MB)</span>
+      <input v-model.number="config.java_memory_mb" type="number" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
+    </label>
+  </div>
+  <button class="fixed right-0 bottom-0 m-8 bg-purple-500 text-white rounded-lg shadow-md px-4 py-2 flex items-center gap-x-2 focus:outline-none" @click="saveConfig">
+    <heroicons-outline-save />
+    Save
+  </button>
+</template>

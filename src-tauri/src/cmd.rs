@@ -1,3 +1,5 @@
+use crate::config::get_config;
+use crate::util::get_base_dir;
 use serde::{Deserialize, Serialize};
 use serde_json::value::Value;
 use std::{
@@ -7,14 +9,6 @@ use std::{
   process,
 };
 use tauri::command;
-
-fn get_base_dir() -> Result<PathBuf, String> {
-  let base_path = tauri::api::path::home_dir()
-    .ok_or("Cannot find base home dir")?
-    .join(".runmc");
-
-  Ok(base_path)
-}
 
 #[derive(Serialize, Deserialize)]
 pub struct Version {
@@ -259,6 +253,7 @@ pub struct Account {
 #[command]
 pub fn run_minecraft(version: String, account: Account) -> Result<(), String> {
   let path = get_base_dir()?.join("versions").join(&version);
+  let config = get_config()?;
 
   // get asset index
   let entries = fs::read_dir(&path.join("assets").join("indexes"))
@@ -273,11 +268,11 @@ pub fn run_minecraft(version: String, account: Account) -> Result<(), String> {
 
   println!("launching version {}", &version);
 
-  process::Command::new("java")
+  process::Command::new(&config.java_path)
     .current_dir(path)
     .arg("-Dminecraft.launcher.brand=runmc")
-    .arg("-Xmx2G")
-    .arg("-Xms2G")
+    .arg(format!("-Xmx{}M", &config.java_memory_mb))
+    .arg(format!("-Xms{}M", &config.java_memory_mb))
     .arg("-cp")
     .arg("libraries/*")
     .arg("net.minecraft.client.main.Main")

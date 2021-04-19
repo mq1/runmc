@@ -12,7 +12,10 @@
           <heroicons-outline-collection /> Versions
         </LinkButton>
       </div>
-      <div>
+      <div class="flex flex-col gap-y-2">
+        <LinkButton to="/settings">
+          <heroicons-outline-cog /> Settings
+        </LinkButton>
         <LinkButton to="/info">
           <heroicons-outline-information-circle /> Info
         </LinkButton>

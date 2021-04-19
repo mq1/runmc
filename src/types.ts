@@ -9,3 +9,8 @@ export type Version = {
   type: string
   url: string
 }
+
+export type Config = {
+  java_path: string
+  java_memory_mb: number
+}
