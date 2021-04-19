@@ -5,19 +5,21 @@
 
 mod cmd;
 mod config;
+mod account;
+mod version;
 mod util;
 
 fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      cmd::list_available_versions,
-      cmd::list_versions,
-      cmd::install_version,
-      cmd::remove_version,
+      version::list_available_versions,
+      version::list_versions,
+      version::install_version,
+      version::remove_version,
       cmd::run_minecraft,
-      cmd::login,
-      cmd::accounts,
-      cmd::remove_account,
+      account::login,
+      account::accounts,
+      account::remove_account,
       config::get_default_config,
       config::get_config,
       config::save_config
