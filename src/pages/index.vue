@@ -77,7 +77,7 @@ onMounted(() => {
       </ListboxOptions>
     </Listbox>
     <button
-      class="text-white bg-purple-500 rounded-full shadow-md p-3 mx-4 flex items-center"
+      class="text-white bg-purple-500 rounded-full shadow-md p-3 mx-4 flex items-center focus:outline-none"
       @click="executeVersion"
     >
       <heroicons-outline-arrow-right />
