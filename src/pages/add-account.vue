@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { invoke } from '@tauri-apps/api/tauri'
 
 const router = useRouter()
 
