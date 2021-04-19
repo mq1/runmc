@@ -38,13 +38,13 @@ onMounted(getConfig)
     </label>
   </div>
   <div class="fixed right-8 bottom-8 flex gap-x-2">
-    <button class="bg-red-500 text-white rounded-lg shadow-md px-4 py-2 flex items-center gap-x-2 focus:outline-none" @click="getDefaultConfig">
+    <CustomButton as="button" color="red" @click="getDefaultConfig">
       <heroicons-outline-refresh />
       Reset to defaults
-    </button>
-    <button class="bg-purple-500 text-white rounded-lg shadow-md px-4 py-2 flex items-center gap-x-2 focus:outline-none" @click="saveConfig">
+    </CustomButton>
+    <CustomButton as="button" color="purple" @click="saveConfig">
       <heroicons-outline-save />
       Save
-    </button>
+    </CustomButton>
   </div>
 </template>

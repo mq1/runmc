@@ -1,24 +1,24 @@
 <template>
   <div class="flex flex justify-between h-screen dark:bg-black dark:text-white">
-    <nav class="flex flex-col py-2 w-36 bg-purple-500 justify-between">
+    <nav class="flex flex-col p-2 w-36 bg-purple-500 justify-between">
       <div class="flex flex-col gap-y-2">
-        <LinkButton to="/">
+        <CustomButton as="router-link" to="/" small>
           <heroicons-outline-home /> Home
-        </LinkButton>
-        <LinkButton to="/accounts">
+        </CustomButton>
+        <CustomButton as="router-link" to="/accounts" small>
           <heroicons-outline-users /> Accounts
-        </LinkButton>
-        <LinkButton to="/versions">
+        </CustomButton>
+        <CustomButton as="router-link" to="/versions" small>
           <heroicons-outline-collection /> Versions
-        </LinkButton>
+        </CustomButton>
       </div>
       <div class="flex flex-col gap-y-2">
-        <LinkButton to="/settings">
+        <CustomButton as="router-link" to="/settings" small>
           <heroicons-outline-cog /> Settings
-        </LinkButton>
-        <LinkButton to="/info">
+        </CustomButton>
+        <CustomButton as="router-link" to="/info" small>
           <heroicons-outline-information-circle /> Info
-        </LinkButton>
+        </CustomButton>
       </div>
     </nav>
     <main class="flex-1 flex flex-col items-center justify-center">

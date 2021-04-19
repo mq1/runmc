@@ -31,8 +31,8 @@ onMounted(updateInstalledVersions)
       {{ version }}
       <RemoveButton @click="removeVersion(version)" />
     </div>
-    <router-link to="/add-version" class="rounded-lg shadow-md p-2 bg-purple-500 text-white flex flex-col items-center">
+    <CustomButton as="router-link" to="/add-version" color="purple" center>
       Add a version
-    </router-link>
+    </CustomButton>
   </div>
 </template>
