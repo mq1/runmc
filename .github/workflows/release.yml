@@ -43,7 +43,6 @@ jobs:
       if: matrix.platform == 'macos-latest'
       with:
         prerelease: true
-        name: Release ${{ github.ref }}
         files: |
           src-tauri/target/release/bundle/osx/runmc_*_x64.app
           src-tauri/target/release/bundle/dmg/runmc_*_x64.dmg
@@ -55,7 +54,6 @@ jobs:
       if: matrix.platform == 'ubuntu-latest'
       with:
         prerelease: true
-        name: Release ${{ github.ref }}
         files: |
           src-tauri/target/release/bundle/deb/runmc_*_amd64.deb
           src-tauri/target/release/bundle/appimage/runmc_*_amd64.AppImage
@@ -67,7 +65,6 @@ jobs:
       if: matrix.platform == 'windows-latest'
       with:
         prerelease: true
-        name: Release ${{ github.ref }}
         files: |
           src-tauri/target/release/bundle/msi/runmc_*_x64.msi
       env:
