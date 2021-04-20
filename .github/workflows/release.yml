@@ -58,7 +58,7 @@ jobs:
         name: Release ${{ github.ref }}
         files: |
           src-tauri/target/release/bundle/deb/runmc_*_amd64.deb
-          src-tauri/target/release/bundle/appimage/runmc.AppImage
+          src-tauri/target/release/bundle/appimage/runmc_*_amd64.AppImage
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
