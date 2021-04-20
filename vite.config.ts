@@ -14,6 +14,7 @@ export default defineConfig({
       '~/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
+
   plugins: [
     Vue(),
     Pages(),
@@ -27,4 +28,19 @@ export default defineConfig({
     }),
     ViteIcons(),
   ],
+
+  ssgOptions: {
+    script: 'async',
+    formatting: 'minify',
+  },
+
+  optimizeDeps: {
+    include: [
+      'vue',
+      'vue-router',
+    ],
+    exclude: [
+      'vue-demi',
+    ],
+  },
 })
