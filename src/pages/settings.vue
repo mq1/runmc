@@ -24,8 +24,8 @@ onMounted(getConfig)
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4">
-    <h1 class="text-3xl my-4">
+  <div class="flex flex-col gap-y-4 min-w-64">
+    <h1 class="text-3xl text-center my-4">
       Settings
     </h1>
     <label class="flex flex-col">

@@ -23,8 +23,8 @@ onMounted(updateAvailableVersions)
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-8">
-    <h1 class="text-3xl text-center">
+  <div class="flex flex-col gap-y-4 min-w-64">
+    <h1 class="text-3xl text-center my-4">
       Available Versions
     </h1>
     <div class="overflow-y-auto h-96 w-96 flex flex-col items-center gap-y-4">

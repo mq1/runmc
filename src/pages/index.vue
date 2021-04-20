@@ -47,7 +47,7 @@ onMounted(() => {
     welcome back,
   </div>
   <Listbox v-model="selectedAccount">
-    <ListboxButton class="my-4 border-1 px-4 py-2 rounded-lg shadow-md flex justify-between text-5xl min-w-72 focus:outline-none cursor-default">
+    <ListboxButton class="my-4 border-1 px-4 py-2 rounded-lg shadow-md flex justify-between text-5xl min-w-80 focus:outline-none cursor-default">
       {{ selectedAccount.name }}
       <heroicons-outline-selector class="text-gray-400" />
     </ListboxButton>
