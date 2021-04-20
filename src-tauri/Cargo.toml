@@ -1,6 +1,6 @@
 [package]
 name = "runmc"
-version = "0.0.3"
+version = "0.0.4"
 description = "A Minecraft launcher"
 authors = ["Manuel Quarneti <manuelquarneti@gmail.com>"]
 license = "MIT"
