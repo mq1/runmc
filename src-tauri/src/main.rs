@@ -15,6 +15,7 @@ fn main() {
       version::list_available_versions,
       version::list_versions,
       version::install_version,
+      version::rename_version,
       version::remove_version,
       cmd::run_minecraft,
       account::login,

@@ -201,6 +201,16 @@ pub async fn install_version(version: Version) -> Result<(), String> {
 }
 
 #[command]
+pub fn rename_version(version: String, name: String) -> Result<(), String> {
+  let path = get_base_dir()?.join("versions").join(&version);
+  let final_path = get_base_dir()?.join("versions").join(&name);
+
+  fs::rename(&path, &final_path).map_err(|e| e.to_string())?;
+
+  Ok(())
+}
+
+#[command]
 pub fn remove_version(version: String) -> Result<(), String> {
   let path = get_base_dir()?.join("versions").join(&version);
   fs::remove_dir_all(&path).map_err(|e| e.to_string())?;

@@ -9,12 +9,6 @@ const updateInstalledVersions = () => {
     .catch((e: string) => console.error(e))
 }
 
-const removeVersion = (version: string) => {
-  invoke('remove_version', { version })
-    .then(updateInstalledVersions)
-    .catch((e: string) => console.error(e))
-}
-
 onMounted(updateInstalledVersions)
 </script>
 
@@ -28,8 +22,7 @@ onMounted(updateInstalledVersions)
       :key="version"
       class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md"
     >
-      {{ version }}
-      <RemoveButton @click="removeVersion(version)" />
+      <Version :version="version" @update="updateInstalledVersions" />
     </div>
     <CustomButton as="router-link" to="/add-version" color="purple" center>
       Add a version
