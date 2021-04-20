@@ -6,23 +6,6 @@ on:
     - '*'
 
 jobs:
-  create-release:
-    runs-on: ubuntu-latest
-    outputs:
-      RELEASE_UPLOAD_ID: ${{ steps.create_release.outputs.id }}
-
-    steps:
-      - name: create release
-        id: create_release
-        uses: actions/create-release@v1.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: true
-
   build-tauri:
     needs: create-release
     strategy:
@@ -33,25 +16,60 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
     - uses: actions/checkout@v2
+
     - name: setup node
       uses: actions/setup-node@v1
       with:
         node-version: 14
+
     - name: install Rust stable
       uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
+
     - name: install tauri bundler
       run: cargo install tauri-bundler --force
+
     - name: install webkit2gtk (ubuntu only)
       if: matrix.platform == 'ubuntu-latest'
       run: |
         sudo apt-get update
         sudo apt-get install -y webkit2gtk-4.0
+
     - name: install app dependencies and build it
       run: npm i && npm run build
-    - uses: tauri-apps/tauri-action@v0
+
+    - name: release (macos)
+      uses: softprops/action-gh-release@v1
+      if: matrix.platform == 'macos-latest'
+      with:
+        prerelease: true
+        name: Release ${{ github.ref }}
+        files: |
+          src-tauri/target/release/bundle/osx/runmc_*_x64.app
+          src-tauri/target/release/bundle/dmg/runmc_*_x64.dmg
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: release (ubuntu)
+      uses: softprops/action-gh-release@v1
+      if: matrix.platform == 'macos-latest'
       with:
-        releaseId: ${{ needs.create-release.outputs.RELEASE_UPLOAD_ID }}
+        prerelease: true
+        name: Release ${{ github.ref }}
+        files: |
+          src-tauri/target/release/bundle/deb/runmc_*_amd64.deb
+          src-tauri/target/release/bundle/appimage/runmc.AppImage
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: release (windows)
+      uses: softprops/action-gh-release@v1
+      if: matrix.platform == 'macos-latest'
+      with:
+        prerelease: true
+        name: Release ${{ github.ref }}
+        files: |
+          src-tauri/target/release/bundle/msi/runmc_*_x64.msi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
