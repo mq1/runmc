@@ -28,19 +28,4 @@ export default defineConfig({
     }),
     ViteIcons(),
   ],
-
-  ssgOptions: {
-    script: 'async',
-    formatting: 'minify',
-  },
-
-  optimizeDeps: {
-    include: [
-      'vue',
-      'vue-router',
-    ],
-    exclude: [
-      'vue-demi',
-    ],
-  },
 })

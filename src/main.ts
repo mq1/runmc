@@ -1,14 +1,20 @@
-import { ViteSSG } from 'vite-ssg'
-import generatedRoutes from 'virtual:generated-pages'
+import { createApp } from 'vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { setupLayouts } from 'layouts-generated'
+import generatedRoutes from 'virtual:generated-pages'
 import App from './App.vue'
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
 
 const routes = setupLayouts(generatedRoutes)
 
-// https://github.com/antfu/vite-ssg
-export const createApp = ViteSSG(
-  App,
-  { routes },
-)
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+})
+
+const app = createApp(App)
+
+app.use(router)
+
+app.mount('#app')

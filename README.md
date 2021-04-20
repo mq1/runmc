@@ -14,6 +14,7 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 
 ### 0.0.4
 - [x] 2nd redesign
+- [x] fix navigation on bundled app
 - [ ] settings pane
 - [ ] info pane
 
