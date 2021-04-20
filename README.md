@@ -4,8 +4,6 @@ A minimal and lightweight Minecraft launcher
 
 ## Installation
 
-**NOTE: installers are broken as of now**
-
 Just grab the installer from releases
 
 Windows users not running Windows 10 April 2021 update may need to install [Webview2](https://go.microsoft.com/fwlink/p/?LinkId=2124703)
@@ -16,7 +14,7 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 - [x] 2nd redesign
 - [x] fix navigation on bundled app
 - [ ] settings pane
-- [ ] info pane
+- [x] info pane
 
 ### 0.0.3
 - [x] use Headless UI
@@ -36,5 +34,15 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 - [x] version installing
 - [x] game launching
 
+## Open source licenses
 
-Minecraft is a trademark of Microsoft Corporation, and I have no relations with said company.
+* Almost all of the licenses for the used libraries can be found in [package.json](https://raw.githubusercontent.com/mq1/runmc/main/package.json) and searching the packages on [npmjs](https://www.npmjs.com/)
+* [HeroIcons](https://heroicons.com/) | [MIT License](https://raw.githubusercontent.com/tailwindlabs/heroicons/master/LICENSE)
+
+---
+
+<center>
+MIT Licensed | © 2021 Manuel Quarneti
+
+Minecraft is a trademark of Microsoft Corporation,<br>and I have no relations with said company.
+</center>

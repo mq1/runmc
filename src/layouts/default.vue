@@ -21,7 +21,7 @@
         </CustomButton>
       </div>
     </nav>
-    <main class="flex-1 flex flex-col items-center justify-center">
+    <main class="flex-1 flex flex-col items-center justify-center max-h-screen overflow-auto">
       <router-view />
     </main>
   </div>
