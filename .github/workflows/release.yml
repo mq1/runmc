@@ -44,7 +44,7 @@ jobs:
       with:
         prerelease: true
         files: |
-          src-tauri/target/release/bundle/osx/runmc_*_x64.app
+          src-tauri/target/release/bundle/macos/runmc.app
           src-tauri/target/release/bundle/dmg/runmc_*_x64.dmg
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
