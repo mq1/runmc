@@ -14,7 +14,7 @@
       </div>
       <div class="flex flex-col gap-y-2">
         <CustomButton as="router-link" to="/settings" small>
-          <heroicons-outline-cog /> Settings
+          <heroicons-outline-adjustments /> Settings
         </CustomButton>
         <CustomButton as="router-link" to="/info" small>
           <heroicons-outline-information-circle /> Info
