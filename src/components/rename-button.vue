@@ -1,5 +1,5 @@
 <template>
-  <button class="bg-blue-500 text-white p-1 rounded-lg shadow-md flex items-center gap-2 focus:outline-none">
+  <CustomButton tiny color="blue">
     <heroicons-outline-pencil-alt />
-  </button>
+  </CustomButton>
 </template>

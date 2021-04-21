@@ -22,18 +22,23 @@ const props = defineProps({
     type: Boolean,
     required: false,
   },
+  tiny: {
+    type: Boolean,
+    required: false,
+  },
 })
 </script>
 
 <template>
   <button
     :class="[
+      'flex items-center gap-x-2 rounded-lg shadow-md no-underline focus:outline-none py-2 px-4 min-w-full',
       props.color ? `bg-${props.color}-500 text-white` : 'bg-white text-black',
       props.center ? 'justify-center' : '',
-      props.small ? 'py-1 px-2' : 'py-2 px-4',
+      props.small ? 'pt-1 pb-1 pl-2 pr-2' : '',
       props.selected ? 'font-bold text-purple-700' : '',
-      props.short ? '' : 'min-w-full',
-      'flex items-center gap-x-2 rounded-lg shadow-md no-underline focus:outline-none'
+      props.short ? 'min-w-min' : '',
+      props.tiny ? 'min-w-min pt-1 pb-1 pl-1 pr-1' : '',
     ]"
   >
     <slot />
