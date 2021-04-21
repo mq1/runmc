@@ -47,7 +47,7 @@ onMounted(() => {
     welcome back,
   </div>
   <Listbox v-model="selectedAccount">
-    <ListboxButton class="my-4 border-1 px-4 py-2 rounded-lg shadow-md flex justify-between text-5xl min-w-80 focus:outline-none cursor-pointer">
+    <ListboxButton class="my-4 border-1 p-2 pl-4 rounded-lg shadow-md flex justify-between text-5xl min-w-80 focus:outline-none cursor-pointer">
       {{ selectedAccount.name }}
       <heroicons-outline-selector class="text-gray-400" />
     </ListboxButton>
@@ -68,7 +68,7 @@ onMounted(() => {
 
   <div class="flex">
     <Listbox v-model="selectedVersion">
-      <ListboxButton class="border-1 rounded-lg shadow-md py-2 px-4 w-40 flex items-center justify-between cursor-pointer focus:outline-none">
+      <ListboxButton class="border-1 rounded-lg shadow-md p-2 pl-4 w-40 flex items-center justify-between cursor-pointer focus:outline-none">
         {{ selectedVersion }}
         <heroicons-outline-selector class="text-gray-400" />
       </ListboxButton>
