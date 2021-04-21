@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useRouter } from 'vue-router'
+import { Switch } from '@headlessui/vue'
 import type { Version } from '~/types'
 
 const router = useRouter()
@@ -43,7 +44,7 @@ onMounted(updateAvailableVersions)
   </div>
   <div class="flex justify-end gap-x-2 w-full">
     <span>Show snapshots</span>
-    <Switch v-model="snapshotsEnabled" :class="snapshotsEnabled ? 'bg-teal-900' : 'bg-teal-700'" class="relative inline-flex items-center h-6 rounded-full w-11 cursor-pointer">
+    <Switch v-model="snapshotsEnabled" :class="snapshotsEnabled ? 'bg-teal-900' : 'bg-teal-700'" class="relative inline-flex items-center h-6 rounded-full w-11 cursor-pointer focus:outline-none">
       <span class="sr-only">Enable snapshots</span>
       <span
         :class="snapshotsEnabled ? 'translate-x-6' : 'translate-x-1'"
