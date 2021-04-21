@@ -47,11 +47,11 @@ onMounted(() => {
     welcome back,
   </div>
   <Listbox v-model="selectedAccount">
-    <ListboxButton class="my-4 border-1 px-4 py-2 rounded-lg shadow-md flex justify-between text-5xl min-w-80 focus:outline-none cursor-default">
+    <ListboxButton class="my-4 border-1 px-4 py-2 rounded-lg shadow-md flex justify-between text-5xl min-w-80 focus:outline-none cursor-pointer">
       {{ selectedAccount.name }}
       <heroicons-outline-selector class="text-gray-400" />
     </ListboxButton>
-    <ListboxOptions class="absolute mt-36 bg-white dark:bg-black border-1 rounded-lg border-1 shadow-md w-max min-w-72 list-none flex flex-col divide-y focus:outline-none">
+    <ListboxOptions class="absolute mt-36 bg-white dark:bg-black border-1 rounded-lg border-1 shadow-md w-max min-w-72 list-none flex flex-col divide-y focus:outline-none cursor-pointer">
       <ListboxOption
         v-for="account in availableAccounts"
         v-slot="{ selected }"
@@ -68,11 +68,11 @@ onMounted(() => {
 
   <div class="flex">
     <Listbox v-model="selectedVersion">
-      <ListboxButton class="border-1 rounded-lg shadow-md py-2 px-4 w-40 flex items-center justify-between cursor-default focus:outline-none">
+      <ListboxButton class="border-1 rounded-lg shadow-md py-2 px-4 w-40 flex items-center justify-between cursor-pointer focus:outline-none">
         {{ selectedVersion }}
         <heroicons-outline-selector class="text-gray-400" />
       </ListboxButton>
-      <ListboxOptions class="absolute bg-white dark:bg-black mt-12 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none">
+      <ListboxOptions class="absolute bg-white dark:bg-black mt-12 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none cursor-pointer">
         <ListboxOption
           v-for="version in versions"
           v-slot="{ selected }"
