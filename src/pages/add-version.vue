@@ -6,6 +6,8 @@ import type { Version } from '~/types'
 
 const router = useRouter()
 
+const snapshotsEnabled = ref(false)
+
 const availableVersions = ref<Version[]>([])
 const updateAvailableVersions = () => {
   invoke('list_available_versions')
@@ -40,5 +42,14 @@ onMounted(updateAvailableVersions)
         <InstallButton @click="installVersion(version)" />
       </div>
     </div>
+  </div>
+  <div class="fixed right-8 bottom-8 flex gap-x-2">
+    <Switch v-model="snapshotsEnabled" :class="snapshotsEnabled ? 'bg-teal-900' : 'bg-teal-700'" class="relative inline-flex items-center h-6 rounded-full w-11 cursor-pointer">
+      <span class="sr-only">Enable snapshots</span>
+      <span
+        :class="snapshotsEnabled ? 'translate-x-6' : 'translate-x-1'"
+        class="inline-block w-4 h-4 transform bg-white rounded-full"
+      />
+    </Switch>
   </div>
 </template>

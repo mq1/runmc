@@ -38,11 +38,11 @@ onMounted(getConfig)
     </label>
   </div>
   <div class="fixed right-8 bottom-8 flex gap-x-2">
-    <CustomButton as="button" color="red" @click="getDefaultConfig">
+    <CustomButton color="red" short @click="getDefaultConfig">
       <heroicons-outline-refresh />
       Reset to defaults
     </CustomButton>
-    <CustomButton as="button" color="purple" @click="saveConfig">
+    <CustomButton color="purple" short @click="saveConfig">
       <heroicons-outline-save />
       Save
     </CustomButton>

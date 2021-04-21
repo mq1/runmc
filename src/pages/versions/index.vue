@@ -24,8 +24,10 @@ onMounted(updateInstalledVersions)
     >
       <Version :version="version" @update="updateInstalledVersions" />
     </div>
-    <CustomButton as="router-link" to="/add-version" color="purple" center>
-      Add a version
-    </CustomButton>
+    <router-link to="/add-version">
+      <CustomButton color="purple" center>
+        Add a version
+      </CustomButton>
+    </router-link>
   </div>
 </template>

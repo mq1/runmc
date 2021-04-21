@@ -32,8 +32,10 @@ onMounted(updateAvailableAccounts)
       {{ account.name }}
       <RemoveButton @click="removeAccount(account)" />
     </div>
-    <CustomButton as="router-link" to="/add-account" color="purple" center>
-      Add an account
-    </CustomButton>
+    <router-link to="/add-account">
+      <CustomButton color="purple" center>
+        Add an account
+      </CustomButton>
+    </router-link>
   </div>
 </template>

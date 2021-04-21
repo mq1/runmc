@@ -1,24 +1,34 @@
 <template>
   <div class="flex flex justify-between h-screen dark:bg-black dark:text-white">
-    <nav class="flex flex-col p-2 w-36 bg-purple-500 justify-between">
+    <nav class="flex flex-col p-2 w-48 bg-purple-500 justify-between">
       <div class="flex flex-col gap-y-2">
-        <CustomButton as="router-link" to="/" small>
-          <heroicons-outline-home /> Home
-        </CustomButton>
-        <CustomButton as="router-link" to="/accounts" small>
-          <heroicons-outline-users /> Accounts
-        </CustomButton>
-        <CustomButton as="router-link" to="/versions" small>
-          <heroicons-outline-collection /> Versions
-        </CustomButton>
+        <router-link v-slot="{ isExactActive }" to="/">
+          <CustomButton small :selected="isExactActive">
+            <heroicons-outline-home /> Home
+          </CustomButton>
+        </router-link>
+        <router-link v-slot="{ isExactActive }" to="/accounts">
+          <CustomButton small :selected="isExactActive">
+            <heroicons-outline-users /> Accounts
+          </CustomButton>
+        </router-link>
+        <router-link v-slot="{ isExactActive }" to="/versions">
+          <CustomButton small :selected="isExactActive">
+            <heroicons-outline-collection /> Versions
+          </CustomButton>
+        </router-link>
       </div>
       <div class="flex flex-col gap-y-2">
-        <CustomButton as="router-link" to="/settings" small>
-          <heroicons-outline-adjustments /> Settings
-        </CustomButton>
-        <CustomButton as="router-link" to="/info" small>
-          <heroicons-outline-information-circle /> Info
-        </CustomButton>
+        <router-link v-slot="{ isExactActive }" to="/settings">
+          <CustomButton small :selected="isExactActive">
+            <heroicons-outline-adjustments /> Settings
+          </CustomButton>
+        </router-link>
+        <router-link v-slot="{ isExactActive }" to="/info">
+          <CustomButton small :selected="isExactActive">
+            <heroicons-outline-information-circle /> Info
+          </CustomButton>
+        </router-link>
       </div>
     </nav>
     <main class="flex-1 flex flex-col items-center justify-center max-h-screen overflow-auto">

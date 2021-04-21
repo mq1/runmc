@@ -2,10 +2,6 @@
 import { defineProps } from 'vue'
 
 const props = defineProps({
-  as: {
-    type: String,
-    required: true,
-  },
   color: {
     type: String,
     required: false,
@@ -18,19 +14,28 @@ const props = defineProps({
     type: Boolean,
     required: false,
   },
+  selected: {
+    type: Boolean,
+    required: false,
+  },
+  short: {
+    type: Boolean,
+    required: false,
+  },
 })
 </script>
 
 <template>
-  <component
-    :is="props.as"
+  <button
     :class="[
       props.color ? `bg-${props.color}-500 text-white` : 'bg-white text-black',
       props.center ? 'justify-center' : '',
       props.small ? 'py-1 px-2' : 'py-2 px-4',
-      'flex items-center gap-x-2 rounded-lg shadow-md no-underline focus:outline-none'
+      props.selected ? 'font-bold text-purple-700' : '',
+      props.short ? '' : 'min-w-full',
+      'flex items-center gap-x-2 rounded-lg shadow-md no-underline focus:outline-none uppercase'
     ]"
   >
     <slot />
-  </component>
+  </button>
 </template>
