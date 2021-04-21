@@ -72,7 +72,7 @@ onMounted(() => {
         {{ selectedVersion }}
         <heroicons-outline-selector class="text-gray-400" />
       </ListboxButton>
-      <ListboxOptions class="absolute bg-white dark:bg-black mt-12 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none cursor-pointer">
+      <ListboxOptions class="absolute bg-white dark:bg-black mt-14 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none cursor-pointer">
         <ListboxOption
           v-for="version in versions"
           v-slot="{ selected }"
