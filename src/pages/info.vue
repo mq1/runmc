@@ -3,5 +3,5 @@ import Readme from '../../README.md'
 </script>
 
 <template>
-  <Readme class="prose" />
+  <Readme class="prose dark:prose-light" />
 </template>
