@@ -56,7 +56,7 @@ const props = defineProps({
       props.blue? 'bg-blue-500 text-white dark:bg-blue-500' : '',
       props.center ? 'justify-center' : '',
       props.small ? 'pt-1 pb-1 pl-2 pr-2' : '',
-      props.selected ? 'font-bold text-purple-500' : '',
+      props.selected ? 'font-bold text-purple-500 dark:text-purple-500' : '',
       props.short ? 'min-w-min' : '',
       props.tiny ? 'min-w-min pt-1 pb-1 pl-1 pr-1' : '',
     ]"
