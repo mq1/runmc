@@ -1,5 +1,5 @@
 <template>
-  <CustomButton tiny color="blue">
+  <CustomButton tiny blue>
     <heroicons-outline-pencil-alt />
   </CustomButton>
 </template>

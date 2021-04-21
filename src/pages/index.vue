@@ -87,7 +87,7 @@ onMounted(() => {
           </ListboxOption>
         </ListboxOptions>
       </Listbox>
-      <CustomButton color="purple" short class="rounded-full px-4 py-3 ml-4" @click="executeVersion">
+      <CustomButton primary short class="rounded-full px-4 py-3 ml-4" @click="executeVersion">
         🡢
       </CustomButton>
     </div>

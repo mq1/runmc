@@ -32,7 +32,7 @@ const addAccount = () => {
         <span>Password</span>
         <input v-model="password" type="password" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
       </label>
-      <CustomButton color="purple" center @click="addAccount">
+      <CustomButton center primary @click="addAccount">
         Add
       </CustomButton>
     </div>

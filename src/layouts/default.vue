@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex justify-between h-screen dark:bg-black dark:text-white">
-    <nav class="flex flex-col p-2 w-40 bg-purple-500 justify-between">
+    <nav class="flex flex-col p-2 w-40 bg-purple-500 dark:bg-purple-700 justify-between">
       <div class="flex flex-col gap-y-2">
         <router-link v-slot="{ isExactActive }" to="/">
           <CustomButton small :selected="isExactActive">

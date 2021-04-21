@@ -33,7 +33,7 @@ onMounted(updateAvailableAccounts)
       <RemoveButton @click="removeAccount(account)" />
     </div>
     <router-link to="/add-account">
-      <CustomButton color="purple" center>
+      <CustomButton center primary>
         Add an account
       </CustomButton>
     </router-link>
