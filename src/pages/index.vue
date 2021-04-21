@@ -86,11 +86,8 @@ onMounted(() => {
         </ListboxOption>
       </ListboxOptions>
     </Listbox>
-    <button
-      class="text-white bg-purple-500 rounded-full shadow-md p-3 mx-4 flex items-center focus:outline-none"
-      @click="executeVersion"
-    >
-      <heroicons-outline-arrow-right />
-    </button>
+    <CustomButton color="purple" short class="rounded-full px-2 py-3 ml-4" @click="executeVersion">
+      🡢
+    </CustomButton>
   </div>
 </template>
