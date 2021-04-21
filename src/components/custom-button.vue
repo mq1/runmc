@@ -33,7 +33,7 @@ const props = defineProps({
       props.small ? 'py-1 px-2' : 'py-2 px-4',
       props.selected ? 'font-bold text-purple-700' : '',
       props.short ? '' : 'min-w-full',
-      'flex items-center gap-x-2 rounded-lg shadow-md no-underline focus:outline-none uppercase'
+      'flex items-center gap-x-2 rounded-lg shadow-md no-underline focus:outline-none'
     ]"
   >
     <slot />
