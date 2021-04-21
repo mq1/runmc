@@ -25,25 +25,24 @@ onMounted(updateAvailableVersions)
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4 min-w-64">
-    <h1 class="text-3xl text-center my-4">
-      Available Versions
-    </h1>
-    <div class="overflow-y-auto h-96 w-96 flex flex-col items-center gap-y-4">
-      <div
-        v-for="version in availableVersions"
-        :key="version.id"
-        class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md w-72 gap-x-4"
-      >
-        <heroicons-outline-fire v-if="version.type === 'snapshot'" class="text-red-700" />
-        <heroicons-outline-badge-check v-if="version.type === 'release'" class="text-green-700" />
-        {{ version.type }}
-        <span class="font-semibold">{{ version.id }}</span>
-        <InstallButton @click="installVersion(version)" />
-      </div>
+  <h1 class="text-3xl text-center">
+    Available Versions
+  </h1>
+  <div class="overflow-y-auto h-96 w-96 flex flex-col items-center gap-y-4">
+    <div
+      v-for="version in availableVersions.filter(v => v.type === 'release' || (v.type === 'snapshot' && snapshotsEnabled))"
+      :key="version.id"
+      class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md w-72 gap-x-4"
+    >
+      <heroicons-outline-fire v-if="version.type === 'snapshot'" class="text-red-700" />
+      <heroicons-outline-badge-check v-if="version.type === 'release'" class="text-green-700" />
+      {{ version.type }}
+      <span class="font-semibold">{{ version.id }}</span>
+      <InstallButton @click="installVersion(version)" />
     </div>
   </div>
-  <div class="fixed right-8 bottom-8 flex gap-x-2">
+  <div class="flex justify-end gap-x-2 w-full">
+    <span>Show snapshots</span>
     <Switch v-model="snapshotsEnabled" :class="snapshotsEnabled ? 'bg-teal-900' : 'bg-teal-700'" class="relative inline-flex items-center h-6 rounded-full w-11 cursor-pointer">
       <span class="sr-only">Enable snapshots</span>
       <span

@@ -31,7 +31,7 @@
         </router-link>
       </div>
     </nav>
-    <main class="flex-1 flex flex-col items-center justify-center max-h-screen overflow-auto">
+    <main class="flex-1 flex flex-col items-center justify-between m-8 max-h-screen overflow-auto">
       <router-view />
     </main>
   </div>

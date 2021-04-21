@@ -19,7 +19,7 @@ const addAccount = () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4 min-w-64">
+  <div class="flex flex-col gap-y-4 my-auto min-w-64">
     <h1 class="text-3xl text-center my-4">
       Add an account
     </h1>

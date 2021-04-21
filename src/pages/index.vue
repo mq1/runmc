@@ -43,51 +43,53 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="text-3xl text-gray-500">
-    welcome back,
-  </div>
-  <Listbox v-model="selectedAccount">
-    <ListboxButton class="my-4 border-1 p-2 pl-4 rounded-lg shadow-md flex justify-between text-5xl min-w-80 focus:outline-none cursor-pointer">
-      {{ selectedAccount.name }}
-      <heroicons-outline-selector class="text-gray-400" />
-    </ListboxButton>
-    <ListboxOptions class="absolute mt-36 bg-white dark:bg-black border-1 rounded-lg border-1 shadow-md w-max min-w-72 list-none flex flex-col divide-y focus:outline-none cursor-pointer">
-      <ListboxOption
-        v-for="account in availableAccounts"
-        v-slot="{ selected }"
-        :key="account.id"
-        :value="account"
-        as="div"
-        class="p-2"
-      >
-        <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><heroicons-outline-check /></span>
-        {{ account.name }}
-      </ListboxOption>
-    </ListboxOptions>
-  </Listbox>
-
-  <div class="flex">
-    <Listbox v-model="selectedVersion">
-      <ListboxButton class="border-1 rounded-lg shadow-md p-2 pl-4 w-40 flex items-center justify-between cursor-pointer focus:outline-none">
-        {{ selectedVersion }}
+  <div class="flex flex-col items-center my-auto">
+    <div class="text-3xl text-gray-500">
+      welcome back,
+    </div>
+    <Listbox v-model="selectedAccount">
+      <ListboxButton class="my-4 border-1 p-2 pl-4 rounded-lg shadow-md flex justify-between text-5xl min-w-80 focus:outline-none cursor-pointer">
+        {{ selectedAccount.name }}
         <heroicons-outline-selector class="text-gray-400" />
       </ListboxButton>
-      <ListboxOptions class="absolute bg-white dark:bg-black mt-14 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none cursor-pointer">
+      <ListboxOptions class="absolute mt-36 bg-white dark:bg-black border-1 rounded-lg border-1 shadow-md w-max min-w-72 list-none flex flex-col divide-y focus:outline-none cursor-pointer">
         <ListboxOption
-          v-for="version in versions"
+          v-for="account in availableAccounts"
           v-slot="{ selected }"
-          :key="version"
-          :value="version"
+          :key="account.id"
+          :value="account"
           as="div"
           class="p-2"
         >
           <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><heroicons-outline-check /></span>
-          {{ version }}
+          {{ account.name }}
         </ListboxOption>
       </ListboxOptions>
     </Listbox>
-    <CustomButton color="purple" short class="rounded-full px-2 py-3 ml-4" @click="executeVersion">
-      🡢
-    </CustomButton>
+
+    <div class="flex">
+      <Listbox v-model="selectedVersion">
+        <ListboxButton class="border-1 rounded-lg shadow-md p-2 pl-4 w-40 flex items-center justify-between cursor-pointer focus:outline-none">
+          {{ selectedVersion }}
+          <heroicons-outline-selector class="text-gray-400" />
+        </ListboxButton>
+        <ListboxOptions class="absolute bg-white dark:bg-black mt-14 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none cursor-pointer">
+          <ListboxOption
+            v-for="version in versions"
+            v-slot="{ selected }"
+            :key="version"
+            :value="version"
+            as="div"
+            class="p-2"
+          >
+            <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><heroicons-outline-check /></span>
+            {{ version }}
+          </ListboxOption>
+        </ListboxOptions>
+      </Listbox>
+      <CustomButton color="purple" short class="rounded-full px-2 py-3 ml-4" @click="executeVersion">
+        🡢
+      </CustomButton>
+    </div>
   </div>
 </template>

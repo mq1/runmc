@@ -24,10 +24,10 @@ onMounted(getConfig)
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4 min-w-64">
-    <h1 class="text-3xl text-center my-4">
-      Settings
-    </h1>
+  <h1 class="text-3xl text-center my-4">
+    Settings
+  </h1>
+  <div class="flex flex-col gap-y-4">
     <label class="flex flex-col">
       <span>Java Path</span>
       <input v-model="config.java_path" type="text" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
@@ -37,7 +37,7 @@ onMounted(getConfig)
       <input v-model.number="config.java_memory_mb" type="number" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
     </label>
   </div>
-  <div class="fixed right-8 bottom-8 flex gap-x-2">
+  <div class="w-full flex justify-end gap-x-2">
     <CustomButton color="red" short @click="getDefaultConfig">
       <heroicons-outline-refresh />
       Reset to defaults
