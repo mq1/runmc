@@ -98,8 +98,17 @@ pub async fn download_fabric(
   // download loader jar
   let split = j.loader.maven.split(":");
   let vec = split.collect::<Vec<&str>>();
-  let url = format!("https://maven.fabricmc.net/{}/{}/{}/{}-{}.jar", vec[0].replace(".", "/"), vec[1], vec[2], vec[1], vec[2]);
-  let path = dir.join("fabric-libraries").join(format!("{}-{}.jar", vec[1], vec[2]));
+  let url = format!(
+    "https://maven.fabricmc.net/{}/{}/{}/{}-{}.jar",
+    vec[0].replace(".", "/"),
+    vec[1],
+    vec[2],
+    vec[1],
+    vec[2]
+  );
+  let path = dir
+    .join("fabric-libraries")
+    .join(format!("{}-{}.jar", vec[1], vec[2]));
   download_file(url, path).await?;
 
   Ok(j.launcher_meta.main_class.client)
