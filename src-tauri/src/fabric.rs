@@ -1,7 +1,7 @@
+use crate::util::download_file;
 use serde::{Deserialize, Serialize};
-use crate::util::{download_file, get_base_dir};
+use std::{fs, path::Path};
 use tauri::command;
-use std::{collections::HashMap, fs, path::Path};
 
 #[derive(Deserialize, Serialize, Clone)]
 pub struct Loader {
@@ -16,9 +16,12 @@ pub async fn get_fabric_loader_versions(game_version: String) -> Result<Vec<Load
     loader: Loader,
   }
 
-  let res = reqwest::get(format!("https://meta.fabricmc.net/v2/versions/loader/{}/", &game_version))
-    .await
-    .map_err(|e| e.to_string())?;
+  let res = reqwest::get(format!(
+    "https://meta.fabricmc.net/v2/versions/loader/{}/",
+    &game_version
+  ))
+  .await
+  .map_err(|e| e.to_string())?;
   let j: Vec<LoaderVersion> = res.json().await.map_err(|e| e.to_string())?;
 
   let loaders = j.iter().map(|lv| lv.loader.clone()).collect();
@@ -59,22 +62,39 @@ pub async fn install_fabric(game_version: String, loader_version: String) -> Res
     launcher_meta: LauncherMeta,
   }
 
-  let res = reqwest::get(format!("https://meta.fabricmc.net/v2/versions/loader/{}/{}/", &game_version, &loader_version))
-    .await
-    .map_err(|e| e.to_string())?;
+  let res = reqwest::get(format!(
+    "https://meta.fabricmc.net/v2/versions/loader/{}/{}/",
+    &game_version, &loader_version
+  ))
+  .await
+  .map_err(|e| e.to_string())?;
   let j: Json = res.json().await.map_err(|e| e.to_string())?;
 
   for item in j.launcher_meta.libraries.common {
     let split = item.name.split(":");
     let vec = split.collect::<Vec<&str>>();
 
-    let url = format!("{}{}/{}/{}/{}-{}.jar", item.url, vec[0].replace(".", "/"), vec[1], vec[2], vec[1], vec[2]);
-    let path = path.join("fabric-libraries").join(format!("{}-{}.jar", vec[1], vec[2]));
+    let url = format!(
+      "{}{}/{}/{}/{}-{}.jar",
+      item.url,
+      vec[0].replace(".", "/"),
+      vec[1],
+      vec[2],
+      vec[1],
+      vec[2]
+    );
+    let path = path
+      .join("fabric-libraries")
+      .join(format!("{}-{}.jar", vec[1], vec[2]));
     download_file(url, path).await?;
   }
 
   // save main class name
-  fs::write(path.join("info.json"), format!("{{ mainClass: \"{}\" }}", j.launcher_meta.main_class.client)).map_err(|e| e.to_string())?;
+  fs::write(
+    path.join("info.json"),
+    format!("{{ mainClass: \"{}\" }}", j.launcher_meta.main_class.client),
+  )
+  .map_err(|e| e.to_string())?;
 
   Ok(())
 }
