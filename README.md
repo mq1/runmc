@@ -13,6 +13,7 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 ### 0.0.5
 
 - [x] version renaming
+- [ ] fabric loader support
 
 ### 0.0.4
 
