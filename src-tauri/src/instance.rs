@@ -58,6 +58,9 @@ pub async fn init_instance(instance_name: String, game_version: GameVersion) -> 
   let content = serde_json::to_string(&instance_info).map_err(|e| e.to_string())?;
   fs::write(dir.join("info.json"), &content).map_err(|e| e.to_string())?;
 
+  // game-data the .minecraft directory (kinda)
+  fs::create_dir(dir.join("game-data")).map_err(|e| e.to_string())?;
+
   println!("instance created");
   Ok(())
 }
