@@ -1,7 +1,7 @@
-use crate::util::{download_file, get_base_dir};
+use crate::util::download_file;
 use serde::{Deserialize, Serialize};
 use serde_json::value::Value;
-use std::{collections::HashMap, fs, path::Path};
+use std::{fs, path::Path};
 use tauri::command;
 
 #[derive(Serialize, Deserialize)]
@@ -197,7 +197,11 @@ pub async fn install_version(version: Version) -> Result<(), String> {
 
   // save main class name
   let path = get_base_dir()?.join("versions").join(&version_id);
-  fs::write(path.join("info.json"), format!("{{ \"mainClass\": \"{}\" }}", j.main_class)).map_err(|e| e.to_string())?;
+  fs::write(
+    path.join("info.json"),
+    format!("{{ \"mainClass\": \"{}\" }}", j.main_class),
+  )
+  .map_err(|e| e.to_string())?;
 
   println!();
   println!("version {} installed", &version_id);

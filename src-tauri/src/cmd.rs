@@ -1,9 +1,9 @@
 use crate::account::Account;
 use crate::config::get_config;
 use crate::util::get_base_dir;
+use serde::Deserialize;
 use std::{fs, io, path::Path, process};
 use tauri::command;
-use serde::Deserialize;
 
 #[command]
 pub fn run_minecraft(version: String, account: Account) -> Result<(), String> {
