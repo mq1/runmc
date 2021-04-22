@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { invoke } from '@tauri-apps/api/tauri'
 
 const props = defineProps({
-  version: {
+  id: {
     type: String,
     required: true,
   },
@@ -15,25 +15,30 @@ const emit = defineEmit(['update'])
 const router = useRouter()
 
 const renaming = ref(false)
-const name = ref(props.version)
+const name = ref(props.id)
 
 const startRenaming = () => {
   renaming.value = true
 }
 
-const renameVersion = () => {
-  if (props.version === name.value) {
+const rename = () => {
+  if (props.id === name.value) {
     renaming.value = false
     return
   }
 
-  invoke('rename_version', { version: props.version, name: name.value })
+  invoke('rename_instance', {
+    currentName: props.id,
+    newName: name.value,
+  })
     .then(() => emit('update'))
     .catch((e: string) => console.error(e))
 }
 
-const removeVersion = () => {
-  invoke('remove_version', { version: props.version })
+const remove = () => {
+  invoke('remove_instance', {
+    version: props.id,
+  })
     .then(() => emit('update'))
     .catch((e: string) => console.error(e))
 }
@@ -41,13 +46,18 @@ const removeVersion = () => {
 
 <template>
   <div v-if="!renaming">
-    {{ props.version }}
+    {{ props.id }}
   </div>
-  <input v-if="renaming" v-model="name" type="text" class="border-gray-300 rounded-lg mr-2 dark:bg-black">
+  <input
+    v-if="renaming"
+    v-model="name"
+    type="text"
+    class="border-gray-300 rounded-lg mr-2 dark:bg-black"
+  />
   <div class="flex gap-x-2">
     <RenameButton v-if="!renaming" @click="startRenaming" />
-    <ApplyButton v-if="renaming" @click="renameVersion" />
-    <SettingsButton @click="router.push(`/versions/${props.version}`)" />
-    <RemoveButton @click="removeVersion" />
+    <ApplyButton v-if="renaming" @click="rename" />
+    <SettingsButton @click="router.push(`/instances/${props.id}`)" />
+    <RemoveButton @click="remove" />
   </div>
 </template>

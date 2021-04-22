@@ -1,24 +1,28 @@
+use crate::instance::instance_info;
 use crate::util::download_file;
 use serde::{Deserialize, Serialize};
-use std::{fs, path::Path};
+use std::path::PathBuf;
 use tauri::command;
 
 #[derive(Deserialize, Serialize, Clone)]
 pub struct Loader {
   version: String,
   stable: bool,
+  maven: String,
 }
 
 #[command]
-pub async fn get_fabric_loader_versions(game_version: String) -> Result<Vec<Loader>, String> {
+pub async fn get_fabric_loader_versions(instance_name: String) -> Result<Vec<Loader>, String> {
   #[derive(Deserialize)]
   struct LoaderVersion {
     loader: Loader,
   }
 
+  let info = instance_info(instance_name)?;
+
   let res = reqwest::get(format!(
     "https://meta.fabricmc.net/v2/versions/loader/{}/",
-    &game_version
+    &info.game_version
   ))
   .await
   .map_err(|e| e.to_string())?;
@@ -29,10 +33,11 @@ pub async fn get_fabric_loader_versions(game_version: String) -> Result<Vec<Load
   Ok(loaders)
 }
 
-#[command]
-pub async fn install_fabric(game_version: String, loader_version: String) -> Result<(), String> {
-  let path = Path::new("versions").join(&game_version);
-
+pub async fn download_fabric(
+  dir: &PathBuf,
+  game_version: &String,
+  loader_version: &String,
+) -> Result<String, String> {
   #[derive(Deserialize)]
   struct CommonUnit {
     name: String,
@@ -59,6 +64,7 @@ pub async fn install_fabric(game_version: String, loader_version: String) -> Res
   #[derive(Deserialize)]
   #[serde(rename_all = "camelCase")]
   struct Json {
+    loader: Loader,
     launcher_meta: LauncherMeta,
   }
 
@@ -83,18 +89,18 @@ pub async fn install_fabric(game_version: String, loader_version: String) -> Res
       vec[1],
       vec[2]
     );
-    let path = path
-      .join("fabric-libraries")
+    let path = dir
+      .join("libraries") // TODO separate fabric-libraries from libraries
       .join(format!("{}-{}.jar", vec[1], vec[2]));
     download_file(url, path).await?;
   }
 
-  // save main class name
-  fs::write(
-    path.join("info.json"),
-    format!("{{ mainClass: \"{}\" }}", j.launcher_meta.main_class.client),
-  )
-  .map_err(|e| e.to_string())?;
+  // download loader jar
+  let split = j.loader.maven.split(":");
+  let vec = split.collect::<Vec<&str>>();
+  let url = format!("https://maven.fabricmc.net/{}/{}/{}/{}-{}.jar", vec[0].replace(".", "/"), vec[1], vec[2], vec[1], vec[2]);
+  let path = dir.join("libraries").join(format!("{}-{}.jar", vec[1], vec[2]));
+  download_file(url, path).await?;
 
-  Ok(())
+  Ok(j.launcher_meta.main_class.client)
 }

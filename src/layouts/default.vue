@@ -12,9 +12,9 @@
             <heroicons-outline-users /> Accounts
           </CustomButton>
         </router-link>
-        <router-link v-slot="{ isExactActive }" to="/versions">
+        <router-link v-slot="{ isExactActive }" to="/instances">
           <CustomButton small :selected="isExactActive">
-            <heroicons-outline-collection /> Versions
+            <heroicons-outline-collection /> Instances
           </CustomButton>
         </router-link>
       </div>
@@ -31,7 +31,7 @@
         </router-link>
       </div>
     </nav>
-    <main class="flex-1 flex flex-col items-center justify-between m-8 max-h-screen overflow-auto">
+    <main class="flex-1 flex flex-col items-center justify-between gap-y-8 m-8 max-h-screen overflow-auto">
       <router-view />
     </main>
   </div>

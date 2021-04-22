@@ -1,21 +1,25 @@
-use crate::util::{download_file, get_base_dir};
+use crate::util::download_file;
 use serde::{Deserialize, Serialize};
 use serde_json::value::Value;
-use std::{collections::HashMap, fs, path::Path};
+use std::{
+  collections::HashMap,
+  fs,
+  path::{Path, PathBuf},
+};
 use tauri::command;
 
 #[derive(Serialize, Deserialize)]
-pub struct Version {
-  id: String,
+pub struct GameVersion {
+  pub id: String,
   r#type: String,
   url: String,
 }
 
 #[command]
-pub async fn list_available_versions() -> Result<Vec<Version>, String> {
+pub async fn list_available_game_versions() -> Result<Vec<GameVersion>, String> {
   #[derive(Deserialize)]
   struct Json {
-    versions: Vec<Version>,
+    versions: Vec<GameVersion>,
   }
 
   let res = reqwest::get("https://launchermeta.mojang.com/mc/game/version_manifest.json")
@@ -24,26 +28,6 @@ pub async fn list_available_versions() -> Result<Vec<Version>, String> {
   let j: Json = res.json().await.map_err(|e| e.to_string())?;
 
   Ok(j.versions)
-}
-
-#[command]
-pub fn list_versions() -> Result<Vec<String>, String> {
-  let path = get_base_dir()?.join("versions");
-
-  // TODO this can be done with a collect
-  // https://doc.rust-lang.org/std/fs/fn.read_dir.html
-  let mut versions: Vec<String> = Vec::new();
-  for entry in fs::read_dir(path).map_err(|e| e.to_string())? {
-    versions.push(String::from(
-      entry
-        .map_err(|e| e.to_string())?
-        .file_name()
-        .to_str()
-        .ok_or("Error getting file name")?,
-    ))
-  }
-
-  Ok(versions)
 }
 
 #[derive(Deserialize)]
@@ -65,9 +49,7 @@ struct Library {
   rules: Option<Vec<Value>>,
 }
 
-async fn download_libraries(version: String, libraries: Vec<Library>) -> Result<(), String> {
-  let path = Path::new("versions").join(version).join("libraries");
-
+async fn download_libraries(dir: PathBuf, libraries: Vec<Library>) -> Result<(), String> {
   // find platform (os)
   let platform = std::env::consts::OS;
   let platform = platform.replace("macos", "osx");
@@ -90,7 +72,7 @@ async fn download_libraries(version: String, libraries: Vec<Library>) -> Result<
       "failed to get {} file name",
       library.downloads.artifact.path
     ))?;
-    download_file(library.downloads.artifact.url, path.join(file_name)).await?;
+    download_file(library.downloads.artifact.url, dir.join(file_name)).await?;
 
     if library.natives.is_some() {
       let natives = library.natives.unwrap();
@@ -102,7 +84,7 @@ async fn download_libraries(version: String, libraries: Vec<Library>) -> Result<
           library.downloads.artifact.path
         ))?;
 
-        download_file(String::from(&artifact.url), path.join(file_name)).await?;
+        download_file(String::from(&artifact.url), dir.join(file_name)).await?;
       }
     }
   }
@@ -116,17 +98,23 @@ struct AssetIndex {
   url: String,
 }
 
-async fn download_assets(version: String, asset_index: AssetIndex) -> Result<(), String> {
-  let path = Path::new("versions")
-    .join(&version)
-    .join("assets")
-    .join("objects");
+#[derive(Deserialize)]
+struct Object {
+  hash: String,
+}
 
-  #[derive(Deserialize)]
-  struct Object {
-    hash: String,
+async fn download_objects(dir: PathBuf, objects: Vec<&Object>) -> Result<(), String> {
+  for object in objects {
+    let path = format!("{}/{}", &object.hash[..2], &object.hash);
+    let url = format!("https://resources.download.minecraft.net/{}", &path);
+
+    download_file(url, dir.join(path)).await?;
   }
 
+  Ok(())
+}
+
+async fn download_assets(dir: PathBuf, asset_index: AssetIndex) -> Result<(), String> {
   #[derive(Deserialize)]
   struct Json {
     objects: HashMap<String, Object>,
@@ -135,37 +123,33 @@ async fn download_assets(version: String, asset_index: AssetIndex) -> Result<(),
   let res = reqwest::get(&asset_index.url)
     .await
     .map_err(|e| e.to_string())?;
-  let j: Json = res.json().await.map_err(|e| e.to_string())?;
+  let text = res.text().await.map_err(|e| e.to_string())?;
+  let j: Json = serde_json::from_str(&text).map_err(|e| e.to_string())?;
 
-  for object in j.objects.values() {
-    let dir = &object.hash[..2];
-    let url = format!(
-      "https://resources.download.minecraft.net/{}/{}",
-      dir, &object.hash
-    );
-    let path = path.join(dir).join(&object.hash);
-
-    download_file(url, path).await?;
-  }
+  download_objects(dir.join("objects"), j.objects.values().collect()).await?;
 
   // save asset index json
-  let path = Path::new("versions")
-    .join(&version)
-    .join("assets")
-    .join("indexes")
-    .join(format!("{}.json", &asset_index.id));
-  download_file(String::from(&asset_index.url), path).await?;
+  let asset_index_file_name = format!("{}.json", &asset_index.id);
+  let dir = dir.join("indexes");
+  fs::create_dir(&dir).map_err(|e| e.to_string())?;
+  fs::write(&dir.join(asset_index_file_name), &text).map_err(|e| e.to_string())?;
 
   Ok(())
 }
 
-#[command]
-pub async fn install_version(version: Version) -> Result<(), String> {
-  #[derive(Deserialize)]
-  struct ObjectContainingURL {
-    url: String,
-  }
+#[derive(Deserialize)]
+struct ObjectContainingURL {
+  url: String,
+}
 
+async fn download_client(dir: PathBuf, client: ObjectContainingURL) -> Result<(), String> {
+  let path = dir.join("client.jar");
+  download_file(client.url, path).await?;
+
+  Ok(())
+}
+
+pub async fn download_version(dir: &PathBuf, game_version: &GameVersion) -> Result<String, String> {
   #[derive(Deserialize)]
   struct Downloads {
     client: ObjectContainingURL,
@@ -180,50 +164,16 @@ pub async fn install_version(version: Version) -> Result<(), String> {
     main_class: String,
   }
 
-  let res = reqwest::get(version.url).await.map_err(|e| e.to_string())?;
+  let res = reqwest::get(&game_version.url)
+    .await
+    .map_err(|e| e.to_string())?;
   let j: Json = res.json().await.map_err(|e| e.to_string())?;
-  let version_id = String::from(version.id);
+  let version_id = String::from(&game_version.id);
 
-  download_file(
-    j.downloads.client.url,
-    Path::new("versions")
-      .join(&version_id)
-      .join("libraries")
-      .join("client.jar"),
-  )
-  .await?;
-  download_libraries(String::from(&version_id), j.libraries).await?;
-  download_assets(String::from(&version_id), j.asset_index).await?;
+  download_client(dir.join("libraries"), j.downloads.client).await?;
+  download_libraries(dir.join("libraries"), j.libraries).await?;
+  download_assets(dir.join("assets"), j.asset_index).await?;
 
-  // save main class name
-  let path = get_base_dir()?.join("versions").join(&version_id);
-  fs::write(
-    path.join("info.json"),
-    format!("{{ \"mainClass\": \"{}\" }}", j.main_class),
-  )
-  .map_err(|e| e.to_string())?;
-
-  println!();
-  println!("version {} installed", &version_id);
-
-  Ok(())
-}
-
-#[command]
-pub fn rename_version(version: String, name: String) -> Result<(), String> {
-  let path = get_base_dir()?.join("versions").join(&version);
-  let final_path = get_base_dir()?.join("versions").join(&name);
-
-  fs::rename(&path, &final_path).map_err(|e| e.to_string())?;
-
-  Ok(())
-}
-
-#[command]
-pub fn remove_version(version: String) -> Result<(), String> {
-  let path = get_base_dir()?.join("versions").join(&version);
-  fs::remove_dir_all(&path).map_err(|e| e.to_string())?;
-  println!("deleted {:?}", &path);
-
-  Ok(())
+  println!("\nversion {} installed", &version_id);
+  Ok(j.main_class)
 }

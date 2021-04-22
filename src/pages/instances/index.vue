@@ -2,31 +2,31 @@
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 
-const installedVersions = ref<string[]>([])
-const updateInstalledVersions = () => {
-  invoke('list_versions')
-    .then(v => installedVersions.value = v as string[])
+const instances = ref<string[]>([])
+const updateInstances = () => {
+  invoke('list_instances')
+    .then(i => instances.value = i as string[])
     .catch((e: string) => console.error(e))
 }
 
-onMounted(updateInstalledVersions)
+onMounted(updateInstances)
 </script>
 
 <template>
   <div class="flex flex-col gap-y-4 my-auto min-w-64">
     <h1 class="text-3xl text-center my-4">
-      Installed Versions
+      Available instances
     </h1>
     <div
-      v-for="version in installedVersions"
-      :key="version"
+      v-for="instance in instances"
+      :key="instance"
       class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md"
     >
-      <Version :version="version" @update="updateInstalledVersions" />
+      <Instance :id="instance" @update="updateInstances" />
     </div>
-    <router-link to="/add-version">
+    <router-link to="/new-instance">
       <CustomButton center primary>
-        Add a version
+        New instance
       </CustomButton>
     </router-link>
   </div>

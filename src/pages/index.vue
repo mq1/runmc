@@ -4,41 +4,41 @@ import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import type { Account } from '~/types'
 
-const availableAccounts = ref<Account[]>([])
-const selectedAccount = ref<Account>({ name: '', id: '', access_token: '' })
+const accounts = ref<Account[]>([])
+const selectedAccount = ref<Account>({ name: 'No users found', id: '', access_token: '' })
 
-const updateAvailableAccounts = () => {
+const updateAccounts = () => {
   invoke('accounts')
     .then((a) => {
-      availableAccounts.value = a as Account[]
-      selectedAccount.value = availableAccounts.value[0] || { name: 'No users found', id: '', access_token: '' }
+      accounts.value = a as Account[]
+      selectedAccount.value = accounts.value[0] || { name: 'No users found', id: '', access_token: '' }
     })
     .catch((e: string) => console.error(e))
 }
 
-const versions = ref<string[]>([])
-const selectedVersion = ref('Select version')
+const instances = ref<string[]>([])
+const selectedInstance = ref('No instances present')
 
-const getVersions = () => {
-  invoke('list_versions')
-    .then((v) => {
-      versions.value = v as string[]
-      selectedVersion.value = versions.value[0] || 'No versions installed'
+const updateInstances = () => {
+  invoke('list_instances')
+    .then((i) => {
+      instances.value = i as string[]
+      selectedInstance.value = instances.value[0] || 'No instances present'
     })
     .catch((e: string) => console.error(e))
 }
 
-const executeVersion = () => {
-  invoke('run_minecraft', {
-    version: selectedVersion.value,
+const runInstance = () => {
+  invoke('run_instance', {
+    instance: selectedInstance.value,
     account: selectedAccount.value,
   })
     .catch((e: string) => console.error(e))
 }
 
 onMounted(() => {
-  getVersions()
-  updateAvailableAccounts()
+  updateInstances()
+  updateAccounts()
 })
 </script>
 
@@ -54,7 +54,7 @@ onMounted(() => {
       </ListboxButton>
       <ListboxOptions class="absolute mt-36 bg-white dark:bg-black border-1 rounded-lg border-1 shadow-md w-max min-w-72 list-none flex flex-col divide-y focus:outline-none cursor-pointer">
         <ListboxOption
-          v-for="account in availableAccounts"
+          v-for="account in accounts"
           v-slot="{ selected }"
           :key="account.id"
           :value="account"
@@ -68,28 +68,28 @@ onMounted(() => {
     </Listbox>
 
     <div class="flex">
-      <Listbox v-model="selectedVersion">
-        <ListboxButton class="border-1 rounded-lg shadow-md p-2 pl-4 w-40 flex items-center justify-between cursor-pointer focus:outline-none">
-          {{ selectedVersion }}
+      <Listbox v-model="selectedInstance">
+        <ListboxButton class="border-1 rounded-lg shadow-md p-2 pl-4 min-w-40 flex items-center justify-between cursor-pointer focus:outline-none">
+          {{ selectedInstance }}
           <heroicons-outline-selector class="text-gray-400" />
         </ListboxButton>
         <ListboxOptions class="absolute bg-white dark:bg-black mt-14 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none cursor-pointer">
           <ListboxOption
-            v-for="version in versions"
+            v-for="instance in instances"
             v-slot="{ selected }"
-            :key="version"
-            :value="version"
+            :key="instance"
+            :value="instance"
             as="div"
             class="p-2"
           >
             <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><heroicons-outline-check /></span>
-            {{ version }}
+            {{ instance }}
           </ListboxOption>
         </ListboxOptions>
       </Listbox>
-      <CustomButton primary short class="rounded-full px-4 py-3 ml-4" @click="executeVersion">
-        🡢
-      </CustomButton>
+      <Button class="bg-purple-500 rounded-full shadow-md p-3 text-white ml-3 h-min w-min flex justify-center items-center focus:outline-none" @click="runInstance">
+        <heroicons-outline-arrow-right />
+      </Button>
     </div>
   </div>
 </template>

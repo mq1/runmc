@@ -9,8 +9,6 @@ pub fn get_base_dir() -> Result<PathBuf, String> {
 }
 
 pub async fn download_file(url: String, path: PathBuf) -> Result<(), String> {
-  let path = get_base_dir()?.join(path);
-
   // create parent dirs
   let parent_dir = path.parent().ok_or("cannot retrieve parent dir")?;
   fs::create_dir_all(parent_dir).map_err(|e| e.to_string())?;

@@ -1,5 +1,5 @@
 <template>
-  <button green tiny>
+  <CustomButton green tiny>
     <heroicons-outline-check />
-  </button>
+  </CustomButton>
 </template>
