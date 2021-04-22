@@ -127,6 +127,12 @@ pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
     .file_stem()
     .ok_or("error getting asset index file name")?;
 
+  // cross platform class path
+  let mut class_path = String::from("libraries/*:fabric-libraries/*");
+  if std::env::consts::OS == "windows" {
+    class_path = class_path.replace(":", ";");
+  }
+
   println!("launching {}", &instance);
 
   process::Command::new(&config.java_path)
@@ -135,7 +141,7 @@ pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
     .arg(format!("-Xmx{}M", &config.java_memory_mb))
     .arg(format!("-Xms{}M", &config.java_memory_mb))
     .arg("-cp")
-    .arg("libraries/*")
+    .arg(&class_path)
     .arg(&instance_info.main_class)
     .arg("--gameDir")
     .arg("game-data")
