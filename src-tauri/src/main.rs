@@ -3,11 +3,12 @@
   windows_subsystem = "windows"
 )]
 
+mod account;
 mod cmd;
 mod config;
-mod account;
-mod version;
+mod fabric;
 mod util;
+mod version;
 
 fn main() {
   tauri::Builder::default()
@@ -23,7 +24,9 @@ fn main() {
       account::remove_account,
       config::get_default_config,
       config::get_config,
-      config::save_config
+      config::save_config,
+      fabric::get_fabric_loader_versions,
+      fabric::install_fabric,
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

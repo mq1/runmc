@@ -177,6 +177,7 @@ pub async fn install_version(version: Version) -> Result<(), String> {
     downloads: Downloads,
     libraries: Vec<Library>,
     asset_index: AssetIndex,
+    main_class: String,
   }
 
   let res = reqwest::get(version.url).await.map_err(|e| e.to_string())?;
@@ -193,6 +194,10 @@ pub async fn install_version(version: Version) -> Result<(), String> {
   .await?;
   download_libraries(String::from(&version_id), j.libraries).await?;
   download_assets(String::from(&version_id), j.asset_index).await?;
+
+  // save main class name
+  let path = get_base_dir()?.join("versions").join(&version_id);
+  fs::write(path.join("info.json"), format!("{{ \"mainClass\": \"{}\" }}", j.main_class)).map_err(|e| e.to_string())?;
 
   println!();
   println!("version {} installed", &version_id);
