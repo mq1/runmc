@@ -112,6 +112,24 @@ pub async fn install_fabric(instance_name: String, loader_version: String) -> Re
 }
 
 #[command]
+pub fn list_mods(instance_name: String) -> Result<Vec<String>, String> {
+  let dir = get_base_dir()?.join("instances").join(&instance_name).join("game-data").join("mods");
+  let mods = fs::read_dir(dir).map_err(|e| e.to_string())?
+    .map(|res| res.map(|e| e.file_name().into_string().unwrap()))
+    .collect::<Result<Vec<String>, io::Error>>().map_err(|e| e.to_string())?;
+
+  Ok(mods)
+}
+
+#[command]
+pub fn open_mods_dir(instance_name: String) -> Result<(), String> {
+  let dir = get_base_dir()?.join("instances").join(&instance_name).join("game-data").join("mods");
+  tauri::api::shell::open(String::from(dir.to_str().unwrap()), None).map_err(|e| e.to_string())?;
+
+  Ok(())
+}
+
+#[command]
 pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
   let path = get_base_dir()?.join("instances").join(&instance);
   let config = get_config()?;

@@ -19,11 +19,29 @@ const updateInstance = () => {
     .catch((e: string) => console.error(e))
 }
 
-onMounted(updateInstance)
+const mods = ref<string[]>()
+const updateMods = () => {
+  invoke('list_mods', {
+    instanceName: props.id,
+  })
+    .then(m => mods.value = m as string[])
+    .catch((e: string) => console.error(e))
+}
+const openModsDir = () => {
+  invoke('open_mods_dir', {
+    instanceName: props.id,
+  })
+    .catch((e: string) => console.error(e))
+}
+
+onMounted(() => {
+  updateInstance()
+  updateMods()
+})
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4 w-full">
+  <div class="flex flex-col gap-y-6 w-full">
     <h1 class="text-3xl text-center my-4">
       Instance {{ props.id }}
     </h1>
@@ -44,5 +62,18 @@ onMounted(updateInstance)
         </CustomButton>
       </router-link>
     </div>
+    <div class="flex justify-between">
+      <h2 class="text-2xl">
+        Mods
+      </h2>
+      <CustomButton blue small short @click="openModsDir">
+        Open mods directory
+      </CustomButton>
+    </div>
+    <ul>
+      <li v-for="mod in mods" :key="mod">
+        {{ mod }}
+      </li>
+    </ul>
   </div>
 </template>

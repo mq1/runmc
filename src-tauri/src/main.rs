@@ -21,6 +21,8 @@ fn main() {
       instance::remove_instance,
       instance::run_instance,
       instance::install_fabric,
+      instance::list_mods,
+      instance::open_mods_dir,
       account::login,
       account::accounts,
       account::remove_account,
