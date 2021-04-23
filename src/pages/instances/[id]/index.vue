@@ -44,8 +44,5 @@ onMounted(updateInstance)
         </CustomButton>
       </router-link>
     </div>
-    <h2 class="text-2xl">
-      Mods
-    </h2>
   </div>
 </template>
