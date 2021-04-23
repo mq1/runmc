@@ -34,7 +34,7 @@
     "vite-plugin-md": "^0.6.3",
     "vite-plugin-pages": "^0.9.5",
     "vite-plugin-vue-layouts": "^0.2.2",
-    "vite-plugin-windicss": "^0.14.6",
+    "vite-plugin-windicss": "^0.15.7",
     "windicss": "^2.5.14"
   }
 }
