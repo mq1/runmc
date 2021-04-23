@@ -10,6 +10,12 @@ export type Version = {
   url: string
 }
 
+export type InstanceInfo = {
+  gameVersion: string
+  mainClass: string
+  fabric: boolean
+}
+
 export type Config = {
   java_path: string
   java_memory_mb: number

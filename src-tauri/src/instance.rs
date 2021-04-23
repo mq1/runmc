@@ -12,8 +12,10 @@ use tauri::command;
 pub struct InstanceInfo {
   pub game_version: String,
   pub main_class: String,
+  pub fabric: bool,
 }
 
+#[command]
 pub fn instance_info(instance_name: String) -> Result<InstanceInfo, String> {
   let path = get_base_dir()?
     .join("instances")
@@ -54,6 +56,7 @@ pub async fn init_instance(instance_name: String, game_version: GameVersion) -> 
   let instance_info = InstanceInfo {
     game_version: game_version.id,
     main_class: main_class,
+    fabric: false
   };
   let content = serde_json::to_string(&instance_info).map_err(|e| e.to_string())?;
   fs::write(dir.join("info.json"), &content).map_err(|e| e.to_string())?;
@@ -97,6 +100,7 @@ pub async fn install_fabric(instance_name: String, loader_version: String) -> Re
   let info = InstanceInfo {
     game_version: String::from(&info.game_version),
     main_class: main_class,
+    fabric: true,
   };
 
   let content = serde_json::to_string(&info).map_err(|e| e.to_string())?;
