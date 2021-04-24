@@ -59,6 +59,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  release-json:
+    runs-on: ubuntu-latest
+    steps:
       - name: release json
         uses: softprops/action-gh-release@v1
         with:
