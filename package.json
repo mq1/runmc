@@ -8,7 +8,7 @@
     "build": "run-s build:*",
     "build:vite": "vite build",
     "build:tauri": "tauri build",
-    "build:release": "node --experimental-json-modules release.mjs",
+    "make-release-json": "node --experimental-json-modules release.mjs",
     "serve": "vite preview",
     "tauri": "tauri"
   },
