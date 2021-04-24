@@ -1,5 +1,5 @@
 import fs from 'fs'
-import packageConfig from '/home/runner/work/runmc/package.json'
+import packageConfig from './package.json'
 
 const version = packageConfig.version
 const dateTime = new Date()
