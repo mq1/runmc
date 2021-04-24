@@ -41,21 +41,21 @@ jobs:
       - uses: softprops/action-gh-release@v1
         if: matrix.platform == 'ubuntu-latest'
         with:
-          files: ./src-tauri/target/release/bundle/appimage/*
+          files: ./src-tauri/target/release/bundle/appimage/*.AppImage*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: softprops/action-gh-release@v1
         if: matrix.platform == 'windows-latest'
         with:
-          files: ./src-tauri/target/release/bundle/msi/*
+          files: ./src-tauri/target/release/bundle/msi/*.msi*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: softprops/action-gh-release@v1
         if: matrix.platform == 'macos-latest'
         with:
-          files: ./src-tauri/target/release/bundle/macos/*
+          files: ./src-tauri/target/release/bundle/macos/*.app*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
