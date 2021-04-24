@@ -48,8 +48,8 @@ onMounted(updateVersions)
   <ul class="h-full w-full flex flex-col items-center gap-y-4 overflow-y-auto">
     <li v-for="version in versions.filter(v => v.stable || showUnstable)" :key="version.version" class="p-2 border-1 rounded-lg shadow-md w-96 flex justify-between items-center">
       <div class="flex gap-x-2 items-center flex-1">
-        <heroicons-outline-fire v-if="!version.stable" class="text-red-700" />
-        <heroicons-outline-badge-check v-if="version.stable" class="text-green-700" />
+        <carbon-fire v-if="!version.stable" class="text-red-700" />
+        <carbon-badge v-if="version.stable" class="text-green-700" />
         <span>{{ version.stable ? 'stable' : 'unstable' }}</span>
       </div>
       <span class="flex-1">{{ version.version }}</span>

@@ -1,5 +1,5 @@
 <template>
   <CustomButton tiny yellow>
-    <heroicons-outline-cog />
+    <carbon-settings />
   </CustomButton>
 </template>

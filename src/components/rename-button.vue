@@ -1,5 +1,5 @@
 <template>
   <CustomButton tiny blue>
-    <heroicons-outline-pencil-alt />
+    <carbon-pen />
   </CustomButton>
 </template>

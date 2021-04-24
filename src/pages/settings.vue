@@ -39,11 +39,11 @@ onMounted(getConfig)
   </div>
   <div class="w-full flex justify-end gap-x-2">
     <CustomButton short red @click="getDefaultConfig">
-      <heroicons-outline-refresh />
+      <carbon-reset />
       Reset to defaults
     </CustomButton>
     <CustomButton short primary @click="saveConfig">
-      <heroicons-outline-save />
+      <carbon-save />
       Save
     </CustomButton>
   </div>

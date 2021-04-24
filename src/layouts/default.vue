@@ -4,29 +4,29 @@
       <div class="flex flex-col gap-y-2">
         <router-link v-slot="{ isExactActive }" to="/">
           <CustomButton small :selected="isExactActive">
-            <heroicons-outline-home /> Home
+            <carbon-home /> Home
           </CustomButton>
         </router-link>
         <router-link v-slot="{ isExactActive }" to="/accounts">
           <CustomButton small :selected="isExactActive">
-            <heroicons-outline-users /> Accounts
+            <carbon-user-multiple /> Accounts
           </CustomButton>
         </router-link>
         <router-link v-slot="{ isExactActive }" to="/instances">
           <CustomButton small :selected="isExactActive">
-            <heroicons-outline-collection /> Instances
+            <carbon-layers /> Instances
           </CustomButton>
         </router-link>
       </div>
       <div class="flex flex-col gap-y-2">
         <router-link v-slot="{ isExactActive }" to="/settings">
           <CustomButton small :selected="isExactActive">
-            <heroicons-outline-adjustments /> Settings
+            <carbon-settings-adjust /> Settings
           </CustomButton>
         </router-link>
         <router-link v-slot="{ isExactActive }" to="/info">
           <CustomButton small :selected="isExactActive">
-            <heroicons-outline-information-circle /> Info
+            <carbon-information /> Info
           </CustomButton>
         </router-link>
       </div>

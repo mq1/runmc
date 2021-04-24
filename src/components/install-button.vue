@@ -1,5 +1,5 @@
 <template>
   <CustomButton tiny green>
-    <heroicons-outline-cloud-download />
+    <carbon-download />
   </CustomButton>
 </template>

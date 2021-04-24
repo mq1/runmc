@@ -26,7 +26,7 @@ export default defineConfig({
     Components({
       customComponentResolvers: ViteIconsResolver({
         componentPrefix: '',
-        enabledCollections: ['heroicons-outline'],
+        enabledCollections: ['carbon'],
       }),
     }),
     ViteIcons(),

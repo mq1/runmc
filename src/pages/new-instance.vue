@@ -42,8 +42,8 @@ onMounted(updateVersions)
       :key="version.id"
       class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md w-72 gap-x-4"
     >
-      <heroicons-outline-fire v-if="version.type === 'snapshot'" class="text-red-700" />
-      <heroicons-outline-badge-check v-if="version.type === 'release'" class="text-green-700" />
+      <carbon-fire v-if="version.type === 'snapshot'" class="text-red-700" />
+      <carbon-badge v-if="version.type === 'release'" class="text-green-700" />
       {{ version.type }}
       <span class="font-semibold">{{ version.id }}</span>
       <InstallButton @click="newInstance(version)" />
@@ -52,7 +52,7 @@ onMounted(updateVersions)
   <div class="w-full flex justify-between">
     <div v-show="!installing" />
     <div v-show="installing" class="flex items-center gap-x-2">
-      <heroicons-outline-plus-circle class="animate-spin" />
+      <carbon-restart class="animate-spin" />
       Installing
     </div>
     <div class="flex gap-x-2">

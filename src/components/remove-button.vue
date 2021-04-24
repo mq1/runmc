@@ -1,5 +1,5 @@
 <template>
   <CustomButton tiny red>
-    <heroicons-outline-trash />
+    <carbon-trash-can />
   </CustomButton>
 </template>
