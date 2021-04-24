@@ -11,7 +11,7 @@ const json = {
   platforms: {
     darwin: {
       signature: '',
-      url: `https://github.com/mq1/runmc/releases/download/${version}/runmc_${version}_x64.app.tar.gz`,
+      url: `https://github.com/mq1/runmc/releases/download/${version}/runmc.app.tar.gz`,
     },
     linux: {
       signature: '',
