@@ -4,7 +4,9 @@ A minimal and lightweight Minecraft launcher
 
 ## Installation
 
-Just grab the installer from releases
+[![Windows Download](https://img.shields.io/badge/Windows-Download-0078D6?logo=windows)](https://github.com/mq1/runmc/releases/latest/download/runmc_0.0.6_x64.msi.zip)
+[![MacOS Download](https://img.shields.io/badge/MacOS-Download-000000?logo=macos)](https://github.com/mq1/runmc/releases/latest/download/runmc.app.tar.gz)
+[![Linux Download](https://img.shields.io/badge/Linux-Download-FCC624?logo=linux&logoColor=white)](https://github.com/mq1/runmc/releases/latest/download/runmc_0.0.6_amd64.AppImage.tar.gz)
 
 Windows users not running Windows 10 April 2021 update may need to install [Webview2](https://go.microsoft.com/fwlink/p/?LinkId=2124703)
 
@@ -52,8 +54,6 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 
 ---
 
-<center>
 MIT Licensed | © 2021 Manuel Quarneti
 
-Minecraft is a trademark of Microsoft Corporation,<br>and I have no relations with said company.
-</center>
+Minecraft is a trademark of Microsoft Corporation, and I have no relations with said company.
