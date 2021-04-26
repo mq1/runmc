@@ -25,6 +25,13 @@ jobs:
         with:
           node-version: '14'
 
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+
       - name: install webkit2gtk (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
         run: |
@@ -33,8 +40,8 @@ jobs:
 
       - name: build
         run: |
-          npm i
-          npm run build
+          pnpm install
+          pnpm build
         env:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
 
@@ -67,6 +74,13 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
 
       - run: node --experimental-json-modules ./release.mjs
 
