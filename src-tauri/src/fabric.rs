@@ -1,4 +1,4 @@
-use crate::instance::instance_info;
+use crate::instance::get_instance_info;
 use crate::util::download_file;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
@@ -18,7 +18,7 @@ pub async fn get_fabric_loader_versions(instance_name: String) -> Result<Vec<Loa
     loader: Loader,
   }
 
-  let info = instance_info(instance_name)?;
+  let info = get_instance_info(String::from(&instance_name))?;
 
   let res = reqwest::get(format!(
     "https://meta.fabricmc.net/v2/versions/loader/{}/",

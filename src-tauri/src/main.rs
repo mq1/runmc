@@ -14,7 +14,7 @@ fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
       version::list_available_game_versions,
-      instance::instance_info,
+      instance::get_instance_info,
       instance::init_instance,
       instance::list_instances,
       instance::rename_instance,
@@ -24,7 +24,7 @@ fn main() {
       instance::list_mods,
       instance::open_mods_dir,
       account::login,
-      account::accounts,
+      account::get_accounts,
       account::remove_account,
       config::get_default_config,
       config::get_config,

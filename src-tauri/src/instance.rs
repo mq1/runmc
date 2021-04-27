@@ -16,16 +16,28 @@ pub struct InstanceInfo {
 }
 
 #[command]
-pub fn instance_info(instance_name: String) -> Result<InstanceInfo, String> {
+pub fn get_instance_info(instance_name: String) -> Result<InstanceInfo, String> {
   let path = get_base_dir()?
     .join("instances")
-    .join(&instance_name)
-    .join("info.json");
+    .join(instance_name)
+    .join("info.yaml");
 
   let info = fs::read_to_string(path).map_err(|e| e.to_string())?;
-  let info: InstanceInfo = serde_json::from_str(&info).map_err(|e| e.to_string())?;
+  let info: InstanceInfo = serde_yaml::from_str(&info).map_err(|e| e.to_string())?;
 
   Ok(info)
+}
+
+pub fn save_instance_info(instance_name: &String, info: &InstanceInfo) -> Result<(), String> {
+  let path = get_base_dir()?
+    .join("instances")
+    .join(instance_name)
+    .join("info.yaml");
+
+  let text = serde_yaml::to_string(info).map_err(|e| e.to_string())?;
+  fs::write(&path, &text).map_err(|e| e.to_string())?;
+
+  Ok(())
 }
 
 #[command]
@@ -56,12 +68,12 @@ pub async fn init_instance(instance_name: String, game_version: GameVersion) -> 
   let instance_info = InstanceInfo {
     game_version: game_version.id,
     main_class: main_class,
-    fabric: false
+    fabric: false,
   };
-  let content = serde_json::to_string(&instance_info).map_err(|e| e.to_string())?;
-  fs::write(dir.join("info.json"), &content).map_err(|e| e.to_string())?;
 
-  // game-data the .minecraft directory (kinda)
+  save_instance_info(&instance_name, &instance_info)?;
+
+  // game-data is the .minecraft directory (kinda)
   fs::create_dir(dir.join("game-data")).map_err(|e| e.to_string())?;
 
   println!("instance created");
@@ -93,37 +105,44 @@ pub fn remove_instance(name: String) -> Result<(), String> {
 #[command]
 pub async fn install_fabric(instance_name: String, loader_version: String) -> Result<(), String> {
   let dir = get_base_dir()?.join("instances").join(&instance_name);
-  let info = instance_info(instance_name)?;
+  let mut info = get_instance_info(String::from(&instance_name))?;
   let main_class = download_fabric(&dir, &info.game_version, &loader_version).await?;
 
   // new info
-  let info = InstanceInfo {
-    game_version: String::from(&info.game_version),
-    main_class: main_class,
-    fabric: true,
-  };
+  info.main_class = main_class;
+  info.fabric = true;
 
-  let content = serde_json::to_string(&info).map_err(|e| e.to_string())?;
-  fs::write(dir.join("info.json"), &content).map_err(|e| e.to_string())?;
+  save_instance_info(&instance_name, &info)?;
 
   println!("\nfabric installed");
-
   Ok(())
 }
 
 #[command]
 pub fn list_mods(instance_name: String) -> Result<Vec<String>, String> {
-  let dir = get_base_dir()?.join("instances").join(&instance_name).join("game-data").join("mods");
-  let mods = fs::read_dir(dir).map_err(|e| e.to_string())?
+  let dir = get_base_dir()?
+    .join("instances")
+    .join(&instance_name)
+    .join("game-data")
+    .join("mods");
+
+  let mods = fs::read_dir(dir)
+    .map_err(|e| e.to_string())?
     .map(|res| res.map(|e| e.file_name().into_string().unwrap()))
-    .collect::<Result<Vec<String>, io::Error>>().map_err(|e| e.to_string())?;
+    .collect::<Result<Vec<String>, io::Error>>()
+    .map_err(|e| e.to_string())?;
 
   Ok(mods)
 }
 
 #[command]
 pub fn open_mods_dir(instance_name: String) -> Result<(), String> {
-  let dir = get_base_dir()?.join("instances").join(&instance_name).join("game-data").join("mods");
+  let dir = get_base_dir()?
+    .join("instances")
+    .join(&instance_name)
+    .join("game-data")
+    .join("mods");
+
   tauri::api::shell::open(String::from(dir.to_str().unwrap()), None).map_err(|e| e.to_string())?;
 
   Ok(())
@@ -134,9 +153,7 @@ pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
   let path = get_base_dir()?.join("instances").join(&instance);
   let config = get_config()?;
 
-  let instance_info = fs::read_to_string(path.join("info.json")).map_err(|e| e.to_string())?;
-  let instance_info: InstanceInfo =
-    serde_json::from_str(&instance_info).map_err(|e| e.to_string())?;
+  let instance_info = get_instance_info(String::from(&instance))?;
 
   // get asset index
   let entries = fs::read_dir(&path.join("assets").join("indexes"))

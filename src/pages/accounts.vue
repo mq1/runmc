@@ -5,7 +5,7 @@ import type { Account } from '~/types'
 
 const availableAccounts = ref<Account[]>([])
 const updateAvailableAccounts = () => {
-  invoke('accounts')
+  invoke('get_accounts')
     .then((a) => {
       availableAccounts.value = a as Account[]
     })

@@ -12,7 +12,7 @@ const props = defineProps({
 
 const instance = ref<InstanceInfo>()
 const updateInstance = () => {
-  invoke('instance_info', {
+  invoke('get_instance_info', {
     instanceName: props.id,
   })
     .then(i => instance.value = i as InstanceInfo)

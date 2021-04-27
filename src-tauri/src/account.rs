@@ -11,6 +11,26 @@ pub struct Account {
 }
 
 #[command]
+fn get_accounts() -> Result<Vec<Account>, String> {
+  let path = get_base_dir()?.join("accounts.yaml");
+
+  let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
+  let accounts: Vec<Account> = serde_yaml::from_str(&text).map_err(|e| e.to_string())?;
+
+  Ok(accounts)
+}
+
+#[command]
+pub fn save_accounts(accounts: Vec<Account>) -> Result<(), String> {
+  let path = get_base_dir()?.join("accounts.yaml");
+
+  let text = serde_yaml::to_string(&accounts).map_err(|e| e.to_string())?;
+  fs::write(&path, &text).map_err(|e| e.to_string())?;
+
+  Ok(())
+}
+
+#[command]
 async fn login(email: String, password: String) -> Result<(), String> {
   println!("trying to add account {}", &email);
 
@@ -67,46 +87,27 @@ async fn login(email: String, password: String) -> Result<(), String> {
   let mut accounts = vec![account];
 
   // save login to file
-  let path = get_base_dir()?.join("accounts.json");
+  let path = get_base_dir()?.join("accounts.yaml");
   if (&path).exists() {
-    let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
-    let mut existing_accounts: Vec<Account> =
-      serde_json::from_str(&text).map_err(|e| e.to_string())?;
+    let mut existing_accounts = get_accounts()?;
     accounts.append(&mut existing_accounts);
   }
-
-  let json_string = serde_json::to_string(&accounts).map_err(|e| e.to_string())?;
-  fs::write(&path, json_string).map_err(|e| e.to_string())?;
+  save_accounts(accounts)?;
 
   println!("account added");
-
   Ok(())
 }
 
 #[command]
-pub fn accounts() -> Result<Vec<Account>, String> {
-  let path = get_base_dir()?.join("accounts.json");
-
-  let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
-  let accounts: Vec<Account> = serde_json::from_str(&text).map_err(|e| e.to_string())?;
-
-  Ok(accounts)
-}
-
-#[command]
 pub fn remove_account(name: String) -> Result<(), String> {
-  let path = get_base_dir()?.join("accounts.json");
-
   // parse accounts
-  let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
-  let mut accounts: Vec<Account> = serde_json::from_str(&text).map_err(|e| e.to_string())?;
+  let mut accounts = get_accounts()?;
 
   // remove the account
   accounts.retain(|a| a.name != name);
 
   // save accounts
-  let json_string = serde_json::to_string(&accounts).map_err(|e| e.to_string())?;
-  fs::write(&path, json_string).map_err(|e| e.to_string())?;
+  save_accounts(accounts)?;
 
   Ok(())
 }

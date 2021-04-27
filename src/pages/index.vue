@@ -8,7 +8,7 @@ const accounts = ref<Account[]>([])
 const selectedAccount = ref<Account>({ name: 'No users found', id: '', access_token: '' })
 
 const updateAccounts = () => {
-  invoke('accounts')
+  invoke('get_accounts')
     .then((a) => {
       accounts.value = a as Account[]
       selectedAccount.value = accounts.value[0] || { name: 'No users found', id: '', access_token: '' }
