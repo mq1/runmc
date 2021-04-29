@@ -41,7 +41,7 @@ jobs:
       - name: build
         run: |
           pnpm install
-          pnpm build
+          pnpm tauri build
         env:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
 
