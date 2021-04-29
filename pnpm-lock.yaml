@@ -18,7 +18,7 @@ specifiers:
   vite-plugin-md: 0.6.3
   vite-plugin-pages: 0.10.0
   vite-plugin-vue-layouts: 0.2.2
-  vite-plugin-windicss: 0.15.7
+  vite-plugin-windicss: 0.15.8
   vue: 3.0.11
   vue-router: 4.0.6
   windicss: 2.5.14
@@ -45,7 +45,7 @@ devDependencies:
   vite-plugin-md: 0.6.3_vite@2.2.3
   vite-plugin-pages: 0.10.0_8cd74be53f81ed683d32be064bcfe770
   vite-plugin-vue-layouts: 0.2.2_vite@2.2.3
-  vite-plugin-windicss: 0.15.7_vite@2.2.3
+  vite-plugin-windicss: 0.15.8_vite@2.2.3
   windicss: 2.5.14
 
 packages:
@@ -702,8 +702,8 @@ packages:
   /@vue/shared/3.0.11:
     resolution: {integrity: sha512-b+zB8A2so8eCE0JsxjL24J7vdGl8rzPQ09hZNhystm+KqSbKcAej1A+Hbva1rCMmTTqA+hFnUSDc5kouEo0JzA==}
 
-  /@windicss/plugin-utils/0.15.7:
-    resolution: {integrity: sha512-++2POqhrvL589Xv8X6ZX7sCG2Jb9rzbbGQCvClhoOxhPFFkPuLnZtGB+KIa2l1QarPXUQCaSjQ+zxFiu6IgI/g==}
+  /@windicss/plugin-utils/0.15.8:
+    resolution: {integrity: sha512-bdWvhTNPhQT/is90cAWx5yxafC5U8t4CW4ijNACtBXT1WhcptpBnRXPAnMLYdkDR+nuIspaGrJ0kFvuhX6NNgg==}
     dependencies:
       debug: 4.3.2
       fast-glob: 3.2.5
@@ -5283,12 +5283,12 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-windicss/0.15.7_vite@2.2.3:
-    resolution: {integrity: sha512-RYASJYA6l2p3MgQ6M6GU44zP0iC5cBkuTJhhrmHaRREleL9fNpblBwdS0lbvcr5Q4LT6AGpmmTlF50iIwo3JkQ==}
+  /vite-plugin-windicss/0.15.8_vite@2.2.3:
+    resolution: {integrity: sha512-MrXN/4Dod56fvDS99960H1+ekMTQWiQOGVpKx0QYAcrsDb0UbkRUs1mqjuw71k049Dk/aISCl3LzLIbn90xEPw==}
     peerDependencies:
       vite: ^2.0.1
     dependencies:
-      '@windicss/plugin-utils': 0.15.7
+      '@windicss/plugin-utils': 0.15.8
       chalk: 4.1.1
       debug: 4.3.2
       vite: 2.2.3
