@@ -4,6 +4,7 @@ use std::fs;
 use tauri::command;
 
 #[derive(Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
   pub java_path: String,
   pub java_memory_mb: i32,

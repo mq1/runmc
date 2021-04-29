@@ -4,6 +4,7 @@ use std::fs;
 use tauri::command;
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Account {
   pub name: String,
   pub id: String,
