@@ -10,7 +10,6 @@ specifiers:
   '@vitejs/plugin-vue': 1.2.2
   '@vue/compiler-sfc': 3.0.11
   eslint: 7.25.0
-  inter-ui: 3.18.1
   typescript: 4.2.4
   vite: 2.2.3
   vite-plugin-components: 0.8.4
@@ -26,7 +25,6 @@ specifiers:
 dependencies:
   '@headlessui/vue': 1.1.1_vue@3.0.11
   '@tauri-apps/api': 1.0.0-beta-rc.3
-  inter-ui: 3.18.1
   vue: 3.0.11
   vue-router: 4.0.6_vue@3.0.11
 
@@ -2858,10 +2856,6 @@ packages:
       strip-ansi: 6.0.0
       through: 2.3.8
     dev: true
-
-  /inter-ui/3.18.1:
-    resolution: {integrity: sha512-W3LnAirp6a1ixpAHZwr9gH52KlOQOAp0oqbmIoGi2dAIlcIB7auJgLr9XFHUzYy2FoZ0Nf7aPe/nHMZB4/Zvdg==}
-    dev: false
 
   /internal-slot/1.0.3:
     resolution: {integrity: sha512-O0DB1JC/sPyZl7cIo78n5dR7eUSwwpYPiXRhTzNxZVAMUuB8vlnRFyLxdrVToks6XPLVnFfbzaVd5WLjhgg+vA==}
