@@ -3,9 +3,6 @@ import { defineConfig } from 'vite-plugin-windicss'
 export default defineConfig({
   darkMode: 'media',
   theme: {
-    fontFamily: {
-      sans: ['Inter var', 'sans-serif'],
-    },
     extend: {
       typography: {
         light: {
