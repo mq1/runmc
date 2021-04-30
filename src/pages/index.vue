@@ -52,19 +52,28 @@ onMounted(() => {
         {{ selectedAccount.name }}
         <carbon-chevron-sort class="text-gray-400" />
       </ListboxButton>
-      <ListboxOptions class="absolute mt-36 bg-white dark:bg-black border-1 rounded-lg border-1 shadow-md w-max min-w-72 list-none flex flex-col divide-y focus:outline-none cursor-pointer">
-        <ListboxOption
-          v-for="account in accounts"
-          v-slot="{ selected }"
-          :key="account.id"
-          :value="account"
-          as="div"
-          class="p-2"
-        >
-          <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><carbon-checkmark /></span>
-          <span class="pl-8">{{ account.name }}</span>
-        </ListboxOption>
-      </ListboxOptions>
+      <transition
+        enter-active-class="transition duration-100 ease-out"
+        enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100"
+        leave-active-class="transition duration-75 ease-in"
+        leave-from-class="transform scale-100 opacity-100"
+        leave-to-class="transform scale-95 opacity-0"
+      >
+        <ListboxOptions class="absolute mt-36 bg-white dark:bg-black border-1 rounded-lg border-1 shadow-md w-max min-w-72 list-none flex flex-col divide-y focus:outline-none cursor-pointer">
+          <ListboxOption
+            v-for="account in accounts"
+            v-slot="{ selected }"
+            :key="account.id"
+            :value="account"
+            as="div"
+            class="p-2"
+          >
+            <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><carbon-checkmark /></span>
+            <span class="pl-8">{{ account.name }}</span>
+          </ListboxOption>
+        </ListboxOptions>
+      </transition>
     </Listbox>
 
     <div class="flex">
@@ -73,19 +82,28 @@ onMounted(() => {
           {{ selectedInstance }}
           <carbon-chevron-sort class="text-gray-400" />
         </ListboxButton>
-        <ListboxOptions class="absolute bg-white dark:bg-black mt-14 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none cursor-pointer">
-          <ListboxOption
-            v-for="instance in instances"
-            v-slot="{ selected }"
-            :key="instance"
-            :value="instance"
-            as="div"
-            class="p-2 flex items-center"
-          >
-            <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><carbon-checkmark /></span>
-            <span class="pl-8">{{ instance }}</span>
-          </ListboxOption>
-        </ListboxOptions>
+        <transition
+          enter-active-class="transition duration-100 ease-out"
+          enter-from-class="transform scale-95 opacity-0"
+          enter-to-class="transform scale-100 opacity-100"
+          leave-active-class="transition duration-75 ease-in"
+          leave-from-class="transform scale-100 opacity-100"
+          leave-to-class="transform scale-95 opacity-0"
+        >
+          <ListboxOptions class="absolute bg-white dark:bg-black mt-14 w-40 flex flex-col divide-y border-1 rounded-lg shadow-md list-none focus:outline-none cursor-pointer">
+            <ListboxOption
+              v-for="instance in instances"
+              v-slot="{ selected }"
+              :key="instance"
+              :value="instance"
+              as="div"
+              class="p-2 flex items-center"
+            >
+              <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"><carbon-checkmark /></span>
+              <span class="pl-8">{{ instance }}</span>
+            </ListboxOption>
+          </ListboxOptions>
+        </transition>
       </Listbox>
       <Button class="bg-purple-500 rounded-full shadow-md p-3 text-white ml-3 h-min w-min flex justify-center items-center focus:outline-none" @click="runInstance">
         <carbon-arrow-right />
