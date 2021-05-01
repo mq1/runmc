@@ -5,7 +5,7 @@ const version = packageConfig.version
 const dateTime = new Date()
 
 const json = {
-  name: version,
+  version,
   notes: `Release ${version}`,
   pub_date: dateTime.toISOString(),
   platforms: {
