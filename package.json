@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "0.6.4",
-    "@iconify/json": "1.1.336",
+    "@iconify/json": "1.1.337",
     "@tauri-apps/cli": "1.0.0-beta-rc.4",
     "@typescript-eslint/eslint-plugin": "4.22.0",
     "@vitejs/plugin-vue": "1.2.2",
