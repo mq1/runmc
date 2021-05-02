@@ -30,12 +30,14 @@ onMounted(updateAvailableAccounts)
     </h1>
     <div v-for="account in availableAccounts" :key="account.id" class="flex p-2 border-1 rounded-lg shadow-md flex justify-between">
       {{ account.name }}
-      <RemoveButton @click="removeAccount(account)" />
+      <button class="btn tiny bg-red-500" @click="removeAccount(account)">
+        <carbon-trash-can />
+      </button>
     </div>
     <router-link to="/add-account">
-      <CustomButton center primary>
+      <button class="btn bg-primary-500 w-full">
         Add an account
-      </CustomButton>
+      </button>
     </router-link>
   </div>
 </template>

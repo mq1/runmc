@@ -24,10 +24,8 @@ onMounted(updateInstances)
     >
       <Instance :id="instance" @update="updateInstances" />
     </div>
-    <router-link to="/new-instance">
-      <CustomButton center primary>
-        New instance
-      </CustomButton>
+    <router-link to="/new-instance" class="btn bg-primary-500">
+      New instance
     </router-link>
   </div>
 </template>

@@ -57,18 +57,18 @@ onMounted(() => {
         installed
       </div>
       <router-link :to="`${props.id}/install-fabric`">
-        <CustomButton green small>
+        <button class="btn bg-green-500">
           install
-        </CustomButton>
+        </button>
       </router-link>
     </div>
     <div class="flex justify-between">
       <h2 class="text-2xl">
         Mods
       </h2>
-      <CustomButton blue small short @click="openModsDir">
+      <button class="btn bg-blue-500" @click="openModsDir">
         Open mods directory
-      </CustomButton>
+      </button>
     </div>
     <ul>
       <li v-for="mod in mods" :key="mod">

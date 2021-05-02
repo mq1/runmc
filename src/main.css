@@ -1,0 +1,19 @@
+.box {
+  @apply rounded-lg shadow-md flex items-center gap-x-2 border-1 border-gray-200 focus:outline-none bg-white dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-700;
+}
+
+.btn {
+  @apply rounded-lg shadow-md flex items-center justify-center focus:outline-none text-white px-4 py-2;
+}
+
+.round {
+  @apply rounded-full p-0 w-10 h-10;
+}
+
+.small {
+  @apply px-2 py-1;
+}
+
+.tiny {
+  @apply p-1;
+}

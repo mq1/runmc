@@ -55,9 +55,17 @@ const remove = () => {
     class="border-gray-300 rounded-lg mr-2 dark:bg-black"
   />
   <div class="flex gap-x-2">
-    <RenameButton v-if="!renaming" @click="startRenaming" />
-    <ApplyButton v-if="renaming" @click="rename" />
-    <SettingsButton @click="router.push(`/instances/${props.id}`)" />
-    <RemoveButton @click="remove" />
+    <button v-if="!renaming" class="btn tiny bg-blue-500" @click="startRenaming">
+      <carbon-pen />
+    </button>
+    <button v-if="renaming" class="btn tiny bg-green-500" @click="rename">
+      <carbon-checkmark />
+    </button>
+    <button class="btn tiny bg-yellow-500" @click="router.push(`/instances/${props.id}`)">
+      <carbon-settings />
+    </button>
+    <button class="btn tiny bg-red-500" @click="remove">
+      <carbon-trash-can />
+    </button>
   </div>
 </template>

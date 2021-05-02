@@ -53,9 +53,9 @@ onMounted(updateVersions)
         <span>{{ version.stable ? 'stable' : 'unstable' }}</span>
       </div>
       <span class="flex-1">{{ version.version }}</span>
-      <CustomButton small short green @click="install(version.version)">
+      <button class="btn bg-green-500 small" @click="install(version.version)">
         Install
-      </CustomButton>
+      </button>
     </li>
   </ul>
   <div class="flex gap-x-2 justify-end w-full">

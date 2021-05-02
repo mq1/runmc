@@ -38,13 +38,17 @@ onMounted(getConfig)
     </label>
   </div>
   <div class="w-full flex justify-end gap-x-2">
-    <CustomButton short red @click="getDefaultConfig">
+    <button class="btn bg-red-500" @click="getDefaultConfig">
       <carbon-reset />
-      Reset to defaults
-    </CustomButton>
-    <CustomButton short primary @click="saveConfig">
+      <span class="ml-2">
+        Reset to defaults
+      </span>
+    </button>
+    <button class="btn bg-primary-500" @click="saveConfig">
       <carbon-save />
-      Save
-    </CustomButton>
+      <span class="ml-2">
+        Save
+      </span>
+    </button>
   </div>
 </template>
