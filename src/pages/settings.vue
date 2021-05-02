@@ -3,7 +3,7 @@ import { invoke } from '@tauri-apps/api/tauri'
 import { ref, onMounted } from 'vue'
 import type { Config } from '~/types'
 
-const config = ref<Config>({ javaPath: '', javaMemoryMb: 0 })
+const config = ref<Config>({ java: { path: '', memory: '' } })
 const getConfig = () => {
   invoke('get_config')
     .then(c => config.value = c as Config)
@@ -27,14 +27,14 @@ onMounted(getConfig)
   <h1 class="text-3xl text-center my-4">
     Settings
   </h1>
-  <div class="flex flex-col gap-y-4">
+  <div class="flex flex-col gap-y-4 min-w-64">
     <label class="flex flex-col">
       <span>Java Path</span>
-      <input v-model="config.javaPath" type="text" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
+      <input v-model="config.java.path" type="text" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
     </label>
     <label class="flex flex-col">
-      <span>Java allocated memory (in MB)</span>
-      <input v-model.number="config.javaMemoryMb" type="number" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
+      <span>Java allocated memory</span>
+      <input v-model.number="config.java.memory" type="text" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
     </label>
   </div>
   <div class="w-full flex justify-end gap-x-2">

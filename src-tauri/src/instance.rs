@@ -174,11 +174,11 @@ pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
 
   println!("launching {}", &instance);
 
-  process::Command::new(&config.java_path)
+  process::Command::new(&config.java.path)
     .current_dir(&path)
     .arg("-Dminecraft.launcher.brand=runmc")
-    .arg(format!("-Xmx{}M", &config.java_memory_mb))
-    .arg(format!("-Xms{}M", &config.java_memory_mb))
+    .arg(format!("-Xmx{}", &config.java.memory))
+    .arg(format!("-Xms{}", &config.java.memory))
     .arg("-cp")
     .arg(&class_path)
     .arg(&instance_info.main_class)

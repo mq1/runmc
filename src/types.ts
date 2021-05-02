@@ -17,6 +17,8 @@ export type InstanceInfo = {
 }
 
 export type Config = {
-  javaPath: string
-  javaMemoryMb: number
+  java: {
+    path: string
+    memory: string
+  }
 }

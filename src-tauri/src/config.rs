@@ -5,16 +5,24 @@ use tauri::command;
 
 #[derive(Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub struct JavaConfig {
+  pub path: String,
+  pub memory: String,
+}
+
+#[derive(Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
-  pub java_path: String,
-  pub java_memory_mb: i32,
+  pub java: JavaConfig
 }
 
 #[command]
 pub fn get_default_config() -> Config {
   Config {
-    java_path: String::from("java"),
-    java_memory_mb: 2048,
+    java: JavaConfig {
+      path: String::from("java"),
+      memory: String::from("2G")
+    }
   }
 }
 
