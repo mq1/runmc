@@ -1,7 +1,7 @@
 export type Account = {
   name: string
   id: string
-  access_token: string
+  accessToken: string
 }
 
 export type Version = {
@@ -17,6 +17,6 @@ export type InstanceInfo = {
 }
 
 export type Config = {
-  java_path: string
-  java_memory_mb: number
+  javaPath: string
+  javaMemoryMb: number
 }

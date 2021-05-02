@@ -5,13 +5,13 @@ import { invoke } from '@tauri-apps/api/tauri'
 import type { Account } from '~/types'
 
 const accounts = ref<Account[]>([])
-const selectedAccount = ref<Account>({ name: 'No users found', id: '', access_token: '' })
+const selectedAccount = ref<Account>({ name: 'No users found', id: '', accessToken: '' })
 
 const updateAccounts = () => {
   invoke('get_accounts')
     .then((a) => {
       accounts.value = a as Account[]
-      selectedAccount.value = accounts.value[0] || { name: 'No users found', id: '', access_token: '' }
+      selectedAccount.value = accounts.value[0] || { name: 'No users found', id: '', accessToken: '' }
     })
     .catch((e: string) => console.error(e))
 }
