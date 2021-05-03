@@ -46,7 +46,9 @@ onMounted(updateVersions)
       <carbon-badge v-if="version.type === 'release'" class="text-green-700" />
       {{ version.type }}
       <span class="font-semibold">{{ version.id }}</span>
-      <InstallButton @click="newInstance(version)" />
+      <button class="btn tiny bg-green-500" @click="newInstance(version)">
+        <carbon-download />
+      </button>
     </div>
   </div>
   <div class="w-full flex justify-between">
