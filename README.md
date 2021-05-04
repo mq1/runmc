@@ -12,6 +12,11 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 
 ## Roadmap and progress tracking
 
+### 0.0.8
+
+- [x] styling
+- [ ] better updater
+
 ### 0.0.7
 
 - [x] yaml config
@@ -51,11 +56,6 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 
 - [x] version installing
 - [x] game launching
-
-## Open source licenses
-
-* Almost all of the licenses for the used libraries can be found in [package.json](https://raw.githubusercontent.com/mq1/runmc/main/package.json) and searching the packages on [npmjs](https://www.npmjs.com/)
-* [Carbon Icons](https://www.carbondesignsystem.com/guidelines/iconography/library) | [Apache License](https://github.com/carbon-design-system/carbon-icons/blob/master/LICENSE.md)
 
 ---
 
