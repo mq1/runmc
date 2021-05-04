@@ -6,7 +6,6 @@ import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'vite-plugin-components'
 import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
-import Markdown from 'vite-plugin-md'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,9 +16,7 @@ export default defineConfig({
   },
 
   plugins: [
-    Vue({
-      include: [/\.vue$/, /\.md$/],
-    }),
+    Vue(),
     Pages(),
     Layouts(),
     WindiCSS(),
@@ -30,6 +27,5 @@ export default defineConfig({
       }),
     }),
     ViteIcons(),
-    Markdown(),
   ],
 })
