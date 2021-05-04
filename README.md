@@ -15,7 +15,7 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 ### 0.0.8
 
 - [x] styling
-- [x] better updater
+- [x] updater api
 
 ### 0.0.7
 
