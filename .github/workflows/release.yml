@@ -65,21 +65,3 @@ jobs:
           files: ./src-tauri/target/release/bundle/macos/*.app.tar.gz*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  release-json:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - run: node --experimental-json-modules ./release.mjs
-
-      - name: release json
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./release.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
