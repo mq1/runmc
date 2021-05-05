@@ -15,7 +15,7 @@ specifiers:
   vite-plugin-components: 0.8.4
   vite-plugin-icons: 0.5.0
   vite-plugin-pages: 0.11.0
-  vite-plugin-vue-layouts: 0.2.2
+  vite-plugin-vue-layouts: 0.3.0
   vite-plugin-windicss: 0.15.10
   vue: 3.0.11
   vue-router: 4.0.6
@@ -40,7 +40,7 @@ devDependencies:
   vite-plugin-components: 0.8.4_vite@2.2.4
   vite-plugin-icons: 0.5.0_3a062f62dd9e0ad9a7cb2ae18cd865f0
   vite-plugin-pages: 0.11.0_a106878633ffc0eb896a4bc66d0bc95d
-  vite-plugin-vue-layouts: 0.2.2_vite@2.2.4
+  vite-plugin-vue-layouts: 0.3.0_vite@2.2.4
   vite-plugin-windicss: 0.15.10_vite@2.2.4
   windicss: 2.5.14
 
@@ -5334,10 +5334,11 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-vue-layouts/0.2.2_vite@2.2.4:
-    resolution: {integrity: sha512-I5BfkCHwHV1WlbJE1ps2r6vwTo3N5QpLks3UpGa8XHcmHW03lavvJkdfjBpagI1bUQGEwWjLowFisG0Q/NJq3A==}
+  /vite-plugin-vue-layouts/0.3.0_vite@2.2.4:
+    resolution: {integrity: sha512-cKqTipUCIJwus5lQOjJYfqPIwavSIYHtUqPQ4hgf7fpSxtl9VYSEJKp4Qdl1/JJzOSfL6xSqEGdE1soo50QJHw==}
+    requiresBuild: true
     peerDependencies:
-      vite: ^2.0.0-beta.65
+      vite: ^2.2.3
     dependencies:
       '@vue/compiler-sfc': 3.0.11_vue@3.0.11
       debug: 4.3.2
