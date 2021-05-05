@@ -37,7 +37,7 @@ const rename = () => {
 
 const remove = () => {
   invoke('remove_instance', {
-    version: props.id,
+    name: props.id,
   })
     .then(() => emit('update'))
     .catch((e: string) => console.error(e))
