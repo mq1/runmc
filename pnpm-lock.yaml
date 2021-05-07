@@ -12,7 +12,7 @@ specifiers:
   eslint: 7.25.0
   typescript: 4.2.4
   vite: 2.2.4
-  vite-plugin-components: 0.8.4
+  vite-plugin-components: 0.9.0
   vite-plugin-icons: 0.5.0
   vite-plugin-pages: 0.11.1
   vite-plugin-vue-layouts: 0.3.1
@@ -37,7 +37,7 @@ devDependencies:
   eslint: 7.25.0
   typescript: 4.2.4
   vite: 2.2.4
-  vite-plugin-components: 0.8.4_vite@2.2.4
+  vite-plugin-components: 0.9.0_vite@2.2.4
   vite-plugin-icons: 0.5.0_6ef67f9b9505b9975638f45f1322b8dc
   vite-plugin-pages: 0.11.1_vite@2.2.4+vue@3.0.11
   vite-plugin-vue-layouts: 0.3.1_vite@2.2.4
@@ -5189,14 +5189,15 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-plugin-components/0.8.4_vite@2.2.4:
-    resolution: {integrity: sha512-h6/FNBKBXc4TIcHxnFYxa4+aBGDZusqp/6Ra3LBvwolwFuX6k8qPsBbXkBP0I+UwOkyHw9iU2xJ4rdYBGyN+0Q==}
+  /vite-plugin-components/0.9.0_vite@2.2.4:
+    resolution: {integrity: sha512-ZtJn2gt6H9Nsd77qWvqr69Wwv+XgY0OU7WpjGZ+1p22O5ImOQT5CUx364bXUpgQSDCROnLtxsKga2wbGiPMaeA==}
     peerDependencies:
       vite: ^2.0.0-beta.69
     dependencies:
       chokidar: 3.5.1
       debug: 4.3.2
       fast-glob: 3.2.5
+      magic-string: 0.25.7
       minimatch: 3.0.4
       vite: 2.2.4
     transitivePeerDependencies:
