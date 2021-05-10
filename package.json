@@ -12,7 +12,7 @@
     "vue-router": "4.0.6"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "0.6.4",
+    "@antfu/eslint-config": "0.6.5",
     "@iconify/json": "1.1.341",
     "@tauri-apps/cli": "1.0.0-beta-rc.4",
     "@typescript-eslint/eslint-plugin": "4.22.1",
