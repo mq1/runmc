@@ -12,7 +12,7 @@ pub struct Account {
 }
 
 #[command]
-fn get_accounts() -> Result<Vec<Account>, String> {
+pub fn get_accounts() -> Result<Vec<Account>, String> {
   let path = get_base_dir()?.join("accounts.yaml");
 
   let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
@@ -32,7 +32,7 @@ pub fn save_accounts(accounts: Vec<Account>) -> Result<(), String> {
 }
 
 #[command]
-async fn login(email: String, password: String) -> Result<(), String> {
+pub async fn login(email: String, password: String) -> Result<(), String> {
   println!("trying to add account {}", &email);
 
   #[derive(Deserialize)]
