@@ -22,7 +22,6 @@ specifiers:
   vite-ssg: 0.10.0
   vue: 3.0.11
   vue-router: 4.0.6
-  windicss: 3.0.0
 
 dependencies:
   '@headlessui/vue': 1.2.0_vue@3.0.11
@@ -48,7 +47,6 @@ devDependencies:
   vite-plugin-vue-layouts: 0.3.1_vite@2.3.1
   vite-plugin-windicss: 0.15.10_vite@2.3.1
   vite-ssg: 0.10.0_a55687270fa696266bb8183975bc810b
-  windicss: 3.0.0
 
 packages:
 
@@ -5871,12 +5869,6 @@ packages:
 
   /windicss/2.5.14:
     resolution: {integrity: sha512-8Lm7U1M5AzJPbiaVSVz7qWdETRzlkv//5LBMICBBAojos1jo09lUGhNZ5rBzHeldB9JmqYMDOGgrrXHExu0EAg==}
-    engines: {node: '>= 12'}
-    hasBin: true
-    dev: true
-
-  /windicss/3.0.0:
-    resolution: {integrity: sha512-NTiPaIAOOtt+HMUXGJ5agMCdaQq2o5kREElIpX4RSG8g3oy6/7YM+dSbQMNelrMHSxqD7X/7DztHja2Bm8HblA==}
     engines: {node: '>= 12'}
     hasBin: true
     dev: true
