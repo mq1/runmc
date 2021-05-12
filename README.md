@@ -12,6 +12,10 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 
 ## Roadmap and progress tracking
 
+### 0.0.9
+
+- [x] optimizations
+
 ### 0.0.8
 
 - [x] styling
