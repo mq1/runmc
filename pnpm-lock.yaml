@@ -14,7 +14,7 @@ specifiers:
   vite: 2.3.1
   vite-plugin-components: 0.9.0
   vite-plugin-icons: 0.5.0
-  vite-plugin-pages: 0.11.1
+  vite-plugin-pages: 0.11.2
   vite-plugin-vue-layouts: 0.3.1
   vite-plugin-windicss: 0.15.10
   vue: 3.0.11
@@ -39,7 +39,7 @@ devDependencies:
   vite: 2.3.1
   vite-plugin-components: 0.9.0_vite@2.3.1
   vite-plugin-icons: 0.5.0_fb7ac752358bf681eb1cc4c52b19b118
-  vite-plugin-pages: 0.11.1_vite@2.3.1+vue@3.0.11
+  vite-plugin-pages: 0.11.2_vite@2.3.1+vue@3.0.11
   vite-plugin-vue-layouts: 0.3.1_vite@2.3.1
   vite-plugin-windicss: 0.15.10_vite@2.3.1
   windicss: 3.0.0
@@ -5259,8 +5259,8 @@ packages:
       vue-template-es2015-compiler: 1.9.1
     dev: true
 
-  /vite-plugin-pages/0.11.1_vite@2.3.1+vue@3.0.11:
-    resolution: {integrity: sha512-onskoOYXq7vSHmKteuwBekSXFcw8WM5jZeK7Hmt7xfRyU6ZEF7+BkQ0HXmMpl4jynVfeRzi2K9l57CcFV60tyw==}
+  /vite-plugin-pages/0.11.2_vite@2.3.1+vue@3.0.11:
+    resolution: {integrity: sha512-0REsdU3QGI+JszcOdFUnzpMoiBLUmUy7+xRznjnFCTP5tIcDKokHd2sla6ClSvLppobtY5KLQgxKfOD1Z54YfA==}
     peerDependencies:
       vite: ^2.0.0
       vue: ^3.0.0
