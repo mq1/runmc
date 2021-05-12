@@ -7,14 +7,14 @@
   },
   "dependencies": {
     "@headlessui/vue": "1.2.0",
-    "@tauri-apps/api": "1.0.0-beta-rc.3",
+    "@tauri-apps/api": "1.0.0-beta.0",
     "vue": "3.0.11",
     "vue-router": "4.0.6"
   },
   "devDependencies": {
     "@antfu/eslint-config": "0.6.5",
     "@iconify/json": "1.1.342",
-    "@tauri-apps/cli": "1.0.0-beta-rc.4",
+    "@tauri-apps/cli": "1.0.0-beta.0",
     "@typescript-eslint/eslint-plugin": "4.23.0",
     "@vitejs/plugin-vue": "1.2.2",
     "@vue/compiler-sfc": "3.0.11",
