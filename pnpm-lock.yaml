@@ -4,8 +4,8 @@ specifiers:
   '@antfu/eslint-config': 0.6.5
   '@headlessui/vue': 1.2.0
   '@iconify/json': 1.1.342
-  '@tauri-apps/api': 1.0.0-beta.0
-  '@tauri-apps/cli': 1.0.0-beta.0
+  '@tauri-apps/api': 1.0.0-beta.1
+  '@tauri-apps/cli': 1.0.0-beta.1
   '@typescript-eslint/eslint-plugin': 4.23.0
   '@vitejs/plugin-vue': 1.2.2
   '@vue/compiler-sfc': 3.0.11
@@ -25,7 +25,7 @@ specifiers:
 
 dependencies:
   '@headlessui/vue': 1.2.0_vue@3.0.11
-  '@tauri-apps/api': 1.0.0-beta.0
+  '@tauri-apps/api': 1.0.0-beta.1
   '@vueuse/head': 0.5.1_vue@3.0.11
   vue: 3.0.11
   vue-router: 4.0.8_vue@3.0.11
@@ -33,7 +33,7 @@ dependencies:
 devDependencies:
   '@antfu/eslint-config': 0.6.5_eslint@7.26.0+typescript@4.2.4
   '@iconify/json': 1.1.342
-  '@tauri-apps/cli': 1.0.0-beta.0
+  '@tauri-apps/cli': 1.0.0-beta.1
   '@typescript-eslint/eslint-plugin': 4.23.0_eslint@7.26.0+typescript@4.2.4
   '@vitejs/plugin-vue': 1.2.2_@vue+compiler-sfc@3.0.11
   '@vue/compiler-sfc': 3.0.11_vue@3.0.11
@@ -411,13 +411,13 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
-  /@tauri-apps/api/1.0.0-beta.0:
-    resolution: {integrity: sha512-7JQMWyaBhB/9fwlq36CcdK6fdUvPL4OXyTVjp2hodWKSEnU2cwCbo5nxCvBl0IA/hYY8fbbVhEL3cOAmDFqcUw==}
+  /@tauri-apps/api/1.0.0-beta.1:
+    resolution: {integrity: sha512-WX9Hqf6pXFfpURTdz9VbHctnh4gjsWZDj5tSWqV4mQ2T8TldVmOSKqHpPDcVFibeM1L6oXJfrSgqR68Ho4g3bQ==}
     engines: {node: '>= 12.13.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
     dev: false
 
-  /@tauri-apps/cli/1.0.0-beta.0:
-    resolution: {integrity: sha512-l/iCGNGbCG+43Jdcch5cfG/flAamUz2Y12WhWjD1vkOtr5cKZk98v2BPL9s45tt2hVUtk0wgl1s/ol2K+SbO5g==}
+  /@tauri-apps/cli/1.0.0-beta.1:
+    resolution: {integrity: sha512-mz1AC4lioo4Bq7etdXdsJ7fxZiKBBdAdpFEut3UmrRMfLVa5E2jngVPN2BIhM535WEdRw/r3ZSqhV2EoZ7pJLg==}
     engines: {node: '>= 12.13.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
     hasBin: true
     dependencies:
@@ -437,7 +437,7 @@ packages:
       png2icons: 2.0.1
       read-chunk: 3.2.0
       semver: 7.3.5
-      sharp: 0.28.1
+      sharp: 0.28.2
       update-notifier: 5.1.0
     dev: true
 
@@ -4898,8 +4898,8 @@ packages:
     resolution: {integrity: sha1-BF+XgtARrppoA93TgrJDkrPYkPc=}
     dev: true
 
-  /sharp/0.28.1:
-    resolution: {integrity: sha512-4mCGMEN4ntaVuFGwHx7FvkJQkIgbI+S+F9a3bI7ugdvKjPr4sF7/ibvlRKhJyzhoQi+ODM+XYY1de8xs7MHbfA==}
+  /sharp/0.28.2:
+    resolution: {integrity: sha512-CdmySbsQVe/+ZM2j9zzvUfWumM0L0iHj1kpxJMFuyWvSuBULebvGCdOLb1f5vbbBrIGroX714Fx1wiWaKniz4A==}
     engines: {node: '>=10'}
     requiresBuild: true
     dependencies:
