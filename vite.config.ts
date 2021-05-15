@@ -28,4 +28,20 @@ export default defineConfig({
     }),
     ViteIcons(),
   ],
+
+  // https://github.com/antfu/vite-ssg
+  ssgOptions: {
+    script: 'async',
+    formatting: 'minify',
+  },
+
+  optimizeDeps: {
+    include: [
+      'vue',
+      'vue-router',
+    ],
+    exclude: [
+      'vue-demi',
+    ],
+  },
 })
