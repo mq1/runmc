@@ -16,7 +16,7 @@ const props = defineProps({
   >
     <div
       :class="[
-        'box small',
+        'btn-white small',
         isExactActive ? 'font-bold text-primary-500 dark:text-primary-500' : 'text-black dark:text-white'
       ]"
     >

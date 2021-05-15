@@ -45,35 +45,47 @@ onMounted(() => {
     <h1 class="text-3xl text-center my-4">
       Instance {{ props.id }}
     </h1>
-    <h2 class="text-2xl">
-      Mod loaders
-    </h2>
-    <div class="flex justify-between items-center">
-      <div>Fabric</div>
-      <div v-if="!instance?.fabric" class="text-red-700">
-        not installed
-      </div>
-      <div v-if="instance?.fabric" class="text-green-700">
-        installed
-      </div>
-      <router-link :to="`${props.id}/install-fabric`">
-        <button class="btn small bg-green-500">
-          install
-        </button>
-      </router-link>
-    </div>
-    <div class="flex justify-between">
+
+    <div class="box">
       <h2 class="text-2xl">
-        Mods
+        Mod loaders
       </h2>
-      <button class="btn small bg-blue-500" @click="openModsDir">
-        Open mods directory
-      </button>
+
+      <br />
+
+      <div class="flex justify-between items-center">
+        <div>Fabric</div>
+        <div v-if="!instance?.fabric" class="text-red-700">
+          not installed
+        </div>
+        <div v-if="instance?.fabric" class="text-green-700">
+          installed
+        </div>
+        <router-link :to="`${props.id}/install-fabric`">
+          <button class="btn small bg-green-500">
+            install
+          </button>
+        </router-link>
+      </div>
     </div>
-    <ul>
-      <li v-for="mod in mods" :key="mod">
-        {{ mod }}
-      </li>
-    </ul>
+
+    <div class="box">
+      <div class="flex justify-between">
+        <h2 class="text-2xl">
+          Mods
+        </h2>
+        <button class="btn small bg-blue-500" @click="openModsDir">
+          Open mods directory
+        </button>
+      </div>
+
+      <br />
+
+      <ul>
+        <li v-for="mod in mods" :key="mod">
+          {{ mod }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>

@@ -20,7 +20,7 @@ onMounted(updateInstances)
     <div
       v-for="instance in instances"
       :key="instance"
-      class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md"
+      class="box flex justify-between items-center"
     >
       <Instance :id="instance" @update="updateInstances" />
     </div>

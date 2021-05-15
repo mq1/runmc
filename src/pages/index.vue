@@ -50,7 +50,7 @@ onMounted(() => {
     <client-only>
       <Listbox v-model="selectedAccount">
         <ListboxButton
-          class="box px-6 py-4 text-5xl my-4 flex items-center justify-between min-w-80 text-left"
+          class="btn-white px-6 py-4 text-5xl my-4 flex items-center justify-between min-w-80 text-left"
         >
           {{ selectedAccount.name }}
           <carbon-chevron-sort class="text-gray-400" />
@@ -63,7 +63,7 @@ onMounted(() => {
           leave-from-class="transform scale-100 opacity-100"
           leave-to-class="transform scale-95 opacity-0"
         >
-          <ListboxOptions class="absolute mt-38 min-w-80 box">
+          <ListboxOptions class="absolute mt-38 min-w-80 btn-white">
             <ListboxOption
               v-for="account in accounts"
               v-slot="{ selected }"
@@ -83,7 +83,7 @@ onMounted(() => {
 
       <div class="flex gap-x-2">
         <Listbox v-model="selectedInstance">
-          <ListboxButton class="box min-w-40 small flex items-center justify-between">
+          <ListboxButton class="btn-white min-w-40 small flex items-center justify-between">
             {{ selectedInstance }}
             <carbon-chevron-sort class="text-gray-400" />
           </ListboxButton>
@@ -95,7 +95,7 @@ onMounted(() => {
             leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0"
           >
-            <ListboxOptions class="absolute mt-12 min-w-40 box">
+            <ListboxOptions class="absolute mt-12 min-w-40 btn-white">
               <ListboxOption
                 v-for="instance in instances"
                 v-slot="{ selected }"

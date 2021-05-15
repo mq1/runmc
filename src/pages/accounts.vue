@@ -28,7 +28,11 @@ onMounted(updateAvailableAccounts)
     <h1 class="text-3xl text-center my-4">
       Available accounts
     </h1>
-    <div v-for="account in availableAccounts" :key="account.id" class="flex p-2 border-1 rounded-lg shadow-md flex justify-between">
+    <div
+      v-for="account in availableAccounts"
+      :key="account.id"
+      class="box flex justify-between items-center"
+    >
       {{ account.name }}
       <button class="btn tiny bg-red-500" @click="removeAccount(account)">
         <carbon-trash-can />
