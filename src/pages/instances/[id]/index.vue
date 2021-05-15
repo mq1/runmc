@@ -57,7 +57,7 @@ onMounted(() => {
         installed
       </div>
       <router-link :to="`${props.id}/install-fabric`">
-        <button class="btn bg-green-500">
+        <button class="btn small bg-green-500">
           install
         </button>
       </router-link>
@@ -66,7 +66,7 @@ onMounted(() => {
       <h2 class="text-2xl">
         Mods
       </h2>
-      <button class="btn bg-blue-500" @click="openModsDir">
+      <button class="btn small bg-blue-500" @click="openModsDir">
         Open mods directory
       </button>
     </div>
