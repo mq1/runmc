@@ -15,6 +15,8 @@ Windows users not running Windows 10 April 2021 update may need to install [Webv
 ### 0.0.9
 
 - [x] optimizations
+- [x] i18n
+- [x] italian translation
 
 ### 0.0.8
 
