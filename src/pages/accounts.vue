@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
+import { useI18n } from 'vue-i18n'
 import type { Account } from '~/types'
+
+const { t } = useI18n()
 
 const availableAccounts = ref<Account[]>([])
 const updateAvailableAccounts = () => {
@@ -26,7 +29,7 @@ onMounted(updateAvailableAccounts)
 <template>
   <div class="flex flex-col gap-y-4 my-auto min-w-64">
     <h1 class="text-3xl text-center my-4">
-      Available accounts
+      {{ t('accounts.available') }}
     </h1>
     <div
       v-for="account in availableAccounts"
@@ -40,7 +43,7 @@ onMounted(updateAvailableAccounts)
     </div>
     <router-link to="/add-account">
       <button class="btn bg-primary-500 w-full">
-        Add an account
+        {{ t('accounts.add') }}
       </button>
     </router-link>
   </div>

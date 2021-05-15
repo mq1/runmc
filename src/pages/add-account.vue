@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { invoke } from '@tauri-apps/api/tauri'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 
 const email = ref('')
@@ -21,19 +23,19 @@ const addAccount = () => {
 <template>
   <div class="flex flex-col gap-y-4 my-auto min-w-64">
     <h1 class="text-3xl text-center my-4">
-      Add an account
+      {{ t('accounts.add') }}
     </h1>
     <div class="flex flex-col gap-y-4">
       <label class="flex flex-col">
-        <span>Email</span>
+        <span>{{ t('accounts.email') }}</span>
         <input v-model="email" type="email" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
       </label>
       <label class="flex flex-col">
-        <span>Password</span>
+        <span>{{ t('accounts.password') }}</span>
         <input v-model="password" type="password" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
       </label>
       <button class="btn bg-primary-500" @click="addAccount">
-        Add
+        {{ t('add') }}
       </button>
     </div>
   </div>

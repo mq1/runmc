@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const instances = ref<string[]>([])
 const updateInstances = () => {
@@ -15,7 +18,7 @@ onMounted(updateInstances)
 <template>
   <div class="flex flex-col gap-y-4 my-auto min-w-64">
     <h1 class="text-3xl text-center my-4">
-      Available instances
+      {{ t('instances.available') }}
     </h1>
     <div
       v-for="instance in instances"
@@ -25,7 +28,7 @@ onMounted(updateInstances)
       <Instance :id="instance" @update="updateInstances" />
     </div>
     <router-link to="/new-instance" class="btn bg-primary-500">
-      New instance
+      {{ t('instances.new') }}
     </router-link>
   </div>
 </template>

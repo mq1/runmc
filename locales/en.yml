@@ -1,0 +1,46 @@
+nav:
+  index: Home
+  accounts: Accounts
+  instances: Instances
+  settings: Settings
+  info: Info
+
+index:
+  welcome: welcome back,
+
+accounts:
+  available: Available accounts
+  add: Add an account
+  email: Email
+  password: Password
+
+instances:
+  available: Available instances
+  new: New instance
+  instance: Instance {id}
+  modloaders: Mod loaders
+  mods: Mods
+  openmodsdir: Open mods directory
+  showunstable: Show unstable versions
+  fabric: Fabric for Minecraft {version}
+  availableversions: Available versions
+  showsnapshots: Show snapshots
+
+settings:
+  save: Save settings
+  reset: Reset to defaults
+  java:
+    path: Java path
+    memory: Java allocated memory
+  locale: Language
+
+info:
+  version: runmc version {version}
+  sourcecode: Source code
+  here: here
+
+installed: Installed
+notinstalled: Not installed
+install: Install
+installing: Installing
+add: Add

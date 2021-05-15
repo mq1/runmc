@@ -6,6 +6,7 @@ import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'vite-plugin-components'
 import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
+import VueI18n from '@intlify/vite-plugin-vue-i18n'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,6 +28,11 @@ export default defineConfig({
       }),
     }),
     ViteIcons(),
+
+    // https://github.com/intlify/vite-plugin-vue-i18n
+    VueI18n({
+      include: [path.resolve(__dirname, 'locales/**')],
+    }),
   ],
 
   // https://github.com/antfu/vite-ssg

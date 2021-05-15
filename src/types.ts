@@ -1,3 +1,7 @@
+import { ViteSSGContext } from 'vite-ssg'
+
+export type UserModule = (ctx: ViteSSGContext) => void
+
 export type Account = {
   name: string
   id: string
@@ -21,4 +25,5 @@ export type Config = {
     path: string
     memory: string
   }
+  locale: string
 }

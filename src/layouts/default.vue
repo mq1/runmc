@@ -1,27 +1,33 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <div class="flex flex justify-between h-screen dark:bg-black dark:text-white">
     <nav class="flex flex-col p-2 w-40 bg-primary-500 dark:bg-primary-700 justify-between">
       <div class="flex flex-col gap-y-2">
         <NavLink to="/">
-          <carbon-home /> Home
+          <carbon-home /> {{ t('nav.index') }}
         </NavLink>
         <NavLink to="/accounts">
-          <carbon-user-multiple /> Accounts
+          <carbon-user-multiple /> {{ t('nav.accounts') }}
         </NavLink>
         <NavLink to="/instances">
-          <carbon-layers /> Instances
+          <carbon-layers /> {{ t('nav.instances') }}
         </NavLink>
       </div>
       <div class="flex flex-col gap-y-2">
         <NavLink to="/settings">
-          <carbon-settings-adjust /> Settings
+          <carbon-settings-adjust /> {{ t('nav.settings') }}
         </NavLink>
         <NavLink to="/info">
-          <carbon-information /> Info
+          <carbon-information /> {{ t('nav.info') }}
         </NavLink>
       </div>
     </nav>
-    <main class="flex-1 flex flex-col items-center justify-between gap-y-8 m-8 max-h-screen overflow-auto">
+    <main class="flex-1 flex flex-col items-center justify-between gap-y-8 m-8 max-w-screen max-h-screen overflow-auto">
       <transition
         enter-active-class="transition duration-100 ease-out"
         enter-from-class="opacity-0"

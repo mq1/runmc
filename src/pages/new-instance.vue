@@ -3,8 +3,10 @@ import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useRouter } from 'vue-router'
 import { Switch } from '@headlessui/vue'
+import { useI18n } from 'vue-i18n'
 import type { Version } from '~/types'
 
+const { t } = useI18n()
 const router = useRouter()
 
 const snapshotsEnabled = ref(false)
@@ -34,7 +36,7 @@ onMounted(updateVersions)
 
 <template>
   <h1 class="text-3xl text-center">
-    Available Versions
+    {{ t('instances.availableversions') }}
   </h1>
   <div class="overflow-y-auto h-full w-full flex flex-col items-center gap-y-4">
     <div
@@ -55,12 +57,12 @@ onMounted(updateVersions)
     <div v-show="!installing" />
     <div v-show="installing" class="flex items-center gap-x-2">
       <carbon-restart class="animate-spin" />
-      Installing
+      {{ t('installing') }}
     </div>
     <div class="flex gap-x-2">
-      <span>Show snapshots</span>
+      <span>{{ t('instances.showsnapshots') }}</span>
       <Switch v-model="snapshotsEnabled" :class="snapshotsEnabled ? 'bg-teal-900' : 'bg-teal-700'" class="relative inline-flex items-center h-6 rounded-full w-11 cursor-pointer focus:outline-none">
-        <span class="sr-only">Enable snapshots</span>
+        <span class="sr-only">{{ t('instances.showsnapshots') }}</span>
         <span
           :class="snapshotsEnabled ? 'translate-x-6' : 'translate-x-1'"
           class="inline-block w-4 h-4 transform bg-white rounded-full"

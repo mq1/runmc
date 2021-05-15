@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { defineProps, onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
+import { useI18n } from 'vue-i18n'
 import type { InstanceInfo } from '~/types'
+
+const { t } = useI18n()
 
 const props = defineProps({
   id: {
@@ -43,12 +46,12 @@ onMounted(() => {
 <template>
   <div class="flex flex-col gap-y-6 w-full">
     <h1 class="text-3xl text-center my-4">
-      Instance {{ props.id }}
+      {{ t('instances.instance', { id: props.id }) }}
     </h1>
 
     <div class="box">
       <h2 class="text-2xl">
-        Mod loaders
+        {{ t('instances.modloaders') }}
       </h2>
 
       <br />
@@ -56,14 +59,14 @@ onMounted(() => {
       <div class="flex justify-between items-center">
         <div>Fabric</div>
         <div v-if="!instance?.fabric" class="text-red-700">
-          not installed
+          {{ t('notinstalled') }}
         </div>
         <div v-if="instance?.fabric" class="text-green-700">
-          installed
+          {{ t('installed') }}
         </div>
         <router-link :to="`${props.id}/install-fabric`">
           <button class="btn small bg-green-500">
-            install
+            {{ t('install') }}
           </button>
         </router-link>
       </div>
@@ -72,10 +75,10 @@ onMounted(() => {
     <div class="box">
       <div class="flex justify-between">
         <h2 class="text-2xl">
-          Mods
+          {{ t('instances.mods') }}
         </h2>
         <button class="btn small bg-blue-500" @click="openModsDir">
-          Open mods directory
+          {{ t('instances.openmodsdir') }}
         </button>
       </div>
 

@@ -13,7 +13,8 @@ pub struct JavaConfig {
 #[derive(Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
-  pub java: JavaConfig
+  pub java: JavaConfig,
+  pub locale: String,
 }
 
 #[command]
@@ -21,8 +22,9 @@ pub fn get_default_config() -> Config {
   Config {
     java: JavaConfig {
       path: String::from("java"),
-      memory: String::from("2G")
-    }
+      memory: String::from("2G"),
+    },
+    locale: String::from("en"),
   }
 }
 

@@ -2,7 +2,10 @@
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
+import { useI18n } from 'vue-i18n'
 import type { Account } from '~/types'
+
+const { t } = useI18n()
 
 const accounts = ref<Account[]>([])
 const selectedAccount = ref<Account>({ name: 'No users found', id: '', accessToken: '' })
@@ -45,7 +48,7 @@ onMounted(() => {
 <template>
   <div class="flex flex-col items-center my-auto">
     <div class="text-3xl text-gray-500">
-      welcome back,
+      {{ t('index.welcome') }}
     </div>
     <client-only>
       <Listbox v-model="selectedAccount">
