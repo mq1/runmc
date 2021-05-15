@@ -1,0 +1,46 @@
+nav:
+  index: Home
+  accounts: Accounts
+  instances: Istanze
+  settings: Impostazioni
+  info: Informazioni
+
+index:
+  welcome: bentornato,
+
+accounts:
+  available: Accounts disponibili
+  add: Aggiungi un account
+  email: Email
+  password: Password
+
+instances:
+  available: Istanze disponibili
+  new: Nuova istanza
+  instance: Istanza {id}
+  modloaders: Mod loaders
+  mods: Mods
+  openmodsdir: Apri la cartella delle mod
+  showunstable: Mostra versioni instabili
+  fabric: Fabric per Minecraft {version}
+  availableversions: Versioni disponibili
+  showsnapshots: Mostra snapshots
+
+settings:
+  save: Salva impostazioni
+  reset: Reset ai predefiniti
+  java:
+    path: Percorso di Java
+    memory: Memoria allocata a Java
+  locale: Lingua
+
+info:
+  version: runmc versione {version}
+  sourcecode: Codice sorgente
+  here: qui
+
+installed: Installata
+notinstalled: Non installata
+install: Installa
+installing: Installando
+add: Aggiungi
