@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { invoke } from '@tauri-apps/api/tauri'
+import type { Config } from '~/types'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const updateLocale = () => {
+  invoke('get_config')
+    .then(config => locale.value = (config as Config).locale)
+}
+
+onMounted(updateLocale)
 </script>
 
 <template>
