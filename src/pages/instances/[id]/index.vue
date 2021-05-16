@@ -58,13 +58,10 @@ onMounted(() => {
 
       <div class="flex justify-between items-center">
         <div>Fabric</div>
-        <div v-if="!instance?.fabric" class="text-red-700">
-          {{ t('notinstalled') }}
-        </div>
         <div v-if="instance?.fabric" class="text-green-700">
           {{ t('installed') }}
         </div>
-        <router-link :to="`${props.id}/install-fabric`">
+        <router-link v-if="!instance?.fabric" :to="`${props.id}/install-fabric`">
           <button class="btn small bg-green-500">
             {{ t('install') }}
           </button>
