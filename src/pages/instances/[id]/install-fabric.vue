@@ -21,7 +21,7 @@ type Loader = {
 
 const router = useRouter()
 
-const versions = ref<Loader[]>([])
+const versions = ref<Loader[]>()
 const updateVersions = () => {
   invoke('get_fabric_loader_versions', {
     instanceName: props.id,
@@ -48,7 +48,7 @@ onMounted(updateVersions)
   <h1 class="text-3xl text-center">
     {{ t('instances.fabric', { version: props.id }) }}
   </h1>
-  <ul class="h-full w-full flex flex-col items-center gap-y-4 overflow-y-auto">
+  <ul v-if="versions" class="h-full w-full flex flex-col items-center gap-y-4 overflow-y-auto">
     <li v-for="version in versions.filter(v => v.stable || showUnstable)" :key="version.version" class="p-2 border-1 rounded-lg shadow-md w-96 flex justify-between items-center">
       <div class="flex gap-x-2 items-center flex-1">
         <carbon-fire v-if="!version.stable" class="text-red-700" />

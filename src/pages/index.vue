@@ -7,7 +7,7 @@ import type { Account } from '~/types'
 
 const { t } = useI18n()
 
-const accounts = ref<Account[]>([])
+const accounts = ref<Account[]>()
 const selectedAccount = ref<Account>({ name: 'No users found', id: '', accessToken: '' })
 
 const updateAccounts = () => {
@@ -19,7 +19,7 @@ const updateAccounts = () => {
     .catch((e: string) => console.error(e))
 }
 
-const instances = ref<string[]>([])
+const instances = ref<string[]>()
 const selectedInstance = ref('No instances present')
 
 const updateInstances = () => {

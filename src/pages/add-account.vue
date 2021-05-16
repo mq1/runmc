@@ -7,8 +7,8 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
+const email = ref<string>()
+const password = ref<string>()
 
 const addAccount = () => {
   invoke('login', {

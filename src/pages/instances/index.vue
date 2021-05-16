@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const instances = ref<string[]>([])
+const instances = ref<string[]>()
 const updateInstances = () => {
   invoke('list_instances')
     .then(i => instances.value = i as string[])

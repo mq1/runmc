@@ -6,7 +6,7 @@ import type { Account } from '~/types'
 
 const { t } = useI18n()
 
-const availableAccounts = ref<Account[]>([])
+const availableAccounts = ref<Account[]>()
 const updateAvailableAccounts = () => {
   invoke('get_accounts')
     .then((a) => {
