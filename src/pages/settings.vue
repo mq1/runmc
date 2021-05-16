@@ -6,7 +6,7 @@ import type { Config } from '~/types'
 
 const { t, availableLocales, locale } = useI18n()
 
-const config = ref<Config>({ java: { path: '', memory: '' }, locale: 'en' })
+const config = ref<Config>()
 const getConfig = () => {
   invoke('get_config')
     .then(c => config.value = c as Config)
@@ -17,7 +17,7 @@ const saveConfig = () => {
     .then(getConfig)
     .catch((e: string) => console.error(e))
 
-  locale.value = config.value.locale
+  locale.value = config.value!.locale
 }
 const getDefaultConfig = () => {
   invoke('get_default_config')
@@ -32,7 +32,7 @@ onMounted(getConfig)
   <h1 class="text-3xl text-center my-4">
     {{ t('nav.settings') }}
   </h1>
-  <div class="flex flex-col gap-y-4 min-w-64">
+  <div v-if="config" class="flex flex-col gap-y-4 min-w-64">
     <label class="flex flex-col">
       <span>{{ t('settings.locale') }}</span>
       <select v-model="config.locale" class="box dark:bg-black">
