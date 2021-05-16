@@ -13,7 +13,7 @@ const snapshotsEnabled = ref(false)
 
 const installing = ref(false)
 
-const versions = ref<Version[]>([])
+const versions = ref<Version[]>()
 const updateVersions = () => {
   invoke('list_available_game_versions')
     .then(v => versions.value = v as Version[])
@@ -38,7 +38,7 @@ onMounted(updateVersions)
   <h1 class="text-3xl text-center">
     {{ t('instances.availableversions') }}
   </h1>
-  <div class="overflow-y-auto h-full w-full flex flex-col items-center gap-y-4">
+  <div v-if="versions" class="overflow-y-auto h-full w-full flex flex-col items-center gap-y-4">
     <div
       v-for="version in versions.filter(v => v.type === 'release' || (v.type === 'snapshot' && snapshotsEnabled))"
       :key="version.id"
