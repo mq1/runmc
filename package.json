@@ -16,21 +16,21 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "0.6.5",
-    "@iconify/json": "1.1.343",
+    "@iconify/json": "1.1.345",
     "@intlify/vite-plugin-vue-i18n": "2.1.2",
     "@tauri-apps/cli": "1.0.0-beta.2",
-    "@typescript-eslint/eslint-plugin": "4.23.0",
+    "@typescript-eslint/eslint-plugin": "4.24.0",
     "@vitejs/plugin-vue": "1.2.2",
     "@vue/compiler-sfc": "3.0.11",
     "@vue/server-renderer": "3.0.11",
     "eslint": "7.26.0",
     "typescript": "4.2.4",
-    "vite": "2.3.2",
+    "vite": "2.3.3",
     "vite-plugin-components": "0.9.1",
     "vite-plugin-icons": "0.5.1",
     "vite-plugin-pages": "0.12.1",
     "vite-plugin-vue-layouts": "0.3.1",
     "vite-plugin-windicss": "0.15.10",
-    "vite-ssg": "0.10.0"
+    "vite-ssg": "0.10.1"
   }
 }
