@@ -23,7 +23,7 @@
     "@vitejs/plugin-vue": "1.2.2",
     "@vue/compiler-sfc": "3.0.11",
     "@vue/server-renderer": "3.0.11",
-    "eslint": "7.26.0",
+    "eslint": "7.27.0",
     "typescript": "4.2.4",
     "vite": "2.3.3",
     "vite-plugin-components": "0.9.1",
@@ -31,6 +31,6 @@
     "vite-plugin-pages": "0.12.1",
     "vite-plugin-vue-layouts": "0.3.1",
     "vite-plugin-windicss": "0.15.10",
-    "vite-ssg": "0.10.1"
+    "vite-ssg": "0.11.1"
   }
 }
