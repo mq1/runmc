@@ -36,8 +36,6 @@ settings:
 
 info:
   version: runmc versione {version}
-  sourcecode: Codice sorgente
-  here: qui
 
 installed: Installata
 notinstalled: Non installata
