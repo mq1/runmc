@@ -38,9 +38,12 @@ onMounted(updateLocale)
     </nav>
     <main class="flex-1 flex flex-col items-center justify-between gap-y-8 m-8 max-w-screen max-h-screen overflow-auto">
       <transition
-        enter-active-class="transition duration-500 ease-out"
-        enter-from-class="transform -translate-x-full opacity-0"
-        enter-to-class="transform translate-x-0 opacity-100"
+        enter-active-class="transition duration-100 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition duration-100 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
       >
         <router-view />
       </transition>
