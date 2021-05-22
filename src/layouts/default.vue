@@ -14,8 +14,8 @@ onMounted(updateLocale)
 </script>
 
 <template>
-  <div class="flex flex justify-between h-screen dark:bg-black dark:text-white">
-    <nav class="flex flex-col p-2 w-40 bg-primary-500 dark:bg-primary-700 justify-between">
+  <div class="flex flex justify-between h-screen dark:bg-black dark:text-white p-4">
+    <nav class="flex flex-col p-4 w-44 bg-primary-500 dark:bg-primary-700 rounded-xl shadow-2xl justify-between">
       <div class="flex flex-col gap-y-2">
         <NavLink to="/">
           <carbon-home /> {{ t('nav.index') }}
