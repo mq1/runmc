@@ -56,7 +56,7 @@ onMounted(() => {
           class="btn-white px-6 py-4 text-5xl my-4 flex items-center justify-between min-w-80 text-left"
         >
           {{ selectedAccount.name }}
-          <carbon-chevron-sort class="text-gray-400" />
+          <carbon-chevron-down class="text-gray-400" />
         </ListboxButton>
         <transition
           enter-active-class="transition duration-100 ease-out"
@@ -88,7 +88,7 @@ onMounted(() => {
         <Listbox v-model="selectedInstance">
           <ListboxButton class="btn-white min-w-40 small flex items-center justify-between">
             {{ selectedInstance }}
-            <carbon-chevron-sort class="text-gray-400" />
+            <carbon-chevron-down class="text-gray-400" />
           </ListboxButton>
           <transition
             enter-active-class="transition duration-100 ease-out"
