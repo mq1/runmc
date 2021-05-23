@@ -37,16 +37,7 @@ onMounted(updateLocale)
       </div>
     </nav>
     <main class="m-4 flex-1 flex flex-col items-center justify-between gap-y-8 min-w-xs max-w-screen max-h-screen overflow-auto">
-      <transition
-        enter-active-class="transition duration-100 ease-out"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition duration-100 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <router-view />
-      </transition>
+      <router-view />
     </main>
   </div>
 </template>
