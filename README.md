@@ -2,6 +2,8 @@
 
 A minimal and lightweight Minecraft launcher
 
+![screenshot](screenshot.png)
+
 ## Installation
 
 [![Windows Download](https://img.shields.io/badge/Windows-Download-0078D6?logo=windows)](https://github.com/mq1/runmc/releases/latest/download/runmc_0.0.9_x64.msi.zip)
