@@ -27,10 +27,11 @@ onMounted(updateAvailableAccounts)
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4 my-auto min-w-64">
-    <h1 class="text-3xl text-center my-4">
-      {{ t('accounts.available') }}
-    </h1>
+  <h1 class="text-3xl text-center my-4">
+    {{ t('accounts.available') }}
+  </h1>
+
+  <div class="min-w-xs flex flex-col gap-y-4">
     <div
       v-for="account in availableAccounts"
       :key="account.id"
@@ -41,10 +42,11 @@ onMounted(updateAvailableAccounts)
         <carbon-trash-can />
       </button>
     </div>
-    <router-link to="/add-account">
-      <button class="btn bg-primary-500 w-full">
-        {{ t('accounts.add') }}
-      </button>
+
+    <router-link to="/add-account" class="btn bg-primary-500">
+      {{ t('accounts.add') }}
     </router-link>
   </div>
+
+  <div />
 </template>

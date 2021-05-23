@@ -2,6 +2,10 @@
   @apply rounded-lg shadow-md border px-4 py-2;
 }
 
+select, input[type=text] {
+  @apply box dark:bg-black border-gray-300 focus:ring-0 focus:border-primary-500;
+}
+
 .btn-white {
   @apply rounded-lg shadow-md flex items-center gap-x-2 border-1 border-gray-200 focus:outline-none bg-white dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-700;
 }

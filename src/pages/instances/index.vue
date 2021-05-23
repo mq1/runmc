@@ -16,10 +16,11 @@ onMounted(updateInstances)
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4 my-auto min-w-64">
-    <h1 class="text-3xl text-center my-4">
-      {{ t('instances.available') }}
-    </h1>
+  <h1 class="text-3xl text-center my-4">
+    {{ t('instances.available') }}
+  </h1>
+
+  <div class="min-w-xs flex flex-col gap-y-4">
     <div
       v-for="instance in instances"
       :key="instance"
@@ -27,8 +28,11 @@ onMounted(updateInstances)
     >
       <Instance :id="instance" @update="updateInstances" />
     </div>
+
     <router-link to="/new-instance" class="btn bg-primary-500">
       {{ t('instances.new') }}
     </router-link>
   </div>
+
+  <div />
 </template>

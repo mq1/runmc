@@ -36,7 +36,7 @@ onMounted(updateLocale)
         </NavLink>
       </div>
     </nav>
-    <main class="flex-1 flex flex-col items-center justify-between gap-y-8 m-8 max-w-screen max-h-screen overflow-auto">
+    <main class="flex-1 flex flex-col items-center justify-between gap-y-8 min-w-xs max-w-screen max-h-screen overflow-auto">
       <transition
         enter-active-class="transition duration-100 ease-out"
         enter-from-class="opacity-0"
