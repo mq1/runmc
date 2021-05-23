@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useI18n } from 'vue-i18n'
@@ -46,79 +45,27 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center my-auto">
+  <div class="flex flex-col items-center justify-center gap-y-4 h-full">
     <div class="text-3xl text-gray-500">
       {{ t('index.welcome') }}
     </div>
-    <client-only>
-      <Listbox v-model="selectedAccount">
-        <ListboxButton
-          class="btn-white px-6 py-4 text-5xl my-4 flex items-center justify-between min-w-80 text-left"
-        >
-          {{ selectedAccount.name }}
-          <carbon-chevron-down class="text-gray-400" />
-        </ListboxButton>
-        <transition
-          enter-active-class="transition duration-100 ease-out"
-          enter-from-class="transform scale-95 opacity-0"
-          enter-to-class="transform scale-100 opacity-100"
-          leave-active-class="transition duration-75 ease-in"
-          leave-from-class="transform scale-100 opacity-100"
-          leave-to-class="transform scale-95 opacity-0"
-        >
-          <ListboxOptions class="absolute mt-38 min-w-80 btn-white">
-            <ListboxOption
-              v-for="account in accounts"
-              v-slot="{ selected }"
-              :key="account.id"
-              :value="account"
-              as="div"
-              class="p-2 w-full"
-            >
-              <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <carbon-checkmark />
-              </span>
-              <span class="pl-8">{{ account.name }}</span>
-            </ListboxOption>
-          </ListboxOptions>
-        </transition>
-      </Listbox>
 
-      <div class="flex gap-x-2">
-        <Listbox v-model="selectedInstance">
-          <ListboxButton class="btn-white min-w-40 small flex items-center justify-between">
-            {{ selectedInstance }}
-            <carbon-chevron-down class="text-gray-400" />
-          </ListboxButton>
-          <transition
-            enter-active-class="transition duration-100 ease-out"
-            enter-from-class="transform scale-95 opacity-0"
-            enter-to-class="transform scale-100 opacity-100"
-            leave-active-class="transition duration-75 ease-in"
-            leave-from-class="transform scale-100 opacity-100"
-            leave-to-class="transform scale-95 opacity-0"
-          >
-            <ListboxOptions class="absolute mt-12 min-w-40 btn-white">
-              <ListboxOption
-                v-for="instance in instances"
-                v-slot="{ selected }"
-                :key="instance"
-                :value="instance"
-                as="div"
-                class="p-2 flex items-center w-full"
-              >
-                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <carbon-checkmark />
-                </span>
-                <span class="pl-8">{{ instance }}</span>
-              </ListboxOption>
-            </ListboxOptions>
-          </transition>
-        </Listbox>
-        <button class="btn round bg-primary-500" @click="runInstance">
-          <carbon-arrow-right />
-        </button>
-      </div>
-    </client-only>
+    <select v-model="selectedAccount" class="min-w-80 min-h-24 rounded-2xl text-5xl">
+      <option v-for="account in accounts" :key="account.id" :value="account">
+        {{ account.name }}
+      </option>
+    </select>
+
+    <div class="flex gap-x-4">
+      <select v-model="selectedInstance" class="min-w-40">
+        <option v-for="instance in instances" :key="instance">
+          {{ instance }}
+        </option>
+      </select>
+
+      <button class="primary round" @click="runInstance">
+        <carbon-arrow-right />
+      </button>
+    </div>
   </div>
 </template>

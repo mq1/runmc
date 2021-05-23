@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useRouter } from 'vue-router'
-import { Switch } from '@headlessui/vue'
 import { useI18n } from 'vue-i18n'
 import type { Version } from '~/types'
 
@@ -38,36 +37,32 @@ onMounted(updateVersions)
   <h1 class="text-3xl text-center">
     {{ t('instances.availableversions') }}
   </h1>
+
   <div v-if="versions" class="overflow-y-auto h-full w-full flex flex-col items-center gap-y-4">
     <div
       v-for="version in versions.filter(v => v.type === 'release' || (v.type === 'snapshot' && snapshotsEnabled))"
       :key="version.id"
-      class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md w-72 gap-x-4"
+      class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md min-w-sm gap-x-4"
     >
-      <carbon-fire v-if="version.type === 'snapshot'" class="text-red-700" />
-      <carbon-badge v-if="version.type === 'release'" class="text-green-700" />
+      <carbon-fire v-if="version.type === 'snapshot'" class="text-red-500" />
+      <carbon-badge v-if="version.type === 'release'" class="text-green-500" />
       {{ version.type }}
       <span class="font-semibold">{{ version.id }}</span>
-      <button class="btn tiny bg-green-500" @click="newInstance(version)">
+      <button class="tiny bg-green-500 text-white" @click="newInstance(version)">
         <carbon-download />
       </button>
     </div>
   </div>
+
   <div class="w-full flex justify-between">
     <div v-show="!installing" />
     <div v-show="installing" class="flex items-center gap-x-2">
       <carbon-restart class="animate-spin" />
       {{ t('installing') }}
     </div>
-    <div class="flex gap-x-2">
-      <span>{{ t('instances.showsnapshots') }}</span>
-      <Switch v-model="snapshotsEnabled" :class="snapshotsEnabled ? 'bg-teal-900' : 'bg-teal-700'" class="relative inline-flex items-center h-6 rounded-full w-11 cursor-pointer focus:outline-none">
-        <span class="sr-only">{{ t('instances.showsnapshots') }}</span>
-        <span
-          :class="snapshotsEnabled ? 'translate-x-6' : 'translate-x-1'"
-          class="inline-block w-4 h-4 transform bg-white rounded-full"
-        />
-      </Switch>
+    <div class="flex items-center gap-x-2">
+      <label>{{ t('instances.showsnapshots') }}</label>
+      <input v-model="snapshotsEnabled" type="checkbox" />
     </div>
   </div>
 </template>

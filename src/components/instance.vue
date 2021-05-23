@@ -45,27 +45,29 @@ const remove = () => {
 </script>
 
 <template>
-  <div v-if="!renaming">
-    {{ props.id }}
-  </div>
-  <input
-    v-if="renaming"
-    v-model="name"
-    type="text"
-    class="border-gray-300 rounded-lg mr-2 dark:bg-black"
-  />
-  <div class="flex gap-x-2">
-    <button v-if="!renaming" class="btn tiny bg-blue-500" @click="startRenaming">
-      <carbon-pen />
-    </button>
-    <button v-if="renaming" class="btn tiny bg-green-500" @click="rename">
-      <carbon-checkmark />
-    </button>
-    <button class="btn tiny bg-yellow-500" @click="router.push(`/instances/${props.id}`)">
-      <carbon-settings />
-    </button>
-    <button class="btn tiny bg-red-500" @click="remove">
-      <carbon-trash-can />
-    </button>
+  <div class="box border flex justify-between items-center">
+    <div v-if="!renaming">
+      {{ props.id }}
+    </div>
+    <input
+      v-if="renaming"
+      v-model="name"
+      type="text"
+      class="border-gray-300 rounded-lg mr-2 dark:bg-black"
+    />
+    <div class="flex gap-x-2">
+      <button v-if="!renaming" class="tiny bg-blue-500 text-white" @click="startRenaming">
+        <carbon-pen />
+      </button>
+      <button v-if="renaming" class="tiny bg-green-500 text-white" @click="rename">
+        <carbon-checkmark />
+      </button>
+      <button class="tiny bg-yellow-500 text-white" @click="router.push(`/instances/${props.id}`)">
+        <carbon-settings />
+      </button>
+      <button class="tiny bg-red-500 text-white" @click="remove">
+        <carbon-trash-can />
+      </button>
+    </div>
   </div>
 </template>

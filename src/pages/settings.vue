@@ -48,14 +48,14 @@ onMounted(getConfig)
       <input v-model.number="config.java.memory" type="text" />
     </label>
   </div>
-  <div class="w-full flex justify-end gap-x-2">
-    <button class="btn bg-red-500 flex gap-x-2" @click="getDefaultConfig">
+  <div class="mb-4 mr-8 w-full flex justify-end gap-x-2">
+    <button class="w-auto bg-red-500 text-white flex gap-x-2" @click="getDefaultConfig">
       <carbon-reset />
       <span>
         {{ t('settings.reset') }}
       </span>
     </button>
-    <button class="btn bg-primary-500 flex gap-x-2" @click="saveConfig">
+    <button class="w-auto bg-primary-500 text-white flex gap-x-2" @click="saveConfig">
       <carbon-save />
       <span>
         {{ t('settings.save') }}

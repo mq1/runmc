@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { defineProps, onMounted, ref } from 'vue'
-import { Switch } from '@headlessui/vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -48,6 +47,7 @@ onMounted(updateVersions)
   <h1 class="text-3xl text-center">
     {{ t('instances.fabric', { version: props.id }) }}
   </h1>
+
   <ul v-if="versions" class="h-full w-full flex flex-col items-center gap-y-4 overflow-y-auto">
     <li v-for="version in versions.filter(v => v.stable || showUnstable)" :key="version.version" class="p-2 border-1 rounded-lg shadow-md w-96 flex justify-between items-center">
       <div class="flex gap-x-2 items-center flex-1">
@@ -56,19 +56,14 @@ onMounted(updateVersions)
         <span>{{ version.stable ? 'stable' : 'unstable' }}</span>
       </div>
       <span class="flex-1">{{ version.version }}</span>
-      <button class="btn bg-green-500 small" @click="install(version.version)">
+      <button class="bg-green-500 small text-white w-auto" @click="install(version.version)">
         {{ t('install') }}
       </button>
     </li>
   </ul>
-  <div class="flex gap-x-2 justify-end w-full">
-    <span>{{ t('instances.showunstable') }}</span>
-    <Switch v-model="showUnstable" :class="showUnstable ? 'bg-teal-900' : 'bg-teal-700'" class="relative inline-flex items-center h-6 rounded-full w-11 cursor-pointer focus:outline-none">
-      <span class="sr-only">{{ t('instances.showunstable') }}</span>
-      <span
-        :class="showUnstable ? 'translate-x-6' : 'translate-x-1'"
-        class="inline-block w-4 h-4 transform bg-white rounded-full"
-      />
-    </Switch>
+
+  <div class="flex gap-x-2 justify-end items-center w-full">
+    <label>{{ t('instances.showunstable') }}</label>
+    <input v-model="showUnstable" type="checkbox" />
   </div>
 </template>

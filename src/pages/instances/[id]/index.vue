@@ -44,12 +44,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-6 w-full">
-    <h1 class="text-3xl text-center my-4">
-      {{ t('instances.instance', { id: props.id }) }}
-    </h1>
+  <h1 class="text-3xl text-center my-4">
+    {{ t('instances.instance', { id: props.id }) }}
+  </h1>
 
-    <div class="box">
+  <div class="min-w-full flex flex-col gap-y-8">
+    <div class="box border">
       <h2 class="text-2xl">
         {{ t('instances.modloaders') }}
       </h2>
@@ -62,30 +62,31 @@ onMounted(() => {
           {{ t('installed') }}
         </div>
         <router-link v-if="!instance?.fabric" :to="`${props.id}/install-fabric`">
-          <button class="btn small bg-green-500">
+          <button class="small bg-green-500 text-white">
             {{ t('install') }}
           </button>
         </router-link>
       </div>
     </div>
 
-    <div class="box">
-      <div class="flex justify-between">
-        <h2 class="text-2xl">
-          {{ t('instances.mods') }}
-        </h2>
-        <button class="btn small bg-blue-500" @click="openModsDir">
-          {{ t('instances.openmodsdir') }}
-        </button>
-      </div>
-
-      <br />
+    <div class="box border">
+      <h2 class="text-2xl">
+        {{ t('instances.mods') }}
+      </h2>
 
       <ul>
         <li v-for="mod in mods" :key="mod">
           {{ mod }}
         </li>
       </ul>
+
+      <div class="w-full flex justify-end">
+        <button class="small bg-blue-500 text-white w-auto" @click="openModsDir">
+          {{ t('instances.openmodsdir') }}
+        </button>
+      </div>
     </div>
   </div>
+
+  <div />
 </template>

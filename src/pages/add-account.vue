@@ -28,13 +28,13 @@ const addAccount = () => {
     <div class="flex flex-col gap-y-4">
       <label class="flex flex-col">
         <span>{{ t('accounts.email') }}</span>
-        <input v-model="email" type="email" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
+        <input v-model="email" type="email" />
       </label>
       <label class="flex flex-col">
         <span>{{ t('accounts.password') }}</span>
-        <input v-model="password" type="password" class="rounded-lg border-gray-300 shadow-md dark:bg-black" />
+        <input v-model="password" type="password" />
       </label>
-      <button class="btn bg-primary-500" @click="addAccount">
+      <button class="primary" @click="addAccount">
         {{ t('add') }}
       </button>
     </div>

@@ -2,7 +2,6 @@ lockfileVersion: 5.3
 
 specifiers:
   '@antfu/eslint-config': 0.6.5
-  '@headlessui/vue': 1.2.0
   '@iconify/json': 1.1.347
   '@intlify/vite-plugin-vue-i18n': 2.1.2
   '@tauri-apps/api': 1.0.0-beta.1
@@ -26,7 +25,6 @@ specifiers:
   vue-router: 4.0.8
 
 dependencies:
-  '@headlessui/vue': 1.2.0_vue@3.0.11
   '@tauri-apps/api': 1.0.0-beta.1
   '@vueuse/head': 0.5.1_vue@3.0.11
   vue: 3.0.11
@@ -347,15 +345,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@headlessui/vue/1.2.0_vue@3.0.11:
-    resolution: {integrity: sha512-nATOiQyGik8qoGFnWdWDaMWlpBLBaybhsa4drUoz/vMggw2fmXqzilAfMXHDwvqzh35SkSb13BEWA8kUSUNgkg==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      vue: ^3.0.0
-    dependencies:
-      vue: 3.0.11
-    dev: false
 
   /@iconify/json-tools/1.0.10:
     resolution: {integrity: sha512-LFelJDOLZ6JHlmlAkgrvmcu4hpNPB91KYcr4f60D/exzU1eNOb4/KCVHIydGHIQFaOacIOD+Xy+B7P1z812cZg==}

@@ -35,16 +35,18 @@ onMounted(updateAvailableAccounts)
     <div
       v-for="account in availableAccounts"
       :key="account.id"
-      class="box flex justify-between items-center"
+      class="box border flex justify-between items-center"
     >
       {{ account.name }}
-      <button class="btn tiny bg-red-500" @click="removeAccount(account)">
+      <button class="tiny bg-red-500 text-white" @click="removeAccount(account)">
         <carbon-trash-can />
       </button>
     </div>
 
-    <router-link to="/add-account" class="btn bg-primary-500">
-      {{ t('accounts.add') }}
+    <router-link to="/add-account">
+      <button class="primary">
+        {{ t('accounts.add') }}
+      </button>
     </router-link>
   </div>
 

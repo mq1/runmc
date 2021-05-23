@@ -14,13 +14,13 @@ const props = defineProps({
     v-slot="{ isExactActive }"
     :to="props.to"
   >
-    <div
+    <button
       :class="[
-        'btn-white small',
-        isExactActive ? 'font-bold text-primary-500 dark:text-primary-500' : 'text-black dark:text-white'
+        'small',
+        isExactActive && 'font-bold text-primary-500 dark:text-primary-500'
       ]"
     >
       <slot />
-    </div>
+    </button>
   </router-link>
 </template>

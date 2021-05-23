@@ -21,16 +21,17 @@ onMounted(updateInstances)
   </h1>
 
   <div class="min-w-xs flex flex-col gap-y-4">
-    <div
+    <Instance
       v-for="instance in instances"
+      :id="instance"
       :key="instance"
-      class="box flex justify-between items-center"
-    >
-      <Instance :id="instance" @update="updateInstances" />
-    </div>
+      @update="updateInstances"
+    />
 
-    <router-link to="/new-instance" class="btn bg-primary-500">
-      {{ t('instances.new') }}
+    <router-link to="/new-instance">
+      <button class="primary">
+        {{ t('instances.new') }}
+      </button>
     </router-link>
   </div>
 
