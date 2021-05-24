@@ -17,7 +17,7 @@ const props = defineProps({
     <button
       :class="[
         'small',
-        isExactActive && 'font-bold text-primary-500 dark:text-primary-500'
+        isExactActive && 'font-bold bg-primary-600 border-2 border-white text-white'
       ]"
     >
       <slot />
