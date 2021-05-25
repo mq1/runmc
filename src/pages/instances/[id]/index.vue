@@ -74,7 +74,9 @@ onMounted(() => {
         {{ t('instances.mods') }}
       </h2>
 
-      <ul>
+      <br />
+
+      <ul class="list-disc ml-6">
         <li v-for="mod in mods" :key="mod">
           {{ mod }}
         </li>
