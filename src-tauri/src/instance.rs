@@ -114,6 +114,10 @@ pub async fn install_fabric(instance_name: String, loader_version: String) -> Re
 
   save_instance_info(&instance_name, &info)?;
 
+  // create mods dir
+  let dir = dir.join("game-data").join("mods");
+  fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+
   println!("\nfabric installed");
   Ok(())
 }
