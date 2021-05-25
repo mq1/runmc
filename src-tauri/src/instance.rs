@@ -44,20 +44,13 @@ pub fn save_instance_info(instance_name: &String, info: &InstanceInfo) -> Result
 pub fn list_instances() -> Result<Vec<String>, String> {
   let path = get_base_dir()?.join("instances");
 
-  // TODO this can be done with a collect
-  // https://doc.rust-lang.org/std/fs/fn.read_dir.html
-  let mut instances: Vec<String> = Vec::new();
-  for entry in fs::read_dir(path).map_err(|e| e.to_string())? {
-    instances.push(String::from(
-      entry
-        .map_err(|e| e.to_string())?
-        .file_name()
-        .to_str()
-        .ok_or("Error getting file name")?,
-    ))
-  }
+  let entries = fs::read_dir(&path)
+    .map_err(|e| e.to_string())?
+    .map(|res| res.map(|e| String::from(e.file_name().to_str().unwrap())))
+    .collect::<Result<Vec<_>, io::Error>>()
+    .map_err(|e| e.to_string())?;
 
-  Ok(instances)
+  Ok(entries)
 }
 
 #[command]
