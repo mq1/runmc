@@ -133,6 +133,15 @@ pub fn list_mods(instance_name: String) -> Result<Vec<String>, String> {
 }
 
 #[command]
+pub fn open_instance_dir(instance_name: String) -> Result<(), String> {
+  let dir = get_base_dir()?.join("instances").join(&instance_name);
+
+  tauri::api::shell::open(String::from(dir.to_str().unwrap()), None).map_err(|e| e.to_string())?;
+
+  Ok(())
+}
+
+#[command]
 pub fn open_mods_dir(instance_name: String) -> Result<(), String> {
   let dir = get_base_dir()?
     .join("instances")

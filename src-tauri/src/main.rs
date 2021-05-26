@@ -22,6 +22,7 @@ fn main() {
       instance::run_instance,
       instance::install_fabric,
       instance::list_mods,
+      instance::open_instance_dir,
       instance::open_mods_dir,
       account::login,
       account::get_accounts,

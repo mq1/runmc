@@ -37,6 +37,13 @@ const openModsDir = () => {
     .catch((e: string) => console.error(e))
 }
 
+const openInstanceDir = () => {
+  invoke('open_instance_dir', {
+    instanceName: props.id,
+  })
+    .catch((e: string) => console.error(e))
+}
+
 onMounted(() => {
   updateInstance()
   updateMods()
@@ -92,5 +99,9 @@ onMounted(() => {
     </div>
   </div>
 
-  <div />
+  <div class="w-full flex justify-end">
+    <button class="primary w-auto" @click="openInstanceDir">
+      Open instance directory
+    </button>
+  </div>
 </template>
