@@ -48,7 +48,7 @@ onMounted(getConfig)
       <input v-model.number="config.java.memory" type="text" />
     </label>
   </div>
-  <div class="mb-4 mr-8 w-full flex justify-end gap-x-2">
+  <div class="w-full flex justify-end gap-x-2">
     <button class="w-auto bg-red-500 text-white flex gap-x-2" @click="getDefaultConfig">
       <carbon-reset />
       <span>

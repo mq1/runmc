@@ -36,7 +36,7 @@ onMounted(updateLocale)
         </NavLink>
       </div>
     </nav>
-    <main class="m-4 flex-1 flex flex-col items-center justify-between gap-y-8 min-w-xs max-w-screen max-h-screen overflow-auto">
+    <main class="p-4 flex-1 flex flex-col items-center justify-between gap-y-8 min-w-xs max-w-screen max-h-screen overflow-auto">
       <router-view />
     </main>
   </div>
