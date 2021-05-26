@@ -16,7 +16,7 @@ tauri-build = "1.0.0-beta.0"
 serde_json = "1.0"
 serde = { version = "1.0", features = [ "derive" ] }
 tauri = { version = "1.0.0-beta.1", features = ["updater"] }
-reqwest = "0.11.3"
+reqwest = { version = "0.11", features = ["json"] }
 serde_yaml = "0.8"
 
 [features]
