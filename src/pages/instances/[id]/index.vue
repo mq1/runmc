@@ -82,6 +82,8 @@ onMounted(() => {
         </li>
       </ul>
 
+      <br />
+
       <div class="w-full flex justify-end">
         <button class="small bg-blue-500 text-white w-auto" @click="openModsDir">
           {{ t('instances.openmodsdir') }}
