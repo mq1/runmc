@@ -33,6 +33,25 @@ pub async fn get_fabric_loader_versions(instance_name: String) -> Result<Vec<Loa
   Ok(loaders)
 }
 
+fn maven_download_url(maven: &String) -> (String, String) {
+  let split = maven.split(":");
+
+  let vec = split.collect::<Vec<&str>>();
+
+  let url = format!(
+    "https://maven.fabricmc.net/{}/{}/{}/{}-{}.jar",
+    vec[0].replace(".", "/"),
+    vec[1],
+    vec[2],
+    vec[1],
+    vec[2]
+  );
+
+  let file_name = format!("{}-{}.jar", vec[1], vec[2]);
+
+  (url, file_name)
+}
+
 pub async fn download_fabric(
   dir: &PathBuf,
   game_version: &String,
@@ -65,6 +84,7 @@ pub async fn download_fabric(
   #[serde(rename_all = "camelCase")]
   struct Json {
     loader: Loader,
+    intermediary: Loader,
     launcher_meta: LauncherMeta,
   }
 
@@ -96,19 +116,13 @@ pub async fn download_fabric(
   }
 
   // download loader jar
-  let split = j.loader.maven.split(":");
-  let vec = split.collect::<Vec<&str>>();
-  let url = format!(
-    "https://maven.fabricmc.net/{}/{}/{}/{}-{}.jar",
-    vec[0].replace(".", "/"),
-    vec[1],
-    vec[2],
-    vec[1],
-    vec[2]
-  );
-  let path = dir
-    .join("fabric-libraries")
-    .join(format!("{}-{}.jar", vec[1], vec[2]));
+  let (url, file_name) = maven_download_url(&j.loader.maven);
+  let path = dir.join("fabric-libraries").join(&file_name);
+  download_file(url, path).await?;
+
+  // download intermediary jar
+  let (url, file_name) = maven_download_url(&j.intermediary.maven);
+  let path = dir.join("fabric-libraries").join(&file_name);
   download_file(url, path).await?;
 
   Ok(j.launcher_meta.main_class.client)
