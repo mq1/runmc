@@ -21,7 +21,7 @@ pub struct Config {
 pub fn get_default_config() -> Config {
   Config {
     java: JavaConfig {
-      path: String::from("java"),
+      path: String::from("javaw"),
       memory: String::from("2G"),
     },
     locale: String::from("en"),
