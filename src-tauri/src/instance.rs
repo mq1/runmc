@@ -200,6 +200,8 @@ pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
     .arg(&account.id)
     .arg("--accessToken")
     .arg(&account.access_token)
+    .arg("--userType")
+    .arg("mojang")
     .arg("--version")
     .arg(&instance)
     .stdout(process::Stdio::inherit())
