@@ -66,9 +66,6 @@ pub async fn init_instance(instance_name: String, game_version: GameVersion) -> 
 
   save_instance_info(&instance_name, &instance_info)?;
 
-  // game-data is the .minecraft directory (kinda)
-  fs::create_dir(dir.join("game-data")).map_err(|e| e.to_string())?;
-
   println!("instance created");
   Ok(())
 }
@@ -108,7 +105,7 @@ pub async fn install_fabric(instance_name: String, loader_version: String) -> Re
   save_instance_info(&instance_name, &info)?;
 
   // create mods dir
-  let dir = dir.join("game-data").join("mods");
+  let dir = dir.join("mods");
   fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
 
   println!("\nfabric installed");
@@ -120,7 +117,6 @@ pub fn list_mods(instance_name: String) -> Result<Vec<String>, String> {
   let dir = get_base_dir()?
     .join("instances")
     .join(&instance_name)
-    .join("game-data")
     .join("mods");
 
   let mods = fs::read_dir(dir)
@@ -146,7 +142,6 @@ pub fn open_mods_dir(instance_name: String) -> Result<(), String> {
   let dir = get_base_dir()?
     .join("instances")
     .join(&instance_name)
-    .join("game-data")
     .join("mods");
 
   tauri::api::shell::open(String::from(dir.to_str().unwrap()), None).map_err(|e| e.to_string())?;
@@ -189,7 +184,7 @@ pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
     .arg(&class_path)
     .arg(&instance_info.main_class)
     .arg("--gameDir")
-    .arg("game-data")
+    .arg(".")
     .arg("--assetsDir")
     .arg("assets")
     .arg("--assetIndex")

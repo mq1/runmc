@@ -88,6 +88,8 @@ pub async fn download_fabric(
     launcher_meta: LauncherMeta,
   }
 
+  let dir = dir.join("fabric-libraries");
+
   let res = reqwest::get(format!(
     "https://meta.fabricmc.net/v2/versions/loader/{}/{}/",
     &game_version, &loader_version
@@ -109,20 +111,18 @@ pub async fn download_fabric(
       vec[1],
       vec[2]
     );
-    let path = dir
-      .join("fabric-libraries")
-      .join(format!("{}-{}.jar", vec[1], vec[2]));
+    let path = dir.join(format!("{}-{}.jar", vec[1], vec[2]));
     download_file(url, path).await?;
   }
 
   // download loader jar
   let (url, file_name) = maven_download_url(&j.loader.maven);
-  let path = dir.join("fabric-libraries").join(&file_name);
+  let path = dir.join(&file_name);
   download_file(url, path).await?;
 
   // download intermediary jar
   let (url, file_name) = maven_download_url(&j.intermediary.maven);
-  let path = dir.join("fabric-libraries").join(&file_name);
+  let path = dir.join(&file_name);
   download_file(url, path).await?;
 
   Ok(j.launcher_meta.main_class.client)
