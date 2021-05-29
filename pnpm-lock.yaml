@@ -14,12 +14,12 @@ specifiers:
   eslint: 7.27.0
   typescript: 4.3.2
   vite: 2.3.4
-  vite-plugin-components: 0.10.2
+  vite-plugin-components: 0.10.4
   vite-plugin-icons: 0.5.1
   vite-plugin-pages: 0.12.1
   vite-plugin-vue-layouts: 0.3.1
   vite-plugin-windicss: 0.16.7
-  vite-ssg: 0.11.1
+  vite-ssg: 0.11.2
   vue: 3.0.11
   vue-i18n: 9.1.6
   vue-router: 4.0.8
@@ -43,12 +43,12 @@ devDependencies:
   eslint: 7.27.0
   typescript: 4.3.2
   vite: 2.3.4
-  vite-plugin-components: 0.10.2_vite@2.3.4
+  vite-plugin-components: 0.10.4_vite@2.3.4
   vite-plugin-icons: 0.5.1_ce5edfe3d11b5da5ce1fa2f35091ab3a
   vite-plugin-pages: 0.12.1_vite@2.3.4+vue@3.0.11
   vite-plugin-vue-layouts: 0.3.1_vite@2.3.4
   vite-plugin-windicss: 0.16.7_vite@2.3.4
-  vite-ssg: 0.11.1_8ee9d0e13d9878b537e2b208b50e26ad
+  vite-ssg: 0.11.2_8ee9d0e13d9878b537e2b208b50e26ad
 
 packages:
 
@@ -5557,8 +5557,8 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-plugin-components/0.10.2_vite@2.3.4:
-    resolution: {integrity: sha512-W9DVF8ylbycSX2Bb8bklz50JLfE+3Yu9BLsXxM3TwuoP2gmfWz7djoIjo5uE397BYbkYZpICKH7fv7aReGB7aw==}
+  /vite-plugin-components/0.10.4_vite@2.3.4:
+    resolution: {integrity: sha512-QOGd+7IE4EonPGMlxmudj0HadVxKzCdvaZmZcRgap4gE8F55sAIztuAQN4IHACEKuappWsB6XpMAY1iVrJUqog==}
     peerDependencies:
       vite: ^2.0.0-beta.69
     dependencies:
@@ -5633,8 +5633,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite-ssg/0.11.1_8ee9d0e13d9878b537e2b208b50e26ad:
-    resolution: {integrity: sha512-vx1YFGgDiOKxQ1S063RExUjDvDBgqibbIIVgQ5PAK34sZIywVfsfAAZEO8mXsODq2eKu9ehntU8eVjN4XVIKdw==}
+  /vite-ssg/0.11.2_8ee9d0e13d9878b537e2b208b50e26ad:
+    resolution: {integrity: sha512-OQk950M8RQCxBdm1IRO75keAf/Dkv9OmqnK6ZtwXxaNgr9qnKK0A8H9pybrhp5CNDnndyBUZ2ll3QNb/KuGzcQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     peerDependencies:
