@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { version } from '~/../package.json'
+import { getVersion } from '@tauri-apps/api/app'
 
 const { t } = useI18n()
+
+const version = ref<string>()
+const updateVersion = () => {
+  getVersion().then(v => version.value = v)
+}
+
+onMounted(updateVersion)
 </script>
 
 <template>
