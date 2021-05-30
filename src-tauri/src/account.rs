@@ -133,7 +133,7 @@ pub async fn refresh_account(account: Account) -> Result<Account, String> {
     client_token: config.client_id,
   };
 
-  #[derive(Deserialize, Clone)]
+  #[derive(Deserialize)]
   #[serde(rename_all = "camelCase")]
   struct Json {
     access_token: String,
