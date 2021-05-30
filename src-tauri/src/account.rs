@@ -1,9 +1,9 @@
-use crate::util::get_base_dir;
+use crate::{util::get_base_dir, config::get_config};
 use serde::{Deserialize, Serialize};
 use std::fs;
 use tauri::command;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Account {
   pub name: String,
@@ -55,11 +55,15 @@ pub async fn login(email: String, password: String) -> Result<(), String> {
   }
 
   #[derive(Serialize)]
+  #[serde(rename_all = "camelCase")]
   struct Payload {
     username: String,
     password: String,
     agent: Agent,
+    client_token: String,
   }
+
+  let config = get_config()?;
 
   let payload = Payload {
     username: email,
@@ -68,6 +72,7 @@ pub async fn login(email: String, password: String) -> Result<(), String> {
       name: String::from("Minecraft"),
       version: 1,
     },
+    client_token: config.client_id,
   };
 
   let client = reqwest::Client::new();
@@ -111,4 +116,47 @@ pub fn remove_account(name: String) -> Result<(), String> {
   save_accounts(accounts)?;
 
   Ok(())
+}
+
+pub async fn refresh_account(account: Account) -> Result<Account, String> {
+  let config = get_config()?;
+
+  #[derive(Serialize)]
+  #[serde(rename_all = "camelCase")]
+  struct Payload {
+    access_token: String,
+    client_token: String,
+  }
+
+  let payload = Payload {
+    access_token: String::from(&account.access_token),
+    client_token: config.client_id,
+  };
+
+  #[derive(Deserialize, Clone)]
+  #[serde(rename_all = "camelCase")]
+  struct Json {
+    access_token: String,
+  }
+
+  let client = reqwest::Client::new();
+  let res = client
+    .post("https://authserver.mojang.com/refresh")
+    .json(&payload)
+    .send()
+    .await
+    .map_err(|e| e.to_string())?;
+  let j: Json = res.json().await.map_err(|e| e.to_string())?;
+
+  // update accounts
+  let mut accounts = get_accounts()?;
+  let id = account.id.clone();
+  for a in accounts.iter_mut() {
+    if a.id == id {
+      a.access_token = j.access_token.clone();
+    }
+  }
+  save_accounts(accounts)?;
+
+  Ok(account)
 }

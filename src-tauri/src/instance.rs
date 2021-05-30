@@ -1,4 +1,4 @@
-use crate::account::Account;
+use crate::account::{Account, refresh_account};
 use crate::config::get_config;
 use crate::fabric::download_fabric;
 use crate::util::get_base_dir;
@@ -150,7 +150,7 @@ pub fn open_mods_dir(instance_name: String) -> Result<(), String> {
 }
 
 #[command]
-pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
+pub async fn run_instance(instance: String, account: Account) -> Result<(), String> {
   let path = get_base_dir()?.join("instances").join(&instance);
   let config = get_config()?;
 
@@ -172,6 +172,10 @@ pub fn run_instance(instance: String, account: Account) -> Result<(), String> {
   if std::env::consts::OS == "windows" {
     class_path = class_path.replace(":", ";");
   }
+
+  // refresh access token
+  println!("refreshing access token");
+  let account = refresh_account(account).await?;
 
   println!("launching {}", &instance);
 

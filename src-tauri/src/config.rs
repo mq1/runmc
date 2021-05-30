@@ -2,6 +2,7 @@ use crate::util::get_base_dir;
 use serde::{Deserialize, Serialize};
 use std::fs;
 use tauri::command;
+use uuid::Uuid;
 
 #[derive(Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -13,6 +14,7 @@ pub struct JavaConfig {
 #[derive(Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+  pub client_id: String,
   pub java: JavaConfig,
   pub locale: String,
 }
@@ -20,6 +22,7 @@ pub struct Config {
 #[command]
 pub fn get_default_config() -> Config {
   Config {
+    client_id: Uuid::new_v4().to_string(),
     java: JavaConfig {
       path: String::from("javaw"),
       memory: String::from("2G"),
