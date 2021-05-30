@@ -6,13 +6,17 @@ A minimal and lightweight Minecraft launcher
 
 ## Installation
 
-[![Windows Download](https://img.shields.io/badge/Windows-Download-0078D6?logo=windows)](https://github.com/mq1/runmc/releases/latest/download/runmc_0.0.10_x64.msi.zip)
+[![Windows Download](https://img.shields.io/badge/Windows-Download-0078D6?logo=windows)](https://github.com/mq1/runmc/releases/latest/download/runmc_0.0.11_x64.msi.zip)
 [![MacOS Download](https://img.shields.io/badge/MacOS-Download-000000?logo=macos)](https://github.com/mq1/runmc/releases/latest/download/runmc.app.tar.gz)
-[![Linux Download](https://img.shields.io/badge/Linux-Download-FCC624?logo=linux&logoColor=white)](https://github.com/mq1/runmc/releases/latest/download/runmc_0.0.10_amd64.AppImage.tar.gz)
+[![Linux Download](https://img.shields.io/badge/Linux-Download-FCC624?logo=linux&logoColor=white)](https://github.com/mq1/runmc/releases/latest/download/runmc_0.0.11_amd64.AppImage.tar.gz)
 
 Windows users not running Windows 10 April 2021 update may need to install [Webview2](https://go.microsoft.com/fwlink/p/?LinkId=2124703)
 
 ## Roadmap and progress tracking
+
+### 0.0.11
+
+- [x] access token refreshing
 
 ### 0.0.10
 
