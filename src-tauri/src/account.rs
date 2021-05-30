@@ -15,6 +15,10 @@ pub struct Account {
 pub fn get_accounts() -> Result<Vec<Account>, String> {
   let path = get_base_dir()?.join("accounts.yaml");
 
+  if !&path.exists() {
+    return Ok(vec![]);
+  }
+
   let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
   let accounts: Vec<Account> = serde_yaml::from_str(&text).map_err(|e| e.to_string())?;
 
@@ -90,27 +94,27 @@ pub async fn login(email: String, password: String) -> Result<(), String> {
     access_token: j.access_token,
   };
 
-  let mut accounts = vec![account];
+  add_account(account)?;
+  println!("account added");
 
-  // save login to file
-  let path = get_base_dir()?.join("accounts.yaml");
-  if (&path).exists() {
-    let mut existing_accounts = get_accounts()?;
-    accounts.append(&mut existing_accounts);
-  }
+  Ok(())
+}
+
+pub fn add_account(account: Account) -> Result<(), String> {
+  let mut accounts = get_accounts()?;
+  accounts.push(account);
   save_accounts(accounts)?;
 
-  println!("account added");
   Ok(())
 }
 
 #[command]
-pub fn remove_account(name: String) -> Result<(), String> {
+pub fn remove_account(account: Account) -> Result<(), String> {
   // parse accounts
   let mut accounts = get_accounts()?;
 
   // remove the account
-  accounts.retain(|a| a.name != name);
+  accounts.retain(|a| a.id != account.id);
 
   // save accounts
   save_accounts(accounts)?;
@@ -152,10 +156,8 @@ pub async fn refresh_account(account: Account) -> Result<Account, String> {
   account.access_token = j.access_token;
 
   // update accounts
-  let accounts = get_accounts()?;
-  let mut accounts: Vec<Account> = accounts.into_iter().filter(|a| a.id == account.id).collect();
-  accounts.push(account.clone());
-  save_accounts(accounts)?;
+  remove_account(account.clone())?;
+  add_account(account.clone())?;
 
   Ok(account)
 }

@@ -16,9 +16,7 @@ const updateAvailableAccounts = () => {
 }
 
 const removeAccount = (account: Account) => {
-  invoke('remove_account', {
-    name: account.name,
-  })
+  invoke('remove_account', { account })
     .then(updateAvailableAccounts)
     .catch((e: string) => console.error(e))
 }
