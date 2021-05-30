@@ -148,12 +148,12 @@ pub async fn refresh_account(account: Account) -> Result<Account, String> {
     .map_err(|e| e.to_string())?;
   let j: Json = res.json().await.map_err(|e| e.to_string())?;
 
-  let mut account = account.clone();
+  let mut account = account;
   account.access_token = j.access_token;
 
   // update accounts
   let accounts = get_accounts()?;
-  let mut accounts: Vec<Account> = accounts.clone().into_iter().filter(|a| a.id == account.id).collect();
+  let mut accounts: Vec<Account> = accounts.into_iter().filter(|a| a.id == account.id).collect();
   accounts.push(account.clone());
   save_accounts(accounts)?;
 
