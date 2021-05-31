@@ -46,8 +46,8 @@ pub fn list_instances() -> Result<Vec<String>, String> {
 
   let entries = fs::read_dir(&path)
     .map_err(|e| e.to_string())?
-    .map(|res| res.map(|e| String::from(e.file_name().to_str().unwrap())))
-    .collect::<Result<Vec<_>, io::Error>>()
+    .map(|res| res.map(|e| e.file_name().into_string().unwrap()))
+    .collect::<Result<Vec<String>, io::Error>>()
     .map_err(|e| e.to_string())?;
 
   Ok(entries)
