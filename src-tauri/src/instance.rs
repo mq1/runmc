@@ -44,11 +44,8 @@ pub fn save_instance_info(instance_name: &String, info: &InstanceInfo) -> Result
 pub fn list_instances() -> Result<Vec<String>, String> {
   let path = get_base_dir()?.join("instances");
 
-  let entries = fs::read_dir(&path)
-    .map_err(|e| e.to_string())?
-    .map(|res| res.map(|e| e.file_name().into_string().unwrap()))
-    .collect::<Result<Vec<String>, io::Error>>()
-    .map_err(|e| e.to_string())?;
+  let entries = tauri::api::dir::read_dir(&path, false).map_err(|e| e.to_string())?;
+  let entries = entries.into_iter().map(|entry| entry.name.unwrap()).collect::<Vec<String>>();
 
   Ok(entries)
 }
