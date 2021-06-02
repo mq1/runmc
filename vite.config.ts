@@ -22,6 +22,7 @@ export default defineConfig({
     Layouts(),
     WindiCSS(),
     Components({
+      globalComponentsDeclaration: true,
       customComponentResolvers: ViteIconsResolver({
         componentPrefix: '',
         enabledCollections: ['carbon'],
