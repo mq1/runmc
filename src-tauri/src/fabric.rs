@@ -1,8 +1,6 @@
-use crate::instance::get_instance_info;
-use crate::util::download_file;
+use crate::{instance, util};
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
-use tauri::command;
+use std::{error::Error, fs};
 
 #[derive(Deserialize, Serialize, Clone)]
 pub struct Loader {
@@ -11,52 +9,58 @@ pub struct Loader {
   maven: String,
 }
 
-#[command]
-pub async fn get_fabric_loader_versions(instance_name: String) -> Result<Vec<Loader>, String> {
+impl AsRef<Loader> for Loader {
+  fn as_ref(&self) -> &Loader {
+    self
+  }
+}
+
+pub async fn get_loader_versions<S: AsRef<str>>(
+  mc_version: S,
+) -> Result<Vec<Loader>, Box<dyn Error>> {
   #[derive(Deserialize)]
   struct LoaderVersion {
     loader: Loader,
   }
 
-  let info = get_instance_info(String::from(&instance_name))?;
-
   let res = reqwest::get(format!(
     "https://meta.fabricmc.net/v2/versions/loader/{}/",
-    &info.game_version
+    mc_version.as_ref()
   ))
-  .await
-  .map_err(|e| e.to_string())?;
-  let j: Vec<LoaderVersion> = res.json().await.map_err(|e| e.to_string())?;
+  .await?;
 
-  let loaders = j.iter().map(|lv| lv.loader.clone()).collect();
+  let j = res.json::<Vec<LoaderVersion>>().await?;
+
+  let loaders = j.into_iter().map(|lv| lv.loader).collect();
 
   Ok(loaders)
 }
 
-fn maven_download_url(maven: &String) -> (String, String) {
-  let split = maven.split(":");
-
-  let vec = split.collect::<Vec<&str>>();
+fn maven_download_url<S: AsRef<str>>(maven: S) -> (String, String) {
+  let path = maven
+    .as_ref()
+    .split(":")
+    .map(|a| a.to_string())
+    .collect::<Vec<String>>();
 
   let url = format!(
     "https://maven.fabricmc.net/{}/{}/{}/{}-{}.jar",
-    vec[0].replace(".", "/"),
-    vec[1],
-    vec[2],
-    vec[1],
-    vec[2]
+    path[0].replace(".", "/"),
+    path[1],
+    path[2],
+    path[1],
+    path[2]
   );
 
-  let file_name = format!("{}-{}.jar", vec[1], vec[2]);
+  let file_name = format!("{}-{}.jar", path[1], path[2]);
 
   (url, file_name)
 }
 
-pub async fn download_fabric(
-  dir: &PathBuf,
-  game_version: &String,
-  loader_version: &String,
-) -> Result<String, String> {
+pub async fn install<S: AsRef<str>>(
+  instance_name: S,
+  loader_version: S,
+) -> Result<(), Box<dyn Error>> {
   #[derive(Deserialize)]
   struct CommonUnit {
     name: String,
@@ -88,15 +92,16 @@ pub async fn download_fabric(
     launcher_meta: LauncherMeta,
   }
 
-  let dir = dir.join("fabric-libraries");
+  let path = instance::get_path(&instance_name)?.join("fabric-libraries");
+  let info = instance::read_info(&instance_name)?;
 
   let res = reqwest::get(format!(
     "https://meta.fabricmc.net/v2/versions/loader/{}/{}/",
-    &game_version, &loader_version
+    info.game_version,
+    loader_version.as_ref()
   ))
-  .await
-  .map_err(|e| e.to_string())?;
-  let j: Json = res.json().await.map_err(|e| e.to_string())?;
+  .await?;
+  let j: Json = res.json().await?;
 
   for item in j.launcher_meta.libraries.common {
     let split = item.name.split(":");
@@ -111,19 +116,31 @@ pub async fn download_fabric(
       vec[1],
       vec[2]
     );
-    let path = dir.join(format!("{}-{}.jar", vec[1], vec[2]));
-    download_file(url, path).await?;
+    let path = path.join(format!("{}-{}.jar", vec[1], vec[2]));
+    util::download_file(&url, &path).await?;
   }
 
   // download loader jar
   let (url, file_name) = maven_download_url(&j.loader.maven);
-  let path = dir.join(&file_name);
-  download_file(url, path).await?;
+  let path = path.join(&file_name);
+  util::download_file(&url, &path).await?;
 
   // download intermediary jar
   let (url, file_name) = maven_download_url(&j.intermediary.maven);
-  let path = dir.join(&file_name);
-  download_file(url, path).await?;
+  let path = path.join(&file_name);
+  util::download_file(url, &path).await?;
 
-  Ok(j.launcher_meta.main_class.client)
+  // write new instance info
+  let mut info = info;
+  info.main_class = j.launcher_meta.main_class.client;
+  info.fabric = true;
+  instance::save_info(instance_name, info)?;
+
+  // create mods dir
+  let path = path.join("mods");
+  fs::create_dir_all(path)?;
+
+  println!("\nfabric installed");
+
+  Ok(())
 }

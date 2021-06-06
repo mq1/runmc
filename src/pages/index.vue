@@ -10,7 +10,7 @@ const accounts = ref<Account[]>()
 const selectedAccount = ref<Account>({ name: 'No users found', id: '', accessToken: '' })
 
 const updateAccounts = () => {
-  invoke('get_accounts')
+  invoke('list_accounts')
     .then((a) => {
       accounts.value = a as Account[]
       selectedAccount.value = accounts.value[0] || { name: 'No users found', id: '', accessToken: '' }
@@ -32,7 +32,7 @@ const updateInstances = () => {
 
 const runInstance = () => {
   invoke('run_instance', {
-    instance: selectedInstance.value,
+    instanceName: selectedInstance.value,
     account: selectedAccount.value,
   })
     .catch((e: string) => console.error(e))

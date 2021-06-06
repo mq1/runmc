@@ -3,6 +3,8 @@
   windows_subsystem = "windows"
 )]
 
+mod cmd;
+
 mod account;
 mod config;
 mod fabric;
@@ -13,24 +15,24 @@ mod version;
 fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      version::list_available_game_versions,
-      instance::get_instance_info,
-      instance::init_instance,
-      instance::list_instances,
-      instance::rename_instance,
-      instance::remove_instance,
-      instance::run_instance,
-      instance::install_fabric,
-      instance::list_mods,
-      instance::open_instance_dir,
-      instance::open_mods_dir,
-      account::login,
-      account::get_accounts,
-      account::remove_account,
-      config::get_default_config,
-      config::get_config,
-      config::save_config,
-      fabric::get_fabric_loader_versions,
+      cmd::list_accounts,
+      cmd::remove_account,
+      cmd::login,
+      cmd::get_default_config,
+      cmd::get_config,
+      cmd::save_config,
+      cmd::get_fabric_loader_versions,
+      cmd::install_fabric,
+      cmd::list_instances,
+      cmd::new_instance,
+      cmd::read_instance_info,
+      cmd::rename_instance,
+      cmd::delete_instance,
+      cmd::list_instance_mods,
+      cmd::open_instance_dir,
+      cmd::open_instance_mods_dir,
+      cmd::run_instance,
+      cmd::list_available_minecraft_versions
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

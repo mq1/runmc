@@ -3,6 +3,7 @@ import { defineProps, onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import type { InstanceInfo } from '~/types'
 
 const { t } = useI18n()
 
@@ -22,10 +23,16 @@ const router = useRouter()
 
 const versions = ref<Loader[]>()
 const updateVersions = () => {
-  invoke('get_fabric_loader_versions', {
+  invoke('read_instance_info', {
     instanceName: props.id,
   })
-    .then(v => versions.value = v as Loader[])
+    .then((instanceInfo) => {
+      invoke('get_fabric_loader_versions', {
+        minecraftVersion: (instanceInfo as InstanceInfo).gameVersion,
+      })
+        .then(v => versions.value = v as Loader[])
+        .catch((e: string) => console.error(e))
+    })
     .catch((e: string) => console.error(e))
 }
 

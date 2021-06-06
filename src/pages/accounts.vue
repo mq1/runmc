@@ -8,10 +8,8 @@ const { t } = useI18n()
 
 const availableAccounts = ref<Account[]>()
 const updateAvailableAccounts = () => {
-  invoke('get_accounts')
-    .then((a) => {
-      availableAccounts.value = a as Account[]
-    })
+  invoke('list_accounts')
+    .then(a => availableAccounts.value = a as Account[])
     .catch((e: string) => console.error(e))
 }
 

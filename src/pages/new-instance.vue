@@ -14,7 +14,7 @@ const installing = ref(false)
 
 const versions = ref<Version[]>()
 const updateVersions = () => {
-  invoke('list_available_game_versions')
+  invoke('list_available_minecraft_versions')
     .then(v => versions.value = v as Version[])
     .catch((e: string) => console.error(e))
 }
@@ -22,9 +22,9 @@ const updateVersions = () => {
 const newInstance = (version: Version) => {
   installing.value = true
 
-  invoke('init_instance', {
+  invoke('new_instance', {
     instanceName: version.id,
-    gameVersion: version,
+    minecraftVersion: version,
   })
     .then(() => router.push('/instances'))
     .catch((e: string) => console.log(e))

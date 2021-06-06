@@ -1,7 +1,6 @@
-use crate::{util::get_base_dir, config::get_config};
+use crate::{config, util};
 use serde::{Deserialize, Serialize};
-use std::fs;
-use tauri::command;
+use std::{error::Error, fs};
 
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -11,33 +10,36 @@ pub struct Account {
   pub access_token: String,
 }
 
-#[command]
-pub fn get_accounts() -> Result<Vec<Account>, String> {
-  let path = get_base_dir()?.join("accounts.yaml");
+impl AsRef<Account> for Account {
+  fn as_ref(&self) -> &Account {
+    self
+  }
+}
+
+pub fn list() -> Result<Vec<Account>, Box<dyn Error>> {
+  let path = util::get_base_dir()?.join("accounts.yaml");
 
   if !&path.exists() {
     return Ok(vec![]);
   }
 
-  let text = fs::read_to_string(&path).map_err(|e| e.to_string())?;
-  let accounts: Vec<Account> = serde_yaml::from_str(&text).map_err(|e| e.to_string())?;
+  let text = fs::read_to_string(&path)?;
+  let accounts: Vec<Account> = serde_yaml::from_str(&text)?;
 
   Ok(accounts)
 }
 
-#[command]
-pub fn save_accounts(accounts: Vec<Account>) -> Result<(), String> {
-  let path = get_base_dir()?.join("accounts.yaml");
+fn save<V: AsRef<Vec<Account>>>(accounts: V) -> Result<(), Box<dyn Error>> {
+  let path = util::get_base_dir()?.join("accounts.yaml");
 
-  let text = serde_yaml::to_string(&accounts).map_err(|e| e.to_string())?;
-  fs::write(&path, &text).map_err(|e| e.to_string())?;
+  let text = serde_yaml::to_string(accounts.as_ref())?;
+  fs::write(&path, &text)?;
 
   Ok(())
 }
 
-#[command]
-pub async fn login(email: String, password: String) -> Result<(), String> {
-  println!("trying to add account {}", &email);
+pub async fn login<S: AsRef<str>>(email: S, password: S) -> Result<(), Box<dyn Error>> {
+  println!("trying to add account {}", email.as_ref());
 
   #[derive(Deserialize)]
   struct Profile {
@@ -67,11 +69,11 @@ pub async fn login(email: String, password: String) -> Result<(), String> {
     client_token: String,
   }
 
-  let config = get_config()?;
+  let config = config::read()?;
 
   let payload = Payload {
-    username: email,
-    password: password,
+    username: email.as_ref().to_string(),
+    password: password.as_ref().to_string(),
     agent: Agent {
       name: String::from("Minecraft"),
       version: 1,
@@ -84,9 +86,8 @@ pub async fn login(email: String, password: String) -> Result<(), String> {
     .post("https://authserver.mojang.com/authenticate")
     .json(&payload)
     .send()
-    .await
-    .map_err(|e| e.to_string())?;
-  let j: Json = res.json().await.map_err(|e| e.to_string())?;
+    .await?;
+  let j: Json = res.json().await?;
 
   let account = Account {
     name: j.selected_profile.name,
@@ -94,36 +95,36 @@ pub async fn login(email: String, password: String) -> Result<(), String> {
     access_token: j.access_token,
   };
 
-  add_account(account)?;
+  add(&account)?;
   println!("account added");
 
   Ok(())
 }
 
-pub fn add_account(account: Account) -> Result<(), String> {
-  let mut accounts = get_accounts()?;
+pub fn add<A: AsRef<Account>>(account: A) -> Result<(), Box<dyn Error>> {
+  let mut accounts = list()?;
+  let account = account.as_ref().clone();
   accounts.push(account);
-  save_accounts(accounts)?;
+  save(&accounts)?;
 
   Ok(())
 }
 
-#[command]
-pub fn remove_account(account: Account) -> Result<(), String> {
+pub fn remove<A: AsRef<Account>>(account: A) -> Result<(), Box<dyn Error>> {
   // parse accounts
-  let mut accounts = get_accounts()?;
+  let mut accounts = list()?;
 
   // remove the account
-  accounts.retain(|a| a.id != account.id);
+  accounts.retain(|a| a.id != account.as_ref().id);
 
   // save accounts
-  save_accounts(accounts)?;
+  save(&accounts)?;
 
   Ok(())
 }
 
-pub async fn refresh_account(account: Account) -> Result<Account, String> {
-  let config = get_config()?;
+pub async fn refresh<A: AsRef<Account>>(account: A) -> Result<Account, Box<dyn Error>> {
+  let config = config::read()?;
 
   #[derive(Serialize)]
   #[serde(rename_all = "camelCase")]
@@ -133,7 +134,7 @@ pub async fn refresh_account(account: Account) -> Result<Account, String> {
   }
 
   let payload = Payload {
-    access_token: String::from(&account.access_token),
+    access_token: account.as_ref().access_token.clone(),
     client_token: config.client_id,
   };
 
@@ -148,16 +149,15 @@ pub async fn refresh_account(account: Account) -> Result<Account, String> {
     .post("https://authserver.mojang.com/refresh")
     .json(&payload)
     .send()
-    .await
-    .map_err(|e| e.to_string())?;
-  let j: Json = res.json().await.map_err(|e| e.to_string())?;
+    .await?;
+  let j: Json = res.json().await?;
 
-  let mut account = account;
+  let mut account = account.as_ref().clone();
   account.access_token = j.access_token;
 
   // update accounts
-  remove_account(account.clone())?;
-  add_account(account.clone())?;
+  remove(&account)?;
+  add(&account)?;
 
   Ok(account)
 }

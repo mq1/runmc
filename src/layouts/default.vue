@@ -8,6 +8,7 @@ const { t, locale } = useI18n()
 const updateLocale = () => {
   invoke('get_config')
     .then(config => locale.value = (config as Config).locale)
+    .catch((e: string) => console.error(e))
 }
 
 onMounted(updateLocale)

@@ -1,11 +1,14 @@
-use crate::account::{Account, refresh_account};
-use crate::config::get_config;
-use crate::fabric::download_fabric;
-use crate::util::get_base_dir;
-use crate::version::{download_version, GameVersion};
+use crate::account;
+use crate::config;
+use crate::util;
+use crate::version;
 use serde::{Deserialize, Serialize};
-use std::{fs, io, path::Path, process};
-use tauri::command;
+use std::{
+  error::Error,
+  fs,
+  path::{Path, PathBuf},
+  process,
+};
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -15,151 +18,134 @@ pub struct InstanceInfo {
   pub fabric: bool,
 }
 
-#[command]
-pub fn get_instance_info(instance_name: String) -> Result<InstanceInfo, String> {
-  let path = get_base_dir()?
-    .join("instances")
-    .join(instance_name)
-    .join("info.yaml");
+impl AsRef<InstanceInfo> for InstanceInfo {
+  fn as_ref(&self) -> &InstanceInfo {
+    self
+  }
+}
 
-  let info = fs::read_to_string(path).map_err(|e| e.to_string())?;
-  let info: InstanceInfo = serde_yaml::from_str(&info).map_err(|e| e.to_string())?;
+pub fn get_path<S: AsRef<str>>(instance_name: S) -> Result<PathBuf, Box<dyn Error>> {
+  let path = util::get_base_dir()?
+    .join("instances")
+    .join(instance_name.as_ref());
+
+  Ok(path)
+}
+
+pub fn read_info<S: AsRef<str>>(instance_name: S) -> Result<InstanceInfo, Box<dyn Error>> {
+  let path = get_path(instance_name)?.join("info.yaml");
+  let info = fs::read_to_string(path)?;
+  let info: InstanceInfo = serde_yaml::from_str(&info)?;
 
   Ok(info)
 }
 
-pub fn save_instance_info(instance_name: &String, info: &InstanceInfo) -> Result<(), String> {
-  let path = get_base_dir()?
-    .join("instances")
-    .join(instance_name)
-    .join("info.yaml");
-
-  let text = serde_yaml::to_string(info).map_err(|e| e.to_string())?;
-  fs::write(&path, &text).map_err(|e| e.to_string())?;
+pub fn save_info<S: AsRef<str>, II: AsRef<InstanceInfo>>(
+  instance_name: S,
+  info: II,
+) -> Result<(), Box<dyn Error>> {
+  let path = get_path(instance_name)?.join("info.yaml");
+  let text = serde_yaml::to_string(info.as_ref())?;
+  fs::write(path, text)?;
 
   Ok(())
 }
 
-#[command]
-pub fn list_instances() -> Result<Vec<String>, String> {
-  let path = get_base_dir()?.join("instances");
+pub fn list() -> Result<Vec<String>, Box<dyn Error>> {
+  let path = util::get_base_dir()?.join("instances");
 
-  let entries = tauri::api::dir::read_dir(&path, false).map_err(|e| e.to_string())?;
-  let entries = entries.into_iter().map(|entry| entry.name.unwrap()).collect::<Vec<String>>();
+  let entries = tauri::api::dir::read_dir(&path, false)?;
+  let entries = entries
+    .into_iter()
+    .map(|entry| entry.name.unwrap())
+    .collect::<Vec<String>>();
 
   Ok(entries)
 }
 
-#[command]
-pub async fn init_instance(instance_name: String, game_version: GameVersion) -> Result<(), String> {
-  let dir = get_base_dir()?.join("instances").join(&instance_name);
-  let main_class = download_version(&dir, &game_version).await?;
+pub async fn new<S: AsRef<str>, MV: AsRef<version::MinecraftVersion>>(
+  name: S,
+  game_version: MV,
+) -> Result<(), Box<dyn Error>> {
+  let path = get_path(name.as_ref())?;
+  let main_class = version::download_version(path, game_version.as_ref()).await?;
 
   let instance_info = InstanceInfo {
-    game_version: game_version.id,
+    game_version: game_version.as_ref().id.clone(),
     main_class: main_class,
     fabric: false,
   };
 
-  save_instance_info(&instance_name, &instance_info)?;
+  save_info(name.as_ref(), instance_info)?;
 
   println!("instance created");
+
   Ok(())
 }
 
-#[command]
-pub fn rename_instance(current_name: String, new_name: String) -> Result<(), String> {
-  let instances_dir = get_base_dir()?.join("instances");
+pub fn rename<S: AsRef<str>>(current_name: S, new_name: S) -> Result<(), Box<dyn Error>> {
+  let instances_dir = util::get_base_dir()?.join("instances");
 
   fs::rename(
-    instances_dir.join(&current_name),
-    instances_dir.join(&new_name),
-  )
-  .map_err(|e| e.to_string())?;
+    instances_dir.join(current_name.as_ref()),
+    instances_dir.join(new_name.as_ref()),
+  )?;
 
   Ok(())
 }
 
-#[command]
-pub fn remove_instance(name: String) -> Result<(), String> {
-  let path = get_base_dir()?.join("instances").join(&name);
-  fs::remove_dir_all(&path).map_err(|e| e.to_string())?;
+pub fn delete<S: AsRef<str>>(name: S) -> Result<(), Box<dyn Error>> {
+  let path = get_path(name.as_ref())?;
+  fs::remove_dir_all(&path)?;
 
-  println!("deleted {:?}", &path);
+  println!("deleted {:?}", path);
   Ok(())
 }
 
-#[command]
-pub async fn install_fabric(instance_name: String, loader_version: String) -> Result<(), String> {
-  let dir = get_base_dir()?.join("instances").join(&instance_name);
-  let mut info = get_instance_info(String::from(&instance_name))?;
-  let main_class = download_fabric(&dir, &info.game_version, &loader_version).await?;
+pub fn list_mods<S: AsRef<str>>(instance_name: S) -> Result<Vec<String>, Box<dyn Error>> {
+  let path = get_path(instance_name.as_ref())?.join("mods");
 
-  // new info
-  info.main_class = main_class;
-  info.fabric = true;
+  let entries = tauri::api::dir::read_dir(path, false)?;
+  let entries = entries
+    .into_iter()
+    .map(|entry| entry.name.unwrap())
+    .collect::<Vec<String>>();
 
-  save_instance_info(&instance_name, &info)?;
-
-  // create mods dir
-  let dir = dir.join("mods");
-  fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
-
-  println!("\nfabric installed");
-  Ok(())
+  Ok(entries)
 }
 
-#[command]
-pub fn list_mods(instance_name: String) -> Result<Vec<String>, String> {
-  let dir = get_base_dir()?
-    .join("instances")
-    .join(&instance_name)
-    .join("mods");
-
-  let mods = fs::read_dir(dir)
-    .map_err(|e| e.to_string())?
-    .map(|res| res.map(|e| e.file_name().into_string().unwrap()))
-    .collect::<Result<Vec<String>, io::Error>>()
-    .map_err(|e| e.to_string())?;
-
-  Ok(mods)
-}
-
-#[command]
-pub fn open_instance_dir(instance_name: String) -> Result<(), String> {
-  let dir = get_base_dir()?.join("instances").join(&instance_name);
-
-  tauri::api::shell::open(String::from(dir.to_str().unwrap()), None).map_err(|e| e.to_string())?;
+pub fn open_dir<S: AsRef<str>>(instance_name: S) -> Result<(), Box<dyn Error>> {
+  let path = get_path(instance_name.as_ref())?;
+  let path = format!("{:?}", path);
+  tauri::api::shell::open(path, None)?;
 
   Ok(())
 }
 
-#[command]
-pub fn open_mods_dir(instance_name: String) -> Result<(), String> {
-  let dir = get_base_dir()?
-    .join("instances")
-    .join(&instance_name)
-    .join("mods");
-
-  tauri::api::shell::open(String::from(dir.to_str().unwrap()), None).map_err(|e| e.to_string())?;
+pub fn open_mods_dir<S: AsRef<str>>(instance_name: S) -> Result<(), Box<dyn Error>> {
+  let path = get_path(instance_name.as_ref())?.join("mods");
+  let path = format!("{:?}", path);
+  tauri::api::shell::open(path, None)?;
 
   Ok(())
 }
 
-#[command]
-pub async fn run_instance(instance: String, account: Account) -> Result<(), String> {
-  let path = get_base_dir()?.join("instances").join(&instance);
-  let config = get_config()?;
+pub async fn run<S: AsRef<str>, A: AsRef<account::Account>>(
+  instance_name: S,
+  account: A,
+) -> Result<(), Box<dyn Error>> {
+  let path = get_path(&instance_name)?;
+  let config = config::read()?;
 
-  let instance_info = get_instance_info(String::from(&instance))?;
+  let instance_info = read_info(&instance_name)?;
 
   // get asset index
-  let entries = fs::read_dir(&path.join("assets").join("indexes"))
-    .map_err(|e| e.to_string())?
-    .map(|res| res.map(|e| e.path()))
-    .collect::<Result<Vec<_>, io::Error>>()
-    .map_err(|e| e.to_string())?;
-  let asset_index = entries[0].file_name().ok_or("asset index not found")?;
+  let entries = tauri::api::dir::read_dir(&path, false)?;
+  let entries = entries
+    .into_iter()
+    .map(|entry| entry.name.unwrap())
+    .collect::<Vec<String>>();
+  let asset_index = &entries[0];
   let asset_index = Path::new(asset_index)
     .file_stem()
     .ok_or("error getting asset index file name")?;
@@ -172,38 +158,37 @@ pub async fn run_instance(instance: String, account: Account) -> Result<(), Stri
 
   // refresh access token
   println!("refreshing access token");
-  let account = refresh_account(account).await?;
+  let account = account::refresh(account.as_ref()).await?;
 
-  println!("launching {}", &instance);
+  println!("launching {}", instance_name.as_ref());
 
-  process::Command::new(&config.java.path)
-    .current_dir(&path)
+  process::Command::new(config.java.path)
+    .current_dir(path)
     .arg("-Dminecraft.launcher.brand=runmc")
-    .arg(format!("-Xmx{}", &config.java.memory))
-    .arg(format!("-Xms{}", &config.java.memory))
+    .arg(format!("-Xmx{}", config.java.memory))
+    .arg(format!("-Xms{}", config.java.memory))
     .arg("-cp")
-    .arg(&class_path)
-    .arg(&instance_info.main_class)
+    .arg(class_path)
+    .arg(instance_info.main_class)
     .arg("--gameDir")
     .arg(".")
     .arg("--assetsDir")
     .arg("assets")
     .arg("--assetIndex")
-    .arg(&asset_index)
+    .arg(asset_index)
     .arg("--username")
-    .arg(&account.name)
+    .arg(&account.as_ref().name)
     .arg("--uuid")
-    .arg(&account.id)
+    .arg(&account.as_ref().id)
     .arg("--accessToken")
-    .arg(&account.access_token)
+    .arg(&account.as_ref().access_token)
     .arg("--userType")
     .arg("mojang")
     .arg("--version")
-    .arg(&instance)
+    .arg(instance_name.as_ref())
     .stdout(process::Stdio::inherit())
     .stderr(process::Stdio::inherit())
-    .spawn()
-    .map_err(|e| e.to_string())?;
+    .spawn()?;
 
   Ok(())
 }

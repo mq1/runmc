@@ -15,7 +15,7 @@ const props = defineProps({
 
 const instance = ref<InstanceInfo>()
 const updateInstance = () => {
-  invoke('get_instance_info', {
+  invoke('read_instance_info', {
     instanceName: props.id,
   })
     .then(i => instance.value = i as InstanceInfo)
@@ -24,14 +24,14 @@ const updateInstance = () => {
 
 const mods = ref<string[]>()
 const updateMods = () => {
-  invoke('list_mods', {
+  invoke('list_instance_mods', {
     instanceName: props.id,
   })
     .then(m => mods.value = m as string[])
     .catch((e: string) => console.error(e))
 }
 const openModsDir = () => {
-  invoke('open_mods_dir', {
+  invoke('open_instance_mods_dir', {
     instanceName: props.id,
   })
     .catch((e: string) => console.error(e))
