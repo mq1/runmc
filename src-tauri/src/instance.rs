@@ -3,12 +3,7 @@ use crate::config;
 use crate::util;
 use crate::version;
 use serde::{Deserialize, Serialize};
-use std::{
-  error::Error,
-  fs,
-  path::{Path, PathBuf},
-  process,
-};
+use std::{error::Error, fs, path::PathBuf, process};
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -139,17 +134,6 @@ pub async fn run<S: AsRef<str>, A: AsRef<account::Account>>(
 
   let instance_info = read_info(&instance_name)?;
 
-  // get asset index
-  let entries = tauri::api::dir::read_dir(&path, false)?;
-  let entries = entries
-    .into_iter()
-    .map(|entry| entry.name.unwrap())
-    .collect::<Vec<String>>();
-  let asset_index = &entries[0];
-  let asset_index = Path::new(asset_index)
-    .file_stem()
-    .ok_or("error getting asset index file name")?;
-
   // cross platform class path
   let mut class_path = String::from("libraries/*:fabric-libraries/*");
   if std::env::consts::OS == "windows" {
@@ -175,7 +159,7 @@ pub async fn run<S: AsRef<str>, A: AsRef<account::Account>>(
     .arg("--assetsDir")
     .arg("assets")
     .arg("--assetIndex")
-    .arg(asset_index)
+    .arg("asset-index")
     .arg("--username")
     .arg(&account.as_ref().name)
     .arg("--uuid")

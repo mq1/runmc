@@ -1,4 +1,4 @@
-use crate::util::download_file;
+use crate::util;
 use serde::{Deserialize, Serialize};
 use serde_json::value::Value;
 use std::{collections::HashMap, error::Error, fs, path::Path};
@@ -12,6 +12,17 @@ pub struct MinecraftVersion {
 
 impl AsRef<MinecraftVersion> for MinecraftVersion {
   fn as_ref(&self) -> &MinecraftVersion {
+    self
+  }
+}
+
+#[derive(Deserialize)]
+struct ObjectContainingURL {
+  url: String,
+}
+
+impl AsRef<ObjectContainingURL> for ObjectContainingURL {
+  fn as_ref(&self) -> &ObjectContainingURL {
     self
   }
 }
@@ -73,7 +84,7 @@ async fn download_libraries<P: AsRef<Path>, LV: AsRef<Vec<Library>>>(
       "failed to get {} file name",
       library.downloads.artifact.path
     ))?;
-    download_file(
+    util::download_file(
       &library.downloads.artifact.url,
       dir.as_ref().join(file_name),
     )
@@ -89,24 +100,12 @@ async fn download_libraries<P: AsRef<Path>, LV: AsRef<Vec<Library>>>(
           library.downloads.artifact.path
         ))?;
 
-        download_file(String::from(&artifact.url), dir.as_ref().join(file_name)).await?;
+        util::download_file(artifact.url.clone(), dir.as_ref().join(file_name)).await?;
       }
     }
   }
 
   Ok(())
-}
-
-#[derive(Deserialize)]
-struct AssetIndex {
-  id: String,
-  url: String,
-}
-
-impl AsRef<AssetIndex> for AssetIndex {
-  fn as_ref(&self) -> &AssetIndex {
-    self
-  }
 }
 
 #[derive(Deserialize, Clone)]
@@ -122,15 +121,15 @@ async fn download_objects<P: AsRef<Path>, OV: AsRef<Vec<Object>>>(
     let path = format!("{}/{}", &object.hash[..2], &object.hash);
     let url = format!("https://resources.download.minecraft.net/{}", &path);
 
-    download_file(url, dir.as_ref().join(path)).await?;
+    util::download_file(url, dir.as_ref().join(path)).await?;
   }
 
   Ok(())
 }
 
-async fn download_assets<P: AsRef<Path>, AI: AsRef<AssetIndex>>(
-  dir: P,
-  asset_index: AI,
+async fn download_assets<P: AsRef<Path>, O: AsRef<ObjectContainingURL>>(
+  instance_dir: P,
+  asset_index: O,
 ) -> Result<(), Box<dyn Error>> {
   #[derive(Deserialize)]
   struct Json {
@@ -142,26 +141,14 @@ async fn download_assets<P: AsRef<Path>, AI: AsRef<AssetIndex>>(
   let j: Json = serde_json::from_str(&text)?;
 
   let objects = j.objects.values().cloned().collect::<Vec<Object>>();
-  download_objects(dir.as_ref().join("objects"), objects).await?;
+  let objects_dir = util::get_base_dir()?.join("assets").join("objects");
+  download_objects(objects_dir, objects).await?;
 
   // save asset index json
-  let asset_index_file_name = format!("{}.json", asset_index.as_ref().id);
-  let dir = dir.as_ref().join("indexes");
-  fs::create_dir(&dir)?;
-  fs::write(dir.join(asset_index_file_name), text)?;
+  let path = instance_dir.as_ref().join("asset-index.json");
+  fs::write(path, text)?;
 
   Ok(())
-}
-
-#[derive(Deserialize)]
-struct ObjectContainingURL {
-  url: String,
-}
-
-impl AsRef<ObjectContainingURL> for ObjectContainingURL {
-  fn as_ref(&self) -> &ObjectContainingURL {
-    self
-  }
 }
 
 async fn download_client<P: AsRef<Path>, O: AsRef<ObjectContainingURL>>(
@@ -169,7 +156,7 @@ async fn download_client<P: AsRef<Path>, O: AsRef<ObjectContainingURL>>(
   client: O,
 ) -> Result<(), Box<dyn Error>> {
   let path = dir.as_ref().join("client.jar");
-  download_file(&client.as_ref().url, path).await?;
+  util::download_file(&client.as_ref().url, path).await?;
 
   Ok(())
 }
@@ -188,7 +175,7 @@ pub async fn download_version<P: AsRef<Path>, GV: AsRef<MinecraftVersion>>(
   struct Json {
     downloads: Downloads,
     libraries: Vec<Library>,
-    asset_index: AssetIndex,
+    asset_index: ObjectContainingURL,
     main_class: String,
   }
 
@@ -197,7 +184,7 @@ pub async fn download_version<P: AsRef<Path>, GV: AsRef<MinecraftVersion>>(
 
   download_client(dir.as_ref().join("libraries"), j.downloads.client).await?;
   download_libraries(dir.as_ref().join("libraries"), j.libraries).await?;
-  download_assets(dir.as_ref().join("assets"), j.asset_index).await?;
+  download_assets(dir, j.asset_index).await?;
 
   println!("\nversion {} installed", game_version.as_ref().id);
 
