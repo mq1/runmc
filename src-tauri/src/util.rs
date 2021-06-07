@@ -35,3 +35,11 @@ pub async fn download_file<S: AsRef<str>, P: AsRef<Path>>(
 
   Ok(())
 }
+
+pub fn ls<P: AsRef<Path>>(path: P) -> Result<Vec<String>, Box<dyn Error>> {
+  let entries = fs::read_dir(path)?
+    .map(|res| res.map(|e| format!("{:?}", e.file_name())))
+    .collect::<Result<Vec<_>, io::Error>>()?;
+
+  Ok(entries)
+}

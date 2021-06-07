@@ -48,12 +48,7 @@ pub fn save_info<S: AsRef<str>, II: AsRef<InstanceInfo>>(
 
 pub fn list() -> Result<Vec<String>, Box<dyn Error>> {
   let path = util::get_base_dir()?.join("instances");
-
-  let entries = tauri::api::dir::read_dir(&path, false)?;
-  let entries = entries
-    .into_iter()
-    .map(|entry| entry.name.unwrap())
-    .collect::<Vec<String>>();
+  let entries = util::ls(path)?;
 
   Ok(entries)
 }
@@ -99,12 +94,7 @@ pub fn delete<S: AsRef<str>>(name: S) -> Result<(), Box<dyn Error>> {
 
 pub fn list_mods<S: AsRef<str>>(instance_name: S) -> Result<Vec<String>, Box<dyn Error>> {
   let path = get_path(instance_name.as_ref())?.join("mods");
-
-  let entries = tauri::api::dir::read_dir(path, false)?;
-  let entries = entries
-    .into_iter()
-    .map(|entry| entry.name.unwrap())
-    .collect::<Vec<String>>();
+  let entries = util::ls(path)?;
 
   Ok(entries)
 }
