@@ -19,7 +19,7 @@
     "@tauri-apps/cli": "^1.0.0-beta.2",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@vitejs/plugin-vue": "^1.2.3",
-    "@vue/compiler-sfc": "^3.0.11",
+    "@vue/compiler-sfc": "^3.1.1",
     "@vue/server-renderer": "^3.0.11",
     "cross-env": "^7.0.3",
     "eslint": "^7.28.0",
