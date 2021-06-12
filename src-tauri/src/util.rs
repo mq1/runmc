@@ -37,9 +37,10 @@ pub async fn download_file<S: AsRef<str>, P: AsRef<Path>>(
 }
 
 pub fn ls<P: AsRef<Path>>(path: P) -> Result<Vec<String>, Box<dyn Error>> {
-  let entries = fs::read_dir(path)?
-    .map(|res| res.map(|e| format!("{:?}", e.file_name())))
-    .collect::<Result<Vec<_>, io::Error>>()?;
+  let entries = tauri::api::dir::read_dir(path, false)?;
+  let mut entries = entries.into_iter().map(|entry| entry.name.unwrap()).collect::<Vec<String>>();
+
+  entries.retain(|entry| entry.ne(".DS_Store"));
 
   Ok(entries)
 }
