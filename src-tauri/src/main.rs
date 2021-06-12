@@ -3,6 +3,8 @@
   windows_subsystem = "windows"
 )]
 
+use std::fs;
+
 mod cmd;
 
 mod account;
@@ -13,6 +15,9 @@ mod util;
 mod version;
 
 fn main() {
+  let base_dir = util::get_base_dir().expect("Error getting base dir");
+  fs::create_dir_all(base_dir).expect("Error creating base dir");
+
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
       cmd::list_accounts,
