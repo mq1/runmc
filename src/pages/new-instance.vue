@@ -42,7 +42,7 @@ onMounted(updateVersions)
     <div
       v-for="version in versions.filter(v => v.type === 'release' || (v.type === 'snapshot' && snapshotsEnabled))"
       :key="version.id"
-      class="p-2 flex items-center justify-between border-1 rounded-lg shadow-md min-w-sm gap-x-4"
+      class="box border flex justify-between items-center min-w-xs"
     >
       <carbon-fire v-if="version.type === 'snapshot'" class="text-red-500" />
       <carbon-badge v-if="version.type === 'release'" class="text-green-500" />
