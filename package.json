@@ -13,7 +13,7 @@
     "vue-router": "^4.0.8"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.6.5",
+    "@antfu/eslint-config": "^0.6.6",
     "@iconify/json": "^1.1.355",
     "@intlify/vite-plugin-vue-i18n": "^2.2.1",
     "@tauri-apps/cli": "^1.0.0-beta.2",
