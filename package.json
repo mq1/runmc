@@ -6,7 +6,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.0.0-beta.1",
+    "@tauri-apps/api": "^1.0.0-beta.3",
     "@vueuse/head": "^0.5.1",
     "vue": "^3.0.11",
     "vue-i18n": "^9.1.6",
