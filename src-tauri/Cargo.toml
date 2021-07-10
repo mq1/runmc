@@ -20,7 +20,7 @@ serde_yaml = "0.8"
 uuid = { version = "0.8", features = [ "v4" ] }
 
   [dependencies.tauri]
-  version = "1.0.0-beta"
+  version = "1.0.0-beta-rc.4"
 features = ["updater"]
 
 [features]
