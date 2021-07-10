@@ -23,8 +23,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
-          check-latest: true
+          node-version: '14'
 
       - name: install webkit2gtk (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
@@ -32,10 +31,23 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y webkit2gtk-4.0
 
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+          run_install: true
+
       - name: build
-        run: |
-          npm install
-          npm run tauri build
+        run: pnpm tauri build
         env:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
 
