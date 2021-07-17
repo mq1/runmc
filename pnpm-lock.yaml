@@ -5,7 +5,7 @@ specifiers:
   '@iconify/json': 1.1.377
   '@intlify/vite-plugin-vue-i18n': 2.3.2
   '@tauri-apps/api': 1.0.0-beta.5
-  '@tauri-apps/cli': 1.0.0-beta.5
+  '@tauri-apps/cli': 1.0.0-beta.6
   '@typescript-eslint/eslint-plugin': 4.28.3
   '@vitejs/plugin-vue': 1.2.5
   '@vue/compiler-sfc': 3.1.5
@@ -37,7 +37,7 @@ devDependencies:
   '@antfu/eslint-config': 0.7.0_eslint@7.30.0+typescript@4.3.5
   '@iconify/json': 1.1.377
   '@intlify/vite-plugin-vue-i18n': 2.3.2_ce5c3d9619bdd033cbc89558da2a974e
-  '@tauri-apps/cli': 1.0.0-beta.5
+  '@tauri-apps/cli': 1.0.0-beta.6
   '@typescript-eslint/eslint-plugin': 4.28.3_eslint@7.30.0+typescript@4.3.5
   '@vitejs/plugin-vue': 1.2.5_@vue+compiler-sfc@3.1.5
   '@vue/compiler-sfc': 3.1.5_vue@3.1.5
@@ -688,8 +688,8 @@ packages:
     engines: {node: '>= 12.13.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
     dev: false
 
-  /@tauri-apps/cli/1.0.0-beta.5:
-    resolution: {integrity: sha512-1FdeLKhqA0wNAUnkfgJRZ0pf9qxcjBs4xFCSvTLY+uB5LQjoeQ0R0olwaNdise5OHm4Aoj8MEMP+tGTQA/QZtw==}
+  /@tauri-apps/cli/1.0.0-beta.6:
+    resolution: {integrity: sha512-zcF7+diZk3LHcS1/Rwo2f/6hRMY9fOVQYSgqSkjZDGGkTXhysrEiCCc4DwLmB1QES9P0lhRt4CPBJLpH0MdsWA==}
     engines: {node: '>= 12.13.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
     hasBin: true
     dependencies:
@@ -7225,7 +7225,7 @@ packages:
   /wide-align/1.1.3:
     resolution: {integrity: sha512-QGkOQc8XL6Bt5PwnsExKBPuMKBxnGxWWW3fU55Xt4feHozMUhdUMaBCk290qpm/wG5u/RSKzwdAC4i51YigihA==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 2.1.1
     dev: true
 
   /widest-line/2.0.1:
