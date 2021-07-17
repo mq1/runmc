@@ -4,7 +4,7 @@ specifiers:
   '@antfu/eslint-config': 0.7.0
   '@iconify/json': 1.1.377
   '@intlify/vite-plugin-vue-i18n': 2.3.1
-  '@tauri-apps/api': 1.0.0-beta.4
+  '@tauri-apps/api': 1.0.0-beta.5
   '@tauri-apps/cli': 1.0.0-beta.5
   '@typescript-eslint/eslint-plugin': 4.28.2
   '@vitejs/plugin-vue': 1.2.5
@@ -27,7 +27,7 @@ specifiers:
   vue-tsc: 0.2.0
 
 dependencies:
-  '@tauri-apps/api': 1.0.0-beta.4
+  '@tauri-apps/api': 1.0.0-beta.5
   '@vueuse/head': 0.6.0_vue@3.1.4
   vue: 3.1.4
   vue-i18n: 9.1.6_vue@3.1.4
@@ -690,8 +690,8 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
-  /@tauri-apps/api/1.0.0-beta.4:
-    resolution: {integrity: sha512-PWO3ULlMVW8p70wFWjkHVCfkI/ewRX/CwSDX016nn4xSOrMwFICswPsqOcYBdQDPClagIm/4FuRuqkn8dEj0qg==}
+  /@tauri-apps/api/1.0.0-beta.5:
+    resolution: {integrity: sha512-gecjskr6nCLyjky2rtth64Jsk1qyHeWykYO5wroEkoTwESJJEzFnpnqyZHCWgkRLJC1TIYEv+lddldKvH/O1RA==}
     engines: {node: '>= 12.13.0', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
     dev: false
 
