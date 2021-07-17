@@ -20,7 +20,7 @@ specifiers:
   vite-plugin-pages: 0.15.0
   vite-plugin-vue-layouts: 0.3.1
   vite-plugin-windicss: 1.2.4
-  vite-ssg: 0.11.4
+  vite-ssg: 0.12.0
   vue: 3.1.4
   vue-i18n: 9.1.6
   vue-router: 4.0.10
@@ -51,7 +51,7 @@ devDependencies:
   vite-plugin-pages: 0.15.0_f519d6d81cb17602432b14b14764b42f
   vite-plugin-vue-layouts: 0.3.1_vite@2.4.1
   vite-plugin-windicss: 1.2.4_vite@2.4.1
-  vite-ssg: 0.11.4_e2397b795de8b488f27c92d96c7e458b
+  vite-ssg: 0.12.0_e2397b795de8b488f27c92d96c7e458b
   vue-tsc: 0.2.0_typescript@4.3.5+vue@3.1.4
 
 packages:
@@ -6702,8 +6702,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite-ssg/0.11.4_e2397b795de8b488f27c92d96c7e458b:
-    resolution: {integrity: sha512-JVq45h5IRGxYpHu2yjLdWKAUaTISXrWKjPPDHetNVhP8wp/MGZ1gYhns9XOSfYfLbWSMQgDIjbANAS9XzE/X3Q==}
+  /vite-ssg/0.12.0_e2397b795de8b488f27c92d96c7e458b:
+    resolution: {integrity: sha512-r2cOxkA6b7mCago3Sn6n+8RsBpB/2UU6w3svJdlb3MtXtfmN3ueWZwXCPN8UmOnM4lfnfSL1XKNP92CNg+MWHg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     peerDependencies:
