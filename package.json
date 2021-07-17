@@ -16,7 +16,7 @@
     "@antfu/eslint-config": "0.7.0",
     "@iconify/json": "1.1.377",
     "@intlify/vite-plugin-vue-i18n": "2.3.2",
-    "@tauri-apps/cli": "1.0.0-beta.5",
+    "@tauri-apps/cli": "1.0.0-beta.6",
     "@typescript-eslint/eslint-plugin": "4.28.3",
     "@vitejs/plugin-vue": "1.2.5",
     "@vue/compiler-sfc": "3.1.4",
