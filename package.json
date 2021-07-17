@@ -15,7 +15,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "0.7.0",
     "@iconify/json": "1.1.377",
-    "@intlify/vite-plugin-vue-i18n": "2.3.1",
+    "@intlify/vite-plugin-vue-i18n": "2.3.2",
     "@tauri-apps/cli": "1.0.0-beta.5",
     "@typescript-eslint/eslint-plugin": "4.28.2",
     "@vitejs/plugin-vue": "1.2.5",
