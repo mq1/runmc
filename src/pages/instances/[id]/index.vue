@@ -100,7 +100,7 @@ onMounted(() => {
 
   <div class="w-full flex justify-end">
     <button class="primary w-auto" @click="openInstanceDir">
-      Open instance directory
+      {{ t('instances.openinstancedir') }}
     </button>
   </div>
 </template>

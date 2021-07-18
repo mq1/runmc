@@ -21,6 +21,7 @@ instances:
   modloaders: Mod loaders
   mods: Mods
   openmodsdir: Open mods directory
+  openinstancedir: Open instance dir
   showunstable: Show unstable versions
   fabric: Fabric for Minecraft {version}
   availableversions: Available versions

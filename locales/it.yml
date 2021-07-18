@@ -21,6 +21,7 @@ instances:
   modloaders: Mod loaders
   mods: Mods
   openmodsdir: Apri la cartella delle mod
+  openinstancedir: Apri la cartella dell'istanza
   showunstable: Mostra versioni instabili
   fabric: Fabric per Minecraft {version}
   availableversions: Versioni disponibili
