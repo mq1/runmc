@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite-plugin-windicss'
+import { defineConfig } from 'windicss/helpers'
 import colors from 'windicss/colors'
 
 export default defineConfig({

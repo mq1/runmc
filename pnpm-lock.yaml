@@ -22,6 +22,7 @@ specifiers:
   vite-plugin-windicss: 1.2.4
   vite-ssg: 0.12.0
   vue: 3.1.5
+  vue-global-api: ^0.2.4
   vue-i18n: 9.1.7
   vue-router: 4.0.10
   vue-tsc: 0.2.1
@@ -30,6 +31,7 @@ dependencies:
   '@tauri-apps/api': 1.0.0-beta.5
   '@vueuse/head': 0.6.0_vue@3.1.5
   vue: 3.1.5
+  vue-global-api: 0.2.4_vue@3.1.5
   vue-i18n: 9.1.7_vue@3.1.5
   vue-router: 4.0.10_vue@3.1.5
 
@@ -7096,6 +7098,21 @@ packages:
       - vue
     dev: true
 
+  /vue-demi/0.11.2_vue@3.1.5:
+    resolution: {integrity: sha512-J+X8Au6BhQdcej6LY4O986634hZLu55L0ewU2j8my7WIKlu8cK0dqmdUxqVHHMd/cMrKKZ9SywB/id6aLhwCtA==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.1.5
+    dev: false
+
   /vue-eslint-parser/7.8.0_eslint@7.31.0:
     resolution: {integrity: sha512-ehmmrLZNYLUoKayvVW8l8HyPQIfuYZHiJoQLRP3dapDlTU7bGs4tqIKVGdAEpMuXS/b4R/PImCt7Tkj4UhX1SQ==}
     engines: {node: '>=8.10'}
@@ -7113,6 +7130,15 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-global-api/0.2.4_vue@3.1.5:
+    resolution: {integrity: sha512-Cm84AZiALt8f4CJZzPvbForTzAUYe41msnzUnRK6B7YkaDaN8g87ap8CpHWvTU0+XtyDeLLAeQoRr+uwamxfpQ==}
+    dependencies:
+      vue-demi: 0.11.2_vue@3.1.5
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
 
   /vue-i18n/9.1.7_vue@3.1.5:
     resolution: {integrity: sha512-ujuuDanoHqtEd4GejWrbG/fXE9nrP51ElsEGxp0WBHfv+/ki0/wyUqkO+4fLikki2obGtXdviTPH0VNpas5K6g==}

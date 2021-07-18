@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useI18n } from 'vue-i18n'
 import type { Account } from '~/types'

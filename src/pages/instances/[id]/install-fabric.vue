@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'

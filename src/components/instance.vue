@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, defineProps, defineEmit } from 'vue'
 import { useRouter } from 'vue-router'
 import { invoke } from '@tauri-apps/api/tauri'
 
@@ -10,7 +9,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmit(['update'])
+const emit = defineEmits(['update'])
 
 const router = useRouter()
 
