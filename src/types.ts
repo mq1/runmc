@@ -8,12 +8,6 @@ export type Account = {
   accessToken: string
 }
 
-export type Version = {
-  id: string
-  type: string
-  url: string
-}
-
 export type InstanceInfo = {
   gameVersion: string
   mainClass: string

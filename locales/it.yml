@@ -17,6 +17,7 @@ accounts:
 instances:
   available: Istanze disponibili
   new: Nuova istanza
+  create: Crea istanza
   instance: Istanza {id}
   modloaders: Mod loaders
   mods: Mods
@@ -43,3 +44,5 @@ notinstalled: Non installata
 install: Installa
 installing: Installando
 add: Aggiungi
+name: Nome
+filters: Filtri

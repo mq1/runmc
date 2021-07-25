@@ -17,6 +17,7 @@ accounts:
 instances:
   available: Available instances
   new: New instance
+  create: Create instance
   instance: Instance {id}
   modloaders: Mod loaders
   mods: Mods
@@ -43,3 +44,5 @@ notinstalled: Not installed
 install: Install
 installing: Installing
 add: Add
+name: Name
+filters: Filters

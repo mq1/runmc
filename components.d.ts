@@ -12,6 +12,7 @@ declare module 'vue' {
     CarbonInformation: typeof import('virtual:vite-icons/carbon/information')['default']
     CarbonLayers: typeof import('virtual:vite-icons/carbon/layers')['default']
     CarbonLogoGithub: typeof import('virtual:vite-icons/carbon/logo-github')['default']
+    CarbonNewTab: typeof import('virtual:vite-icons/carbon/new-tab')['default']
     CarbonPen: typeof import('virtual:vite-icons/carbon/pen')['default']
     CarbonReset: typeof import('virtual:vite-icons/carbon/reset')['default']
     CarbonRestart: typeof import('virtual:vite-icons/carbon/restart')['default']

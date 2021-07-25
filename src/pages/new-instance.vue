@@ -2,28 +2,29 @@
 import { invoke } from '@tauri-apps/api/tauri'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import type { Version } from '~/types'
+import type { Ref } from 'vue'
+import { fetchGameVersions } from '~/logic/launchermeta'
+import type { GameVersion } from '~/logic/launchermeta'
 
 const { t } = useI18n()
 const router = useRouter()
 
+const name = ref('')
+const version = ref('')
 const snapshotsEnabled = ref(false)
-
 const installing = ref(false)
 
-const versions = ref<Version[]>()
-const updateVersions = () => {
-  invoke('list_available_minecraft_versions')
-    .then(v => versions.value = v as Version[])
-    .catch((e: string) => console.error(e))
+const versions: Ref<GameVersion[]> = ref()
+const updateVersions = async() => {
+  versions.value = await fetchGameVersions()
 }
 
-const newInstance = (version: Version) => {
+const create = () => {
   installing.value = true
 
   invoke('new_instance', {
-    instanceName: version.id,
-    minecraftVersion: version,
+    instanceName: name.value,
+    minecraftVersion: version.gv,
   })
     .then(() => router.push('/instances'))
     .catch((e: string) => console.log(e))
@@ -34,34 +35,57 @@ onMounted(updateVersions)
 
 <template>
   <h1 class="text-3xl text-center">
-    {{ t('instances.availableversions') }}
+    {{ t('instances.new') }}
   </h1>
 
-  <div v-if="versions" class="overflow-y-auto h-full w-full flex flex-col items-center gap-y-4">
-    <div
-      v-for="version in versions.filter(v => v.type === 'release' || (v.type === 'snapshot' && snapshotsEnabled))"
-      :key="version.id"
-      class="box border flex justify-between items-center min-w-xs"
-    >
-      <carbon-fire v-if="version.type === 'snapshot'" class="text-red-500" />
-      <carbon-badge v-if="version.type === 'release'" class="text-green-500" />
-      {{ version.type }}
-      <span class="font-semibold">{{ version.id }}</span>
-      <button class="tiny bg-green-500 text-white" @click="newInstance(version)">
-        <carbon-download />
-      </button>
+  <div class="flex flex-col gap-y-4 min-w-xs">
+    <label class="flex flex-col">
+      <span>{{ t('name') }}</span>
+      <input v-model="name" type="text" />
+    </label>
+  </div>
+
+  <div class="box border flex flex-col gap-y-4 w-full overflow-y-auto">
+    <h2 class="text-2xl text-center">
+      {{ t('instances.availableversions') }}
+    </h2>
+
+    <div class="grid grid-cols-2 gap-x-8 w-full overflow-y-auto">
+      <div class="flex flex-col gap-y-4 overflow-y-auto w-full">
+        <div v-if="versions" class="overflow-y-auto h-full w-full flex flex-col divide-y">
+          <div v-for="gv in versions.filter(gv => gv.type === 'release' || snapshotsEnabled)" :key="gv.id" class="flex justify-start items-center gap-x-2 py-1">
+            <input :id="gv.id" v-model="version" type="radio" :value="gv" />
+            <label :for="gv.id">
+              {{ gv.type }}
+              {{ gv.id }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-y-4">
+        <h2 class="text-xl">
+          {{ t('filters') }}
+        </h2>
+        <div class="flex items-center gap-x-2">
+          <input v-model="snapshotsEnabled" type="checkbox" />
+          <label>{{ t('instances.showsnapshots') }}</label>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="w-full flex justify-between">
-    <div v-show="!installing" />
-    <div v-show="installing" class="flex items-center gap-x-2">
+  <div class="w-full flex justify-end gap-x-2">
+    <button v-if="!installing" class="w-auto bg-green-500 text-white flex gap-x-2" @click="create">
+      <carbon-new-tab />
+      <span>
+        {{ t('instances.create') }}
+      </span>
+    </button>
+    <div v-if="installing" class="flex items-center gap-x-2">
       <carbon-restart class="animate-spin" />
-      {{ t('installing') }}
-    </div>
-    <div class="flex items-center gap-x-2">
-      <label>{{ t('instances.showsnapshots') }}</label>
-      <input v-model="snapshotsEnabled" type="checkbox" />
+      <span>
+        {{ t('installing') }}
+      </span>
     </div>
   </div>
 </template>
