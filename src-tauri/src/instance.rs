@@ -102,6 +102,8 @@ pub fn list_mods<S: AsRef<str>>(instance_name: S) -> Result<Vec<String>, Box<dyn
 pub fn open_dir<S: AsRef<str>>(instance_name: S) -> Result<(), Box<dyn Error>> {
   let path = get_path(instance_name.as_ref())?;
   let path = format!("{:?}", path);
+
+  println!("Opening {}",  &path);
   tauri::api::shell::open(path, None)?;
 
   Ok(())
@@ -141,6 +143,8 @@ pub async fn run<S: AsRef<str>, A: AsRef<account::Account>>(
     .arg("-Dminecraft.launcher.brand=runmc")
     .arg(format!("-Xmx{}", config.java.memory))
     .arg(format!("-Xms{}", config.java.memory))
+    .arg(format!("-Dorg.lwjgl.librarypath=/Applications/MultiMC.app/Contents/MacOS/lwjglnatives/"))
+    .arg(format!("-Dfml.earlyprogresswindow=false"))
     .arg("-cp")
     .arg(class_path)
     .arg(instance_info.main_class)
