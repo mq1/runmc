@@ -8,30 +8,30 @@
   "dependencies": {
     "@tauri-apps/api": "1.0.0-beta.5",
     "@vueuse/head": "0.6.0",
-    "vue": "3.1.5",
-    "vue-global-api": "^0.2.4",
+    "vue": "3.2.2",
+    "vue-global-api": "^0.4.1",
     "vue-i18n": "9.1.7",
-    "vue-router": "4.0.10"
+    "vue-router": "4.0.11"
   },
   "devDependencies": {
     "@antfu/eslint-config": "0.7.0",
-    "@iconify/json": "1.1.377",
-    "@intlify/vite-plugin-vue-i18n": "2.3.2",
+    "@iconify/json": "1.1.387",
+    "@intlify/vite-plugin-vue-i18n": "2.4.0",
     "@tauri-apps/cli": "1.0.0-beta.6",
-    "@typescript-eslint/eslint-plugin": "4.28.3",
-    "@vitejs/plugin-vue": "1.2.5",
-    "@vue/compiler-sfc": "3.1.5",
-    "@vue/server-renderer": "3.1.5",
+    "@typescript-eslint/eslint-plugin": "4.29.1",
+    "@vitejs/plugin-vue": "1.4.0",
+    "@vue/compiler-sfc": "3.2.2",
+    "@vue/server-renderer": "3.2.2",
     "cross-env": "7.0.3",
-    "eslint": "7.31.0",
+    "eslint": "7.32.0",
     "typescript": "4.3.5",
-    "vite": "2.4.2",
-    "vite-plugin-components": "0.12.2",
+    "vite": "2.4.4",
+    "vite-plugin-components": "0.13.2",
     "vite-plugin-icons": "0.6.5",
-    "vite-plugin-pages": "0.15.0",
+    "vite-plugin-pages": "0.17.3",
     "vite-plugin-vue-layouts": "0.3.1",
-    "vite-plugin-windicss": "1.2.4",
-    "vite-ssg": "0.12.0",
-    "vue-tsc": "0.2.1"
+    "vite-plugin-windicss": "1.2.7",
+    "vite-ssg": "0.14.5",
+    "vue-tsc": "0.2.2"
   }
 }
