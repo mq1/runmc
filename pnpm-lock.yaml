@@ -6,6 +6,7 @@ specifiers:
   '@intlify/vite-plugin-vue-i18n': 2.4.0
   '@tauri-apps/api': 1.0.0-beta.5
   '@tauri-apps/cli': 1.0.0-beta.6
+  '@types/js-yaml': ^4.0.2
   '@typescript-eslint/eslint-plugin': 4.29.1
   '@vitejs/plugin-vue': 1.4.0
   '@vue/compiler-sfc': 3.2.2
@@ -13,6 +14,7 @@ specifiers:
   '@vueuse/head': 0.6.0
   cross-env: 7.0.3
   eslint: 7.32.0
+  js-yaml: ^4.1.0
   typescript: 4.3.5
   vite: 2.4.4
   vite-plugin-components: 0.13.2
@@ -30,6 +32,7 @@ specifiers:
 dependencies:
   '@tauri-apps/api': 1.0.0-beta.5
   '@vueuse/head': 0.6.0_vue@3.2.2
+  js-yaml: 4.1.0
   vue: 3.2.2
   vue-global-api: 0.4.1_vue@3.2.2
   vue-i18n: 9.1.7_vue@3.2.2
@@ -40,6 +43,7 @@ devDependencies:
   '@iconify/json': 1.1.387
   '@intlify/vite-plugin-vue-i18n': 2.4.0_bdfaf14c5541fb1bd751e193a94ac007
   '@tauri-apps/cli': 1.0.0-beta.6
+  '@types/js-yaml': 4.0.2
   '@typescript-eslint/eslint-plugin': 4.29.1_eslint@7.32.0+typescript@4.3.5
   '@vitejs/plugin-vue': 1.4.0_@vue+compiler-sfc@3.2.2
   '@vue/compiler-sfc': 3.2.2
@@ -699,6 +703,10 @@ packages:
     resolution: {integrity: sha512-SZs7ekbP8CN0txVG2xVRH6EgKmEm31BOxA07vkFaETzZz1xh+cbt8BcI0slpymvwhx5dlFnQG2rTlPVQn+iRPQ==}
     dev: true
 
+  /@types/js-yaml/4.0.2:
+    resolution: {integrity: sha512-KbeHS/Y4R+k+5sWXEYzAZKuB1yQlZtEghuhRxrVRLaqhtoG5+26JwQsa4HyS3AWX8v1Uwukma5HheduUDskasA==}
+    dev: true
+
   /@types/json-schema/7.0.8:
     resolution: {integrity: sha512-YSBPTLTVm2e2OoQIDYx8HaeWJ5tTToLH67kXR7zYNGupXMEHa2++G8k+DczX2cFVgalypqtyZIcU19AFcmOpmg==}
     dev: true
@@ -1294,6 +1302,10 @@ packages:
     dependencies:
       sprintf-js: 1.0.3
     dev: true
+
+  /argparse/2.0.1:
+    resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
+    dev: false
 
   /array-find-index/1.0.2:
     resolution: {integrity: sha1-3wEKoSh+Fku9pvlyOwqWoexBh6E=}
@@ -3747,6 +3759,13 @@ packages:
       argparse: 1.0.10
       esprima: 4.0.1
     dev: true
+
+  /js-yaml/4.1.0:
+    resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
+    hasBin: true
+    dependencies:
+      argparse: 2.0.1
+    dev: false
 
   /jsdom/16.6.0:
     resolution: {integrity: sha512-Ty1vmF4NHJkolaEmdjtxTfSfkdb8Ywarwf63f+F8/mDD1uLSSWDxDuMiZxiPhwunLrn9LOSVItWj4bLYsLN3Dg==}

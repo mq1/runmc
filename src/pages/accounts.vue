@@ -1,22 +1,17 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/tauri'
 import { useI18n } from 'vue-i18n'
-import type { Account } from '~/types'
+import { list, invalidate } from '~/logic/accounts'
+import type { Account } from '~/logic/accounts'
 
 const { t } = useI18n()
 
 const availableAccounts = ref<Account[]>()
-const updateAvailableAccounts = () => {
-  invoke('list_accounts')
-    .then(a => availableAccounts.value = a as Account[])
-    .catch((e: string) => console.error(e))
-}
+const updateAvailableAccounts = async() =>
+  availableAccounts.value = await list()
 
-const removeAccount = (account: Account) => {
-  invoke('remove_account', { account })
+const removeAccount = (account: Account) =>
+  invalidate(account)
     .then(updateAvailableAccounts)
-    .catch((e: string) => console.error(e))
-}
 
 onMounted(updateAvailableAccounts)
 </script>

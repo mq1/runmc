@@ -2,12 +2,6 @@ import { ViteSSGContext } from 'vite-ssg'
 
 export type UserModule = (ctx: ViteSSGContext) => void
 
-export type Account = {
-  name: string
-  id: string
-  accessToken: string
-}
-
 export type InstanceInfo = {
   gameVersion: string
   mainClass: string

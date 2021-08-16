@@ -1,25 +1,6 @@
 use crate::{account, config, fabric, instance, version};
 use tauri::command;
 
-// ACCOUNT
-
-#[command]
-pub fn list_accounts() -> Result<Vec<account::Account>, String> {
-  account::list().map_err(|e| e.to_string())
-}
-
-#[command]
-pub fn remove_account(account: account::Account) -> Result<(), String> {
-  account::remove(account).map_err(|e| e.to_string())
-}
-
-#[command]
-pub async fn login(email: String, password: String) -> Result<(), String> {
-  account::login(email, password)
-    .await
-    .map_err(|e| e.to_string())
-}
-
 // CONFIG
 
 #[command]

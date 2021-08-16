@@ -20,9 +20,6 @@ fn main() {
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      cmd::list_accounts,
-      cmd::remove_account,
-      cmd::login,
       cmd::get_default_config,
       cmd::get_config,
       cmd::save_config,
@@ -36,7 +33,6 @@ fn main() {
       cmd::list_instance_mods,
       cmd::open_instance_dir,
       cmd::open_instance_mods_dir,
-      cmd::run_instance,
       cmd::list_available_minecraft_versions
     ])
     .run(tauri::generate_context!())

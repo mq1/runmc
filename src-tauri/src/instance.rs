@@ -1,7 +1,7 @@
-use crate::account;
 use crate::config;
 use crate::util;
 use crate::version;
+use crate::account;
 use serde::{Deserialize, Serialize};
 use std::{error::Error, fs, path::PathBuf, process};
 
@@ -133,8 +133,8 @@ pub async fn run<S: AsRef<str>, A: AsRef<account::Account>>(
   }
 
   // refresh access token
-  println!("refreshing access token");
-  let account = account::refresh(account.as_ref()).await?;
+  //println!("refreshing access token");
+  //let account = account::refresh(account.as_ref()).await?;
 
   println!("launching {}", instance_name.as_ref());
 

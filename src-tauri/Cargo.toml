@@ -21,7 +21,7 @@ uuid = { version = "0.8", features = [ "v4" ] }
 
   [dependencies.tauri]
   version = "1.0.0-beta.5"
-features = ["shell-open", "updater"]
+features = ["fs-read-text-file", "fs-write-file", "http-request", "shell-open", "updater"]
 
 [features]
 default = [ "custom-protocol" ]

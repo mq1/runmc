@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { invoke } from '@tauri-apps/api/tauri'
 import { useI18n } from 'vue-i18n'
+import { authenticate } from '~/logic/accounts'
 
 const { t } = useI18n()
 const router = useRouter()
 
-const email = ref<string>()
-const password = ref<string>()
+const email = ref<string>('')
+const password = ref<string>('')
 
-const addAccount = () => {
-  invoke('login', {
-    email: email.value,
-    password: password.value,
-  })
+const addAccount = () =>
+  authenticate(email.value, password.value)
     .then(() => router.push('/accounts'))
-    .catch((e: string) => console.error(e))
-}
+
 </script>
 
 <template>

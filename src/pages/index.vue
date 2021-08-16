@@ -1,21 +1,16 @@
 <script setup lang="ts">
 import { invoke } from '@tauri-apps/api/tauri'
 import { useI18n } from 'vue-i18n'
-import type { Account } from '~/types'
+import { list } from '~/logic/accounts'
+import type { Account } from '~/logic/accounts'
 
 const { t } = useI18n()
 
 const accounts = ref<Account[]>()
 const selectedAccount = ref<Account>({ name: 'No users found', id: '', accessToken: '' })
 
-const updateAccounts = () => {
-  invoke('list_accounts')
-    .then((a) => {
-      accounts.value = a as Account[]
-      selectedAccount.value = accounts.value[0] || { name: 'No users found', id: '', accessToken: '' }
-    })
-    .catch((e: string) => console.error(e))
-}
+const updateAccounts = async() =>
+  accounts.value = await list()
 
 const instances = ref<string[]>()
 const selectedInstance = ref('No instances present')

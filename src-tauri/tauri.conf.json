@@ -56,6 +56,13 @@
     "allowlist": {
       "shell": {
         "open": true
+      },
+      "fs": {
+        "readTextFile": true,
+        "writeFile": true
+      },
+      "http": {
+        "request": true
       }
     },
     "windows": [
