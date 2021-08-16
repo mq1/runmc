@@ -1,28 +1,20 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/tauri'
 import { useI18n } from 'vue-i18n'
-import type { Config } from '~/types'
+import { read, write, getDefaultConfig } from '~/logic/config'
 
 const { t, availableLocales, locale } = useI18n()
 
-const config = ref<Config>()
-const getConfig = () => {
-  invoke('get_config')
-    .then(c => config.value = c as Config)
-    .catch((e: string) => console.error(e))
-}
-const saveConfig = () => {
-  invoke('save_config', { config: config.value })
-    .then(getConfig)
-    .catch((e: string) => console.error(e))
+const config = ref(getDefaultConfig())
 
-  locale.value = config.value!.locale
-}
-const getDefaultConfig = () => {
-  invoke('get_default_config')
-    .then(c => config.value = c as Config)
-    .catch((e: string) => console.error(e))
-}
+const getConfig = async() =>
+  config.value = await read()
+
+const saveConfig = () =>
+  write(config.value)
+    .then(() => locale.value = config.value.locale)
+
+const loadDefaultConfig = () =>
+  config.value = getDefaultConfig()
 
 onMounted(getConfig)
 </script>
@@ -48,7 +40,7 @@ onMounted(getConfig)
     </label>
   </div>
   <div class="w-full flex justify-end gap-x-2">
-    <button class="w-auto bg-red-500 text-white flex gap-x-2" @click="getDefaultConfig">
+    <button class="w-auto bg-red-500 text-white flex gap-x-2" @click="loadDefaultConfig">
       <carbon-reset />
       <span>
         {{ t('settings.reset') }}

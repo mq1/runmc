@@ -1,4 +1,3 @@
-use crate::config;
 use crate::util;
 use crate::version;
 use crate::account;
@@ -121,6 +120,7 @@ pub async fn run<S: AsRef<str>, A: AsRef<account::Account>>(
   instance_name: S,
   account: A,
 ) -> Result<(), Box<dyn Error>> {
+  /*
   let path = get_path(&instance_name)?;
   let config = config::read()?;
 
@@ -133,8 +133,8 @@ pub async fn run<S: AsRef<str>, A: AsRef<account::Account>>(
   }
 
   // refresh access token
-  //println!("refreshing access token");
-  //let account = account::refresh(account.as_ref()).await?;
+  println!("refreshing access token");
+  let account = account::refresh(account.as_ref()).await?;
 
   println!("launching {}", instance_name.as_ref());
 
@@ -168,5 +168,6 @@ pub async fn run<S: AsRef<str>, A: AsRef<account::Account>>(
     .stderr(process::Stdio::inherit())
     .spawn()?;
 
+  */*/*/
   Ok(())
 }

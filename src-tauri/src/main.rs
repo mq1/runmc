@@ -8,7 +8,6 @@ use std::fs;
 mod cmd;
 
 mod account;
-mod config;
 mod fabric;
 mod instance;
 mod util;
@@ -20,9 +19,6 @@ fn main() {
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      cmd::get_default_config,
-      cmd::get_config,
-      cmd::save_config,
       cmd::get_fabric_loader_versions,
       cmd::install_fabric,
       cmd::list_instances,

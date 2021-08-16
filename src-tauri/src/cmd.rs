@@ -1,22 +1,5 @@
-use crate::{account, config, fabric, instance, version};
+use crate::{account, fabric, instance, version};
 use tauri::command;
-
-// CONFIG
-
-#[command]
-pub fn get_default_config() -> config::Config {
-  config::get_defaults()
-}
-
-#[command]
-pub fn get_config() -> Result<config::Config, String> {
-  config::read().map_err(|e| e.to_string())
-}
-
-#[command]
-pub fn save_config(config: config::Config) -> Result<(), String> {
-  config::save(config).map_err(|e| e.to_string())
-}
 
 // FABRIC
 
