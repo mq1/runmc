@@ -1,0 +1,31 @@
+.box {
+  @apply rounded-lg shadow-md px-4 py-2;
+}
+
+select, input[type=text], input[type=email], input[type=password] {
+  @apply box dark:bg-black border-gray-300 focus:ring-0 focus:border-primary-500;
+}
+
+input[type=checkbox] {
+  @apply rounded-full border-gray-500 text-primary-500 focus:ring-white focus:border-gray-500;
+}
+
+button {
+  @apply focus:outline-none box w-full transition duration-100 ease-in-out transform hover:scale-105 bg-white dark:bg-black text-black dark:text-white text-left flex items-center gap-x-2;
+}
+
+.primary {
+  @apply text-white bg-primary-500 justify-center;
+}
+
+.round {
+  @apply rounded-full p-0 w-10 h-10;
+}
+
+.small {
+  @apply px-2 py-1;
+}
+
+.tiny {
+  @apply w-min p-1;
+}
