@@ -3,8 +3,6 @@
   windows_subsystem = "windows"
 )]
 
-use std::fs;
-
 mod cmd;
 
 fn main() {

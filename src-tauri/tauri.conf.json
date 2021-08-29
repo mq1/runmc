@@ -63,8 +63,7 @@
         "createDir": true,
         "readDir": true,
         "removeDir": true,
-        "renameFile": true,
-        "path": true
+        "renameFile": true
       },
       "http": {
         "request": true
