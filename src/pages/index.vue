@@ -2,6 +2,7 @@
 import { invoke } from '@tauri-apps/api/tauri'
 import { useI18n } from 'vue-i18n'
 import { list } from '~/logic/accounts'
+import { listInstances } from '~/logic/instances'
 import type { Account } from '~/logic/accounts'
 
 const { t } = useI18n()
@@ -12,17 +13,11 @@ const selectedAccount = ref<Account>({ name: 'No users found', id: '', accessTok
 const updateAccounts = async() =>
   accounts.value = await list()
 
-const instances = ref<string[]>()
+const instances = ref<string[]>([])
 const selectedInstance = ref('No instances present')
 
-const updateInstances = () => {
-  invoke('list_instances')
-    .then((i) => {
-      instances.value = i as string[]
-      selectedInstance.value = instances.value[0] || 'No instances present'
-    })
-    .catch((e: string) => console.error(e))
-}
+const updateInstances = async() =>
+  instances.value = await listInstances()
 
 const runInstance = () => {
   invoke('run_instance', {

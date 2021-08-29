@@ -59,7 +59,12 @@
       },
       "fs": {
         "readTextFile": true,
-        "writeFile": true
+        "writeFile": true,
+        "createDir": true,
+        "readDir": true,
+        "removeDir": true,
+        "renameFile": true,
+        "path": true
       },
       "http": {
         "request": true

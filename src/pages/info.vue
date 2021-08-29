@@ -5,9 +5,8 @@ import { getVersion } from '@tauri-apps/api/app'
 const { t } = useI18n()
 
 const version = ref<string>()
-const updateVersion = () => {
-  getVersion().then(v => version.value = v)
-}
+const updateVersion = async() =>
+  version.value = await getVersion()
 
 onMounted(updateVersion)
 </script>

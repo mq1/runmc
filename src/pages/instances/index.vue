@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/tauri'
 import { useI18n } from 'vue-i18n'
+import { listInstances } from '~/logic/instances'
 
 const { t } = useI18n()
 
-const instances = ref<string[]>()
-const updateInstances = () => {
-  invoke('list_instances')
-    .then(i => instances.value = i as string[])
-    .catch((e: string) => console.error(e))
-}
+const instances = ref<string[]>([])
+const updateInstances = async() =>
+  instances.value = await listInstances()
 
 onMounted(updateInstances)
 </script>

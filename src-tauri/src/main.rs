@@ -7,29 +7,10 @@ use std::fs;
 
 mod cmd;
 
-mod account;
-mod fabric;
-mod instance;
-mod util;
-mod version;
-
 fn main() {
-  let base_dir = util::get_base_dir().expect("Error getting base dir");
-  fs::create_dir_all(base_dir).expect("Error creating base dir");
-
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      cmd::get_fabric_loader_versions,
-      cmd::install_fabric,
-      cmd::list_instances,
-      cmd::new_instance,
-      cmd::read_instance_info,
-      cmd::rename_instance,
-      cmd::delete_instance,
-      cmd::list_instance_mods,
-      cmd::open_instance_dir,
-      cmd::open_instance_mods_dir,
-      cmd::list_available_minecraft_versions
+      cmd::wget
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

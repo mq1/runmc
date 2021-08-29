@@ -1,33 +1,28 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/tauri'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type { Ref } from 'vue'
 import { fetchGameVersions } from '~/logic/launchermeta'
 import type { GameVersion } from '~/logic/launchermeta'
+import { newInstance } from '~/logic/instances'
 
 const { t } = useI18n()
 const router = useRouter()
 
 const name = ref('')
-const version = ref('')
+const version: Ref<GameVersion | undefined> = ref()
 const snapshotsEnabled = ref(false)
 const installing = ref(false)
 
-const versions: Ref<GameVersion[]> = ref()
-const updateVersions = async() => {
+const versions: Ref<GameVersion[]> = ref([])
+const updateVersions = async() =>
   versions.value = await fetchGameVersions()
-}
 
 const create = () => {
   installing.value = true
 
-  invoke('new_instance', {
-    instanceName: name.value,
-    minecraftVersion: version.gv,
-  })
+  newInstance(name.value, version.value!)
     .then(() => router.push('/instances'))
-    .catch((e: string) => console.log(e))
 }
 
 onMounted(updateVersions)

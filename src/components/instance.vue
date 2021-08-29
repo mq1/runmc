@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { invoke } from '@tauri-apps/api/tauri'
+import { removeInstance, renameInstance } from '~/logic/instances'
 
 const props = defineProps({
   id: {
@@ -26,21 +26,13 @@ const rename = () => {
     return
   }
 
-  invoke('rename_instance', {
-    currentName: props.id,
-    newName: name.value,
-  })
+  renameInstance(props.id, name.value)
     .then(() => emit('update'))
-    .catch((e: string) => console.error(e))
 }
 
-const remove = () => {
-  invoke('delete_instance', {
-    name: props.id,
-  })
+const remove = () =>
+  removeInstance(props.id)
     .then(() => emit('update'))
-    .catch((e: string) => console.error(e))
-}
 </script>
 
 <template>
