@@ -5,7 +5,8 @@ import WindiCSS from 'vite-plugin-windicss'
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'vite-plugin-components'
-import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 
 // https://vitejs.dev/config/
@@ -23,12 +24,12 @@ export default defineConfig({
     WindiCSS(),
     Components({
       globalComponentsDeclaration: true,
-      customComponentResolvers: ViteIconsResolver({
+      customComponentResolvers: IconsResolver({
         componentPrefix: '',
         enabledCollections: ['carbon'],
       }),
     }),
-    ViteIcons(),
+    Icons(),
 
     // https://github.com/intlify/vite-plugin-vue-i18n
     VueI18n({
