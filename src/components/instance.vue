@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import { removeInstance, renameInstance } from '~/logic/instances'
 
 const props = defineProps({

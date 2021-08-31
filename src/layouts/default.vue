@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { invoke } from '@tauri-apps/api/tauri'
 import type { Config } from '~/types'
 

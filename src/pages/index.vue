@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { invoke } from '@tauri-apps/api/tauri'
-import { useI18n } from 'vue-i18n'
 import { list } from '~/logic/accounts'
 import { listInstances } from '~/logic/instances'
 import type { Account } from '~/logic/accounts'

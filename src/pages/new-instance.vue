@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import type { Ref } from 'vue'
 import { fetchGameVersions } from '~/logic/launchermeta'
 import type { GameVersion } from '~/logic/launchermeta'
 import { newInstance } from '~/logic/instances'

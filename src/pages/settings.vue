@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { read, write, getDefaultConfig } from '~/logic/config'
 
 const { t, availableLocales, locale } = useI18n()

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { getVersion } from '@tauri-apps/api/app'
 
 const { t } = useI18n()
