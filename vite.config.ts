@@ -5,9 +5,9 @@ import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-import ViteComponents from 'vite-plugin-components'
-import WindiCSS from 'vite-plugin-windicss'
+import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
+import WindiCSS from 'vite-plugin-windicss'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 
 // https://vitejs.dev/config/
@@ -34,20 +34,18 @@ export default defineConfig({
         'vue-router',
         'vue-i18n',
         '@vueuse/head',
-        '@vueuse/core',
       ],
     }),
 
-    ViteComponents({
-      // generate `components.d.ts` for ts support with Volar
-      globalComponentsDeclaration: true,
-
-      // auto import icons
-      customComponentResolvers: [
+    // https://github.com/antfu/unplugin-vue-components
+    Components({
+      // custom resolvers
+      resolvers: [
+        // auto import icons
         // https://github.com/antfu/unplugin-icons
         IconsResolver({
           componentPrefix: '',
-          enabledCollections: ['carbon'],
+          // enabledCollections: ['carbon']
         }),
       ],
     }),
