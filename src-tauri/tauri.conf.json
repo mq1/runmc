@@ -67,6 +67,9 @@
       },
       "http": {
         "request": true
+      },
+      "os": {
+        "type": true
       }
     },
     "windows": [

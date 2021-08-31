@@ -1,17 +1,25 @@
 import { invoke } from '@tauri-apps/api/tauri'
 import { appDir } from '@tauri-apps/api/path'
+import { type } from '@tauri-apps/api/os'
 import type { Library } from './launchermeta'
 
-const getOS = () => {
-  if (navigator.appVersion.includes('Win')) return 'windows'
-  if (navigator.appVersion.includes('Mac')) return 'osx'
-  if (navigator.appVersion.includes('Linux')) return 'linux'
+const getOS = async() => {
+  const os = await type()
+
+  switch (os) {
+    case 'Windows_NT':
+      return 'windows'
+    case 'Linux':
+      return 'linux'
+    case 'Darwin':
+      return 'osx'
+  }
 
   return undefined
 }
 
 export const downloadLibrary = async(lib: Library) => {
-  const os = getOS()
+  const os = await getOS()
 
   if (os === undefined)
     return
