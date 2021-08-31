@@ -2,26 +2,23 @@
 name = "runmc"
 version = "0.0.12"
 description = "A Minecraft launcher"
-authors = [ "Manuel Quarneti <manuelquarneti@gmail.com>" ]
+authors = ["Manuel Quarneti <manuelquarneti@gmail.com>"]
 license = "MIT"
 repository = "https://github.com/mq1/runmc"
 default-run = "runmc"
 edition = "2018"
 build = "src/build.rs"
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
 [build-dependencies]
-tauri-build = "1.0.0-beta.3"
+tauri-build = { version = "1.0.0-beta.4" }
 
 [dependencies]
 serde_json = "1.0"
-serde = { version = "1.0", features = [ "derive" ] }
+serde = { version = "1.0", features = ["derive"] }
 reqwest = { version = "0.11", features = [ "json" ] }
-serde_yaml = "0.8"
-uuid = { version = "0.8", features = [ "v4" ] }
-
-  [dependencies.tauri]
-  version = "1.0.0-beta"
-features = ["fs-create-dir", "fs-read-dir", "fs-read-text-file", "fs-remove-dir", "fs-rename-file", "fs-write-file", "http-request", "shell-open", "updater"]
+tauri = { version = "1.0.0-beta.8", features = ["fs-create-dir", "fs-read-dir", "fs-read-text-file", "fs-remove-dir", "fs-rename-file", "fs-write-file", "http-request", "os-all", "shell-open", "updater"] }
 
 [features]
 default = [ "custom-protocol" ]
@@ -32,4 +29,4 @@ panic = "abort"
 codegen-units = 1
 lto = true
 incremental = false
-opt-level = "z"
+opt-level = "s"
