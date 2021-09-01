@@ -35,10 +35,13 @@ export default defineConfig({
         'vue-i18n',
         '@vueuse/head',
       ],
+      dts: true,
     }),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({
+      dts: true,
+
       // custom resolvers
       resolvers: [
         // auto import icons
