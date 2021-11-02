@@ -9,15 +9,14 @@ import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import WindiCSS from 'vite-plugin-windicss'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
+import Inspect from 'vite-plugin-inspect'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
-
   plugins: [
     Vue(),
 
@@ -35,13 +34,11 @@ export default defineConfig({
         'vue-i18n',
         '@vueuse/head',
       ],
-      dts: true,
+      dts: 'src/auto-imports.d.ts',
     }),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({
-      dts: true,
-
       // custom resolvers
       resolvers: [
         // auto import icons
@@ -51,19 +48,29 @@ export default defineConfig({
           // enabledCollections: ['carbon']
         }),
       ],
+
+      dts: 'src/components.d.ts',
     }),
 
     // https://github.com/antfu/unplugin-icons
-    Icons(),
+    Icons({
+      autoInstall: true,
+    }),
 
     // https://github.com/antfu/vite-plugin-windicss
     WindiCSS(),
 
-    // https://github.com/intlify/vite-plugin-vue-i18n
+    // https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n
     VueI18n({
       runtimeOnly: true,
       compositionOnly: true,
       include: [path.resolve(__dirname, 'locales/**')],
+    }),
+
+    // https://github.com/antfu/vite-plugin-inspect
+    Inspect({
+      // change this to enable inspect for debugging
+      enabled: false,
     }),
   ],
 
@@ -83,6 +90,7 @@ export default defineConfig({
     include: [
       'vue',
       'vue-router',
+      '@vueuse/head',
     ],
     exclude: [
       'vue-demi',
