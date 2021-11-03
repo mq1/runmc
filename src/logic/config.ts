@@ -1,7 +1,7 @@
 import { readTextFile, writeFile, BaseDirectory } from '@tauri-apps/api/fs'
 import * as yaml from 'js-yaml'
 
-const configFile = 'config.yaml'
+const path = 'config.yaml'
 
 export type Config = {
   locale: string
@@ -21,18 +21,18 @@ export const getDefaultConfig = (): Config => ({
 
 const newConfig = async() => {
   const config = getDefaultConfig()
-  const text = yaml.dump(config)
-  await writeFile({ contents: text, path: configFile }, { dir: BaseDirectory.App })
+  const contents = yaml.dump(config)
+  await writeFile({ contents, path }, { dir: BaseDirectory.App })
 
   return config
 }
 
 export const read = () =>
-  readTextFile(configFile, { dir: BaseDirectory.App })
-    .then(text => yaml.load(text) as Config)
+  readTextFile(path, { dir: BaseDirectory.App })
+    .then(contents => yaml.load(contents) as Config)
     .catch(() => newConfig())
 
 export const write = async(config: Config) => {
-  const text = yaml.dump(config)
-  await writeFile({ contents: text, path: configFile }, { dir: BaseDirectory.App })
+  const contents = yaml.dump(config)
+  await writeFile({ contents, path }, { dir: BaseDirectory.App })
 }
