@@ -1,7 +1,7 @@
 import { readTextFile, writeFile, BaseDirectory } from '@tauri-apps/api/fs'
 import * as yaml from 'js-yaml'
 
-const path = 'config.yaml'
+const path = 'config.yml'
 
 export type Config = {
   locale: string

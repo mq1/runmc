@@ -2,7 +2,7 @@ import { readTextFile, writeFile, BaseDirectory } from '@tauri-apps/api/fs'
 import { fetch, Body, ResponseType } from '@tauri-apps/api/http'
 import * as yaml from 'js-yaml'
 
-const configFile = 'accounts.yaml'
+const path = 'accounts.yml'
 
 export type Account = {
   name: string
@@ -17,20 +17,20 @@ type Config = {
 
 const newConfig = async() => {
   const accounts: Config = { clientToken: null, list: [] }
-  const text = yaml.dump(accounts)
-  await writeFile({ contents: text, path: configFile }, { dir: BaseDirectory.App })
+  const contents = yaml.dump(accounts)
+  await writeFile({ contents, path }, { dir: BaseDirectory.App })
 
   return accounts
 }
 
 const read = () =>
-  readTextFile(configFile, { dir: BaseDirectory.App })
-    .then(text => yaml.load(text) as Config)
+  readTextFile(path, { dir: BaseDirectory.App })
+    .then(contents => yaml.load(contents) as Config)
     .catch(() => newConfig())
 
 const write = async(accounts: Config) => {
-  const text = yaml.dump(accounts)
-  await writeFile({ contents: text, path: configFile }, { dir: BaseDirectory.App })
+  const contents = yaml.dump(accounts)
+  await writeFile({ contents, path }, { dir: BaseDirectory.App })
 }
 
 export const list = () =>
