@@ -106,7 +106,7 @@ export const refresh = async(account: Account) => {
 
   // update accounts
   remove(account)
-  add(newAccount, clientToken as string)
+  add(newAccount, clientToken!)
 
   return newAccount
 }
