@@ -18,37 +18,47 @@ type Config = {
 const readInstanceConfig = async(name: string) => {
   const path = await join('instances', name, configFile)
   const contents = await readTextFile(path, { dir: BaseDirectory.App })
-  return yaml.load(contents) as Config
+  const config = yaml.load(contents) as Config
+
+  return config
 }
 
 export const newInstance = async(name: string, gameVersion: GameVersion) => {
-  const dir = `instances/${name}`
+  const dir = await join('instances', name)
 
-  await createDir(dir, { dir: BaseDirectory.App, recursive: true })
+  await createDir(dir, { dir: BaseDirectory.App })
   await downloadGameVersionMetaData(gameVersion)
 
   const config: Config = { gameVersionID: gameVersion.id, type: gameVersion.type }
-  const text = yaml.dump(config)
-  await writeFile({ contents: text, path: `${dir}/${configFile}` }, { dir: BaseDirectory.App })
+  const contents = yaml.dump(config)
+  const path = await join(dir, configFile)
+
+  await writeFile({ contents, path }, { dir: BaseDirectory.App })
 }
 
 export const listInstances = () =>
   readDir('instances', { dir: BaseDirectory.App })
-    .then(list => list.filter(file => file.name !== undefined))
-    .then(list => list.map(file => file.name!))
+    .then(list => list.map(file => file.name))
+    .then(names => names.filter((name): name is string => !!name))
 
 export const removeInstance = async(name: string) => {
+  const dir = await join('instances', name)
   console.log(`Removing instance ${name}`)
-  await removeDir(`instances/${name}`, { dir: BaseDirectory.App, recursive: true })
+  await removeDir(dir, { dir: BaseDirectory.App, recursive: true })
   console.log('Instance removed')
 }
 
-export const renameInstance = (oldName: string, newName: string) =>
-  renameFile(`instances/${oldName}`, `instances/${newName}`, { dir: BaseDirectory.App })
+export const renameInstance = async(oldName: string, newName: string) => {
+  const oldDir = await join('instances', oldName)
+  const newDir = await join('instances', newName)
 
-export const openInstanceDir = (name: string) =>
-  appDir()
-    .then(baseDir => open(`${baseDir}/instances/${name}`))
+  await renameFile(oldDir, newDir, { dir: BaseDirectory.App })
+}
+
+export const openInstanceDir = async(name: string) => {
+  const dir = await join(await appDir(), 'instances', name)
+  await open(dir)
+}
 
 // INCOMPLETE
 export const runInstance = async(name: string, account: Account) => {
