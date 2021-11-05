@@ -1,4 +1,4 @@
-import { BaseDirectory, appDir } from '@tauri-apps/api/path'
+import { BaseDirectory, appDir, join } from '@tauri-apps/api/path'
 import { createDir, writeFile, readDir, removeDir, renameFile, readTextFile } from '@tauri-apps/api/fs'
 import { open, Command } from '@tauri-apps/api/shell'
 import { getName, getVersion } from '@tauri-apps/api/app'
@@ -15,9 +15,11 @@ type Config = {
   type: string
 }
 
-const readInstanceConfig = (name: string) =>
-  readTextFile(`instances/${name}/${configFile}`, { dir: BaseDirectory.App })
-    .then(text => yaml.load(text) as Config)
+const readInstanceConfig = async(name: string) => {
+  const path = await join('instances', name, configFile)
+  const contents = await readTextFile(path, { dir: BaseDirectory.App })
+  return yaml.load(contents) as Config
+}
 
 export const newInstance = async(name: string, gameVersion: GameVersion) => {
   const dir = `instances/${name}`
