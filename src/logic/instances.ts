@@ -1,5 +1,5 @@
 import { BaseDirectory, appDir, join } from '@tauri-apps/api/path'
-import { createDir, writeFile, readDir, removeDir, renameFile, readTextFile } from '@tauri-apps/api/fs'
+import { createDir, writeFile, removeDir, renameFile, readTextFile } from '@tauri-apps/api/fs'
 import { open, Command } from '@tauri-apps/api/shell'
 import { getName, getVersion } from '@tauri-apps/api/app'
 import * as yaml from 'js-yaml'
@@ -35,11 +35,6 @@ export const newInstance = async(name: string, gameVersion: GameVersion) => {
 
   await writeFile({ contents, path }, { dir: BaseDirectory.App })
 }
-
-export const listInstances = () =>
-  readDir('instances', { dir: BaseDirectory.App })
-    .then(list => list.map(file => file.name))
-    .then(names => names.filter((name): name is string => !!name))
 
 export const removeInstance = async(name: string) => {
   const dir = await join('instances', name)

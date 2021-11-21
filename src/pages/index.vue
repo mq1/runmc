@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { invoke } from '@tauri-apps/api/tauri'
 import { list } from '~/logic/accounts'
-import { listInstances } from '~/logic/instances'
 import type { Account } from '~/logic/accounts'
 
 const { t } = useI18n()
@@ -15,8 +14,10 @@ const updateAccounts = async() =>
 const instances = ref<string[]>([])
 const selectedInstance = ref('No instances present')
 
-const updateInstances = async() =>
-  instances.value = await listInstances()
+const updateInstances = () =>
+  invoke('get_instance_list')
+    .then(data => instances.value = data as string[])
+    .catch(e => console.error(e))
 
 const runInstance = () => {
   invoke('run_instance', {
