@@ -1,21 +1,27 @@
 <script setup lang="ts">
-import { read, write, getDefaultConfig } from '~/logic/config'
+import { invoke } from '@tauri-apps/api/tauri'
+import type { Config } from '~/types'
 
 const { t, availableLocales, locale } = useI18n()
 
-const config = ref(getDefaultConfig())
+const config: Ref<Config> = ref()
 
-const getConfig = async() =>
-  config.value = await read()
+const readConfig = () =>
+  invoke('read_config')
+    .then(data => config.value = data as Config)
+    .catch(e => console.error(e))
 
-const saveConfig = () =>
-  write(config.value)
+const writeConfig = () =>
+  invoke('write_config', { config: config.value })
     .then(() => locale.value = config.value.locale)
+    .catch(e => console.error(e))
 
-const loadDefaultConfig = () =>
-  config.value = getDefaultConfig()
+const getDefaultConfig = () =>
+  invoke('get_default_config')
+    .then(data => config.value = data as Config)
+    .catch(e => console.error(e))
 
-onMounted(getConfig)
+onMounted(readConfig)
 </script>
 
 <template>
@@ -39,13 +45,13 @@ onMounted(getConfig)
     </label>
   </div>
   <div class="w-full flex justify-end gap-x-2">
-    <button class="w-auto bg-red-500 text-white flex gap-x-2" @click="loadDefaultConfig">
+    <button class="w-auto bg-red-500 text-white flex gap-x-2" @click="getDefaultConfig">
       <carbon-reset />
       <span>
         {{ t('settings.reset') }}
       </span>
     </button>
-    <button class="w-auto bg-primary-500 text-white flex gap-x-2" @click="saveConfig">
+    <button class="w-auto bg-primary-500 text-white flex gap-x-2" @click="writeConfig">
       <carbon-save />
       <span>
         {{ t('settings.save') }}

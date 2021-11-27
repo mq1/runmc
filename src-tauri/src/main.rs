@@ -9,7 +9,10 @@ fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
       cmd::wget,
-      cmd::get_instance_list
+      cmd::get_instance_list,
+      cmd::read_config,
+      cmd::write_config,
+      cmd::get_default_config
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
