@@ -27,7 +27,7 @@ pub fn read_config() -> Result<libmc::config::Config, String> {
 
 #[command]
 pub fn write_config(config: libmc::config::Config) -> Result<(), String> {
-  libmc::config::write(config).map_err(|e| e.to_string())
+  libmc::config::write(&config).map_err(|e| e.to_string())
 }
 
 #[command]
