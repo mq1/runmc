@@ -5,17 +5,13 @@
 declare module 'vue' {
   export interface GlobalComponents {
     CarbonArrowRight: typeof import('~icons/carbon/arrow-right')['default']
-    CarbonBadge: typeof import('~icons/carbon/badge')['default']
     CarbonCheckmark: typeof import('~icons/carbon/checkmark')['default']
-    CarbonFire: typeof import('~icons/carbon/fire')['default']
     CarbonHome: typeof import('~icons/carbon/home')['default']
     CarbonInformation: typeof import('~icons/carbon/information')['default']
     CarbonLayers: typeof import('~icons/carbon/layers')['default']
     CarbonLogoGithub: typeof import('~icons/carbon/logo-github')['default']
-    CarbonNewTab: typeof import('~icons/carbon/new-tab')['default']
     CarbonPen: typeof import('~icons/carbon/pen')['default']
     CarbonReset: typeof import('~icons/carbon/reset')['default']
-    CarbonRestart: typeof import('~icons/carbon/restart')['default']
     CarbonSave: typeof import('~icons/carbon/save')['default']
     CarbonSettings: typeof import('~icons/carbon/settings')['default']
     CarbonSettingsAdjust: typeof import('~icons/carbon/settings-adjust')['default']

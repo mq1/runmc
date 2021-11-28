@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { invoke } from '@tauri-apps/api/tauri'
 import { appDir as getAppDir } from '@tauri-apps/api/path'
 import { createDir, BaseDirectory } from '@tauri-apps/api/fs'
-import { read } from '~/logic/config'
+import type { Config } from '~/types'
 
 const { locale } = useI18n()
 
@@ -18,7 +19,7 @@ onBeforeMount(async() => {
   await createDir('meta', { dir: BaseDirectory.App, recursive: true })
 
   // set locale
-  const config = await read()
+  const config: Config = await invoke('read_config')
   locale.value = config.locale
   console.log({ locale: locale.value })
 })

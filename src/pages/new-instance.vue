@@ -7,11 +7,11 @@ const { t } = useI18n()
 const router = useRouter()
 
 const name = ref('')
-const version: Ref<GameVersion | undefined> = ref()
+const version = ref<GameVersion | undefined>()
 const snapshotsEnabled = ref(false)
 const installing = ref(false)
 
-const versions: Ref<GameVersion[]> = ref([])
+const versions = ref<GameVersion[]>([])
 const updateVersions = async() =>
   versions.value = await fetchGameVersions()
 

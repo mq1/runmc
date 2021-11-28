@@ -4,7 +4,7 @@ import type { Config } from '~/types'
 
 const { t, availableLocales, locale } = useI18n()
 
-const config: Ref<Config> = ref()
+const config = ref<Config>()
 
 const readConfig = () =>
   invoke('read_config')
@@ -13,7 +13,7 @@ const readConfig = () =>
 
 const writeConfig = () =>
   invoke('write_config', { config: config.value })
-    .then(() => locale.value = config.value.locale)
+    .then(() => locale.value = config.value!.locale)
     .catch(e => console.error(e))
 
 const getDefaultConfig = () =>
