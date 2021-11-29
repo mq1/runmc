@@ -12,7 +12,12 @@ const updateAccounts = async() =>
   accounts.value = await list()
 
 const instances = ref<string[]>([])
-const selectedInstance = ref('No instances present')
+const selectedInstance = ref('')
+
+const updateSelectedInstance = () =>
+  invoke('read_config')
+    .then(data => selectedInstance.value = (data as any).lastRunnedInstance)
+    .catch(e => console.error(e))
 
 const updateInstances = () =>
   invoke('get_instance_list')
@@ -28,6 +33,7 @@ const runInstance = () => {
 }
 
 onMounted(() => {
+  updateSelectedInstance()
   updateInstances()
   updateAccounts()
 })

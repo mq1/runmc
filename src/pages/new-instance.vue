@@ -1,26 +1,28 @@
 <script setup lang="ts">
-import { fetchGameVersions } from '~/logic/launchermeta'
-import type { GameVersion } from '~/logic/launchermeta'
-import { newInstance } from '~/logic/instances'
+import { invoke } from '@tauri-apps/api/tauri'
+import type { MinecraftVersion } from '~/types'
 
 const { t } = useI18n()
 const router = useRouter()
 
 const name = ref('')
-const version = ref<GameVersion | undefined>()
+const version = ref<MinecraftVersion>()
 const snapshotsEnabled = ref(false)
-const installing = ref(false)
 
-const versions = ref<GameVersion[]>([])
-const updateVersions = async() =>
-  versions.value = await fetchGameVersions()
+const versions = ref<MinecraftVersion[]>([])
+const updateVersions = () =>
+  invoke('get_minecraft_versions')
+    .then(data => versions.value = data as MinecraftVersion[])
+    .catch(e => console.error(e))
 
-const create = () => {
-  installing.value = true
-
-  newInstance(name.value, version.value!)
+const create = () =>
+  invoke('new_instance', {
+    name: name.value,
+    minecraftVersion: version.value?.id,
+    minecraftVersionManifestUrl: version.value?.url,
+  })
     .then(() => router.push('/instances'))
-}
+    .catch(e => console.error(e))
 
 onMounted(updateVersions)
 </script>
@@ -67,17 +69,11 @@ onMounted(updateVersions)
   </div>
 
   <div class="w-full flex justify-end gap-x-2">
-    <button v-if="!installing" class="w-auto bg-green-500 text-white flex gap-x-2" @click="create">
+    <button class="w-auto bg-green-500 text-white flex gap-x-2" @click="create">
       <carbon-new-tab />
       <span>
         {{ t('instances.create') }}
       </span>
     </button>
-    <div v-if="installing" class="flex items-center gap-x-2">
-      <carbon-restart class="animate-spin" />
-      <span>
-        {{ t('installing') }}
-      </span>
-    </div>
   </div>
 </template>
