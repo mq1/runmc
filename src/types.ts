@@ -2,10 +2,9 @@ import { ViteSSGContext } from 'vite-ssg'
 
 export type UserModule = (ctx: ViteSSGContext) => void
 
-export type InstanceInfo = {
-  gameVersion: string
-  mainClass: string
-  fabric: boolean
+export type InstanceConfig = {
+  minecraftVersion: string
+  type: string
 }
 
 export type Config = {

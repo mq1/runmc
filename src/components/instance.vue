@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { removeInstance, renameInstance } from '~/logic/instances'
+import { invoke } from '@tauri-apps/api/tauri'
 
 const props = defineProps({
   id: {
@@ -25,13 +25,15 @@ const rename = () => {
     return
   }
 
-  renameInstance(props.id, name.value)
+  invoke('rename_instance', { oldName: props.id, newName: name.value })
     .then(() => emit('update'))
+    .catch((e: string) => console.error(e))
 }
 
 const remove = () =>
-  removeInstance(props.id)
+  invoke('remove_instance', { name: props.id })
     .then(() => emit('update'))
+    .catch((e: string) => console.error(e))
 </script>
 
 <template>
