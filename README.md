@@ -1,4 +1,4 @@
-# runmc
+# runmc [WIP]
 
 A minimal and lightweight Minecraft launcher
 
