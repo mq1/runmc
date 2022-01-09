@@ -1,5 +1,16 @@
 <script setup lang="ts">
-const { t } = useI18n()
+import { invoke } from '@tauri-apps/api/tauri'
+import { useI18n } from 'vue-i18n'
+import type { Config } from '~/types'
+
+const { t, locale } = useI18n()
+
+onBeforeMount(async() => {
+  // set locale
+  const config: Config = await invoke('read_config')
+  locale.value = config.locale
+  console.log({ locale: locale.value })
+})
 </script>
 
 <template>
@@ -26,7 +37,11 @@ const { t } = useI18n()
       </div>
     </nav>
     <main class="p-4 flex-1 flex flex-col items-center justify-between gap-y-8 min-w-xs max-w-screen max-h-screen overflow-auto">
-      <router-view />
+      <NuxtPage />
     </main>
   </div>
 </template>
+
+<style>
+@import '~/styles/main.css';
+</style>
